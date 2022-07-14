@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Entities
 {
-    public class Categories : Entity
+    public class Category : Entity
     {
         [MaxLength(255)]
         [Required]
