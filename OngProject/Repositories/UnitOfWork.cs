@@ -1,4 +1,5 @@
 ﻿using OngProject.DataAccess;
+using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 
 namespace OngProject.Repositories
@@ -8,21 +9,21 @@ namespace OngProject.Repositories
 
 
         private ApplicationDbContext _context;
-        private NewsRepository _newsRepository;
+        private IGenericRepository<News> _newsRepository;
 
 
         public UnitOfWork(ApplicationDbContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
 
-        public NewsRepository NewsRepository { 
+        public IGenericRepository<News> NewsRepository { 
             get
             {
                 if (_newsRepository == null)
                 {
-                    _newsRepository = new NewsRepository(_context);
+                    _newsRepository = new GenericRepository<News>(_context);
                 }
                 return _newsRepository;
             }
