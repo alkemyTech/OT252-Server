@@ -9,7 +9,7 @@ namespace OngProject.Repositories.Interfaces
     public interface IGenericRepository<T> where T : Entity
     {
         Task<IEnumerable<T>> GetAll();
-        Task<IEnumerable<T>> find(Expression<Func<T, bool>> predicate);
+        Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate);
         Task Insert(T entity);
         Task Update(T entity);
         Task Delete(T entity);

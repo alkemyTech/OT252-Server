@@ -21,21 +21,17 @@ namespace OngProject.Repositories
             this.entities = context.Set<T>();
         }
 
-        public async Task Insert(T entity)
-        {
+        public async Task Insert(T entity){
            await entities.AddAsync(entity);
         }
-        public async Task Update(T entity)
-        {
+        public async Task Update(T entity){
              entities.Update(entity);    
         }
-        public async Task Delete(T entity)
-        {     
-            await entities.Remove(entity);
+        public async Task Delete(T entity){     
+             entities.Remove(entity);
         }
-
         public async Task<T> GetById(int? id) => await entities.FindAsync(id);
-        public async Task<IEnumerable<T>> find(Expression<Func<T, bool>> predicate) => await entities.Where(predicate);
+        public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate) => await entities.Where(predicate).ToListAsync();
         public async Task<IEnumerable<T>> GetAll() => await entities.ToListAsync();
     }
 }
