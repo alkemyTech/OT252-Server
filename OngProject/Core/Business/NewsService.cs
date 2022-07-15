@@ -1,5 +1,6 @@
 ﻿using OngProject.Core.Interfaces;
 using OngProject.Entities;
+using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -9,6 +10,15 @@ namespace OngProject.Core.Business
 {
     public class NewsService : INewsService
     {
+
+        private UnitOfWork _unitOfWork;
+
+        public NewsService(UnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
+
         public bool Delete(int id)
         {
             throw new NotImplementedException();

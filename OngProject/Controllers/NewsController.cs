@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
+using OngProject.Core.Interfaces;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,12 @@ namespace OngProject.Controllers
     public class NewsController : ControllerBase
     {
 
-        private readonly NewsService newService = new();
+        private readonly INewsService newService;
 
-
-
-
+        public NewsController(NewsService newService)
+        {
+            this.newService = newService;
+        }   
 
         [Route("GetAll")]
         [HttpGet]
