@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace OngProject.Repositories
 {
-    public class RepositoryNews : GenericRepository<News>, IRepositoryNews
+    public class NewsRepository : GenericRepository<News>, INewsRepository
     {
-        public RepositoryNews(ApplicationDbContext context) : base(context)
+        public NewsRepository(ApplicationDbContext context) : base(context)
         {
         }
     }

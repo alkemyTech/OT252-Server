@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OngProject.Repositories.Interfaces
 {
-    public interface IRepositoryNews:IGenericRepository<News>
+    public interface INewsRepository:IGenericRepository<News>
     { 
         
 
