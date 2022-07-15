@@ -18,7 +18,5 @@ namespace OngProject.Entities
         [Required]
         [Column(TypeName ="varchar(255)")]
         public string Image { get; set; }
-
-        public DateTime DeletedAt { get; set; }
     }
 }
