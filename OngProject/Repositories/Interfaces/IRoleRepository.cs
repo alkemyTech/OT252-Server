@@ -1,6 +1,6 @@
 ﻿namespace OngProject.Repositories.Interfaces
 {
-    public interface IRoleRepository
+    public interface IRoleRepository : IGenericRepository<Role>
     {
     }
 }
