@@ -16,7 +16,5 @@ namespace OngProject.Entities
 
         [Column(TypeName = "varchar(65535)")]
         public string Content { get; set; }
-
-        public DateTime DeletedAt { get; set; }
     }
 }
