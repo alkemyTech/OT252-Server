@@ -30,5 +30,14 @@ namespace OngProject.Entities
 
         [MaxLength(2000)]
         public char[] AboutUsText { get; set; }
+
+        [MaxLength(255)]
+        public string? FacebookUrl { get; set; }
+
+        [MaxLength(255)]
+        public string? InstagramUrl { get; set; }
+
+        [MaxLength(255)]
+        public string? LinkedinUrl { get; set; }
     }
 }
