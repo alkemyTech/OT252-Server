@@ -35,7 +35,7 @@ namespace OngProject
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OngProject", Version = "v1" });
             });
 
-            services.AddScoped<INewsService, NewsService>();
+            services.AddScoped<INewsService, TestimonialsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
