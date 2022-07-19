@@ -11,11 +11,15 @@ namespace OngProject.Repositories
         private ApplicationDbContext _context;
         private IGenericRepository<News> _newsRepository;
         private IGenericRepository<Testimony> _testimonialsRepository;
+
+        private IGenericRepository<Slide> _slideRepository;
+
         private IGenericRepository<Members> _memberRepository;
 
         private IGenericRepository<Activity> _activitiyRepository;
 
         private IGenericRepository<Role> _roleRepository;
+
 
 
         public UnitOfWork(ApplicationDbContext context)
@@ -52,6 +56,17 @@ namespace OngProject.Repositories
         }
 
 
+        public IGenericRepository<Slide> SlideRepository
+        {
+            get
+            {
+                if (_slideRepository == null)
+                {
+                    _slideRepository = new GenericRepository<Slide>(_context);
+                }
+                return _slideRepository;
+
+
         public IGenericRepository<Members> MemberRepository
         {
             get
@@ -71,6 +86,7 @@ namespace OngProject.Repositories
                     _activitiyRepository = new GenericRepository<Activity>(_context);
                 }
                 return _activitiyRepository;
+
 
             }
         }
