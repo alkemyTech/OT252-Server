@@ -1,11 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
 using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
@@ -14,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
 {
-    public class UserService:IUserService
+    public class UserService/*:IUserService*/
     {
         private readonly UnitOfWork unitOfWork;
 
@@ -45,14 +43,14 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public string GetToken(UserResponse usuario)
+        public string GetToken(Users usuario)
         {
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
                 new Claim(JwtRegisteredClaimNames.RoleId, usuario.Role.ToString()),
                 new Claim(JwtRegisteredClaimNames.UserId, usuario.User),
-                
+
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);

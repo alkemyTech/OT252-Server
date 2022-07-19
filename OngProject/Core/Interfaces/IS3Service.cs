@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using OngProject.Entities;
+using System.Threading.Tasks;
 
 namespace OngProject.Core.Interfaces
 {
