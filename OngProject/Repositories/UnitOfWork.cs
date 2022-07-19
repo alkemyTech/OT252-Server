@@ -1,4 +1,4 @@
-﻿using OngProject.DataAccess;
+using OngProject.DataAccess;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 
@@ -11,7 +11,11 @@ namespace OngProject.Repositories
         private ApplicationDbContext _context;
         private IGenericRepository<News> _newsRepository;
         private IGenericRepository<Testimony> _testimonialsRepository;
+
+        private IGenericRepository<Activity> _activitiyRepository;
+
         private IGenericRepository<Role> _roleRepository;
+
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -43,6 +47,18 @@ namespace OngProject.Repositories
                     _testimonialsRepository = new GenericRepository<Testimony>(_context);
                 }
                 return _testimonialsRepository;
+            }
+        }
+
+        public IGenericRepository<Activity> ActivitiyRepository
+        {
+            get
+            {
+                if (_activitiyRepository == null)
+                {
+                    _activitiyRepository = new GenericRepository<Activity>(_context);
+                }
+                return _activitiyRepository;
             }
         }
     }
