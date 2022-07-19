@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Helper
 {
-    public class SendGrid : ISendGrid
+    public class SendGridHelper : ISendGrid
     {
         private IConfiguration _config;
-        public SendGrid(IConfiguration config)
+        public SendGridHelper(IConfiguration config)
         {
+
             _config = config;
         }
 
