@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using OngProject.Core.Business;
+using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,8 @@ namespace OngProject
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OngProject", Version = "v1" });
             });
 
-            services.AddScoped<INewsService, TestimonialsService>();
+            services.AddScoped<ITestimonialsService, TestimonialsService>();
+            services.AddScoped<ISendGrid, SendGridHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
