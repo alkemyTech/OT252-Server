@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 namespace OngProject.Repositories.Interfaces
 {
-    interface IRepository
+    public interface IRepository<T>
     {
+
+
     }
 }

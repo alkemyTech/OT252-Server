@@ -75,7 +75,7 @@ namespace OngProject.Controllers
 
 
         [HttpPut]
-        public ActionResult<Role> Put([FromBody] Testimony role)
+        public ActionResult<Role> Put([FromBody] Role role)
         {
             try
             {
@@ -110,4 +110,4 @@ namespace OngProject.Controllers
         }
     }
 }
-}
+

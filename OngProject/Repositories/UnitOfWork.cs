@@ -20,16 +20,20 @@ namespace OngProject.Repositories
 
         private IGenericRepository<Role> _roleRepository;
 
+        private IGenericRepository<Organization> _organizationRepository;
 
 
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
         }
-        public IGenericRepository<Role> RoleRepository {
-            get { if (_roleRepository is null)
+        public IGenericRepository<Role> RoleRepository 
+        {
+            get { 
+                if (_roleRepository is null)
                     _roleRepository = new GenericRepository<Role>(_context);
-                return _roleRepository; }
+                return _roleRepository; 
+            }
         }
 
         public IGenericRepository<News> NewsRepository { 
@@ -65,7 +69,8 @@ namespace OngProject.Repositories
                     _slideRepository = new GenericRepository<Slide>(_context);
                 }
                 return _slideRepository;
-
+            }
+        }
 
         public IGenericRepository<Members> MemberRepository
         {
@@ -76,6 +81,8 @@ namespace OngProject.Repositories
                     _memberRepository = new GenericRepository<Members>(_context);
                 }
                 return _memberRepository;
+            }
+        }
 
         public IGenericRepository<Activity> ActivitiyRepository
         {
@@ -88,6 +95,18 @@ namespace OngProject.Repositories
                 return _activitiyRepository;
 
 
+            }
+        }
+
+        public IGenericRepository<Organization> OrganizationRepository
+        {
+            get
+            {
+                if (_organizationRepository is null)
+                { 
+                    _organizationRepository = new GenericRepository<Organization>(_context);
+                }
+                return _organizationRepository;
             }
         }
     }
