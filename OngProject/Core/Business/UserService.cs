@@ -1,9 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
 using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
@@ -48,9 +51,7 @@ namespace OngProject.Core.Business
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
-                new Claim(JwtRegisteredClaimNames.RoleId, usuario.Role.ToString()),
-                new Claim(JwtRegisteredClaimNames.UserId, usuario.User),
-
+                new Claim(JwtRegisteredClaimNames.NameId, usuario.Role.ToString())
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
