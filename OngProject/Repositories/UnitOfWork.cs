@@ -65,6 +65,8 @@ namespace OngProject.Repositories
                     _slideRepository = new GenericRepository<Slide>(_context);
                 }
                 return _slideRepository;
+            }
+        }
 
 
         public IGenericRepository<Members> MemberRepository
@@ -76,6 +78,8 @@ namespace OngProject.Repositories
                     _memberRepository = new GenericRepository<Members>(_context);
                 }
                 return _memberRepository;
+            }
+        }
 
         public IGenericRepository<Activity> ActivitiyRepository
         {
