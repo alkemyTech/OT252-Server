@@ -11,12 +11,17 @@ namespace OngProject.Repositories
         private ApplicationDbContext _context;
         private IGenericRepository<News> _newsRepository;
         private IGenericRepository<Testimony> _testimonialsRepository;
+        private IGenericRepository<Role> _roleRepository;
 
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
         }
-
+        public IGenericRepository<Role> RoleRepository {
+            get { if (_roleRepository is null)
+                    _roleRepository = new GenericRepository<Role>(_context);
+                return _roleRepository; }
+        }
 
         public IGenericRepository<News> NewsRepository { 
             get
