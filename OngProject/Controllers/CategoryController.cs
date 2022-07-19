@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
 using System;
@@ -9,105 +9,105 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RoleController : ControllerBase
+    public class CategoryController : ControllerBase
     {
-        private readonly IRoleService roleService;
 
-        public RoleController(IRoleService roleService)
+        private readonly ICategoryService _categoryService;
+
+        public CategoryController(CategoryService categoryService)
         {
-            this.roleService = roleService;
-        }
+            _categoryService = categoryService;
+        }   
 
         [Route("GetAll")]
         [HttpGet]
-        public ActionResult<IEnumerable<Role>> GetAll()
+        public ActionResult <IEnumerable<News>> GetAll()
         {
 
             try
             {
-                var newsList = roleService.GetAll();
+                var newsList = _categoryService.GetAll();
 
                 return Ok(newsList);
             }
             catch (Exception ex)
             {
 
-                return BadRequest(ex.Message);
+                return BadRequest(ex.Message);  
             }
-
-
+            
+            
         }
 
-
+        
         [HttpGet("{id}")]
-        public ActionResult<Role> Get(int id)
+        public ActionResult<Category> Get(int id)
         {
             try
             {
-                var news = roleService.GetById(id);
+                var category = _categoryService.GetById(id);
 
-                return Ok(news);
+                return Ok(category);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
+            
         }
 
-
+       
         [HttpPost]
-        public ActionResult<Role> Post([FromBody] Role role)
+        public ActionResult<Category> Post([FromBody] Category category)
         {
             try
             {
-                var newRole = roleService.Insert(role);
+                var newCategory = _categoryService.Insert(category);
 
-                return Ok(newRole);
+                return Ok(newCategory);
             }
             catch (Exception ex)
             {
 
                 return BadRequest(ex.Message);
             }
-
+            
         }
 
-
+     
         [HttpPut]
-        public ActionResult<Role> Put([FromBody] Role role)
+        public ActionResult<Category> Put([FromBody] Category category)
         {
             try
             {
-                var editRole = roleService.Update(role);
+                var editCategory = _categoryService.Update(category);
 
-                return Ok(editRole);
+                return Ok(editCategory);
             }
             catch (Exception ex)
             {
 
                 return BadRequest(ex.Message);
             }
-
+            
         }
 
-
+       
         [HttpDelete("{id}")]
         public ActionResult<bool> Delete(int id)
         {
             try
             {
-                var deleteRole = roleService.Delete(id);
+                var deleteCategory = _categoryService.Delete(id);
 
                 return Ok(true);
             }
             catch (Exception ex)
             {
 
-                return BadRequest(ex.Message);
+                return BadRequest(ex.Message);  
             }
-
+            
         }
     }
 }
-
