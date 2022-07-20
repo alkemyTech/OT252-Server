@@ -20,9 +20,13 @@ namespace OngProject.Repositories
 
         private IGenericRepository<Role> _roleRepository;
 
+
+        private IGenericRepository<Organization> _organizationRepository;
+
         private IGenericRepository<Users> _userRepository;
 
         private IGenericRepository<Category> _categoryRepository;
+
 
 
 
@@ -30,10 +34,13 @@ namespace OngProject.Repositories
         {
             _context = context;
         }
-        public IGenericRepository<Role> RoleRepository {
-            get { if (_roleRepository is null)
+        public IGenericRepository<Role> RoleRepository 
+        {
+            get { 
+                if (_roleRepository is null)
                     _roleRepository = new GenericRepository<Role>(_context);
-                return _roleRepository; }
+                return _roleRepository; 
+            }
         }
 
         public IGenericRepository<News> NewsRepository { 
@@ -99,6 +106,19 @@ namespace OngProject.Repositories
             }
         }
 
+
+        public IGenericRepository<Organization> OrganizationRepository
+        {
+            get
+            {
+                if (_organizationRepository is null)
+                { 
+                    _organizationRepository = new GenericRepository<Organization>(_context);
+                }
+                return _organizationRepository;
+            }
+        }
+
         public IGenericRepository<Users> UserRepository
         {
             get
@@ -126,6 +146,7 @@ namespace OngProject.Repositories
 
             }
         }
+
 
     }
 }
