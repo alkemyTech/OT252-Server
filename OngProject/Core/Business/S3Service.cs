@@ -2,7 +2,11 @@
 using Amazon.S3.Model;
 using Amazon.S3.Util;
 using OngProject.Core.Interfaces;
+
 using OngProject.Entities;
+
+using OngProject.Core.Models;
+
 using System;
 using System.Net;
 using System.Threading.Tasks;

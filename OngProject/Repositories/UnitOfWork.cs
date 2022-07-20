@@ -4,11 +4,11 @@ using OngProject.Repositories.Interfaces;
 
 namespace OngProject.Repositories
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
 
 
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         private IGenericRepository<News> _newsRepository;
         private IGenericRepository<Testimony> _testimonialsRepository;
 
@@ -26,10 +26,15 @@ namespace OngProject.Repositories
 
         private IGenericRepository<Organization> _organizationRepository;
 
+
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
+           
         }
+        public void Dispose(){ _context.Dispose(); }
+
+        public void Save() { _context.SaveChanges(); }
         public IGenericRepository<Role> RoleRepository {
             get { if (_roleRepository is null)
                     _roleRepository = new GenericRepository<Role>(_context);
@@ -47,7 +52,7 @@ namespace OngProject.Repositories
             }
         }
 
-        public IGenericRepository<Testimony> TestimonialsRepository
+        public IGenericRepository<Testimony> _TestimonialsRepository
         {
             get
             {
