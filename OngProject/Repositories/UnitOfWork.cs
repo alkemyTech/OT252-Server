@@ -24,7 +24,7 @@ namespace OngProject.Repositories
 
         private IGenericRepository<Category> _categoryRepository;
 
-
+        private IGenericRepository<Organization> _organizationRepository;
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -124,6 +124,18 @@ namespace OngProject.Repositories
                 return _categoryRepository;
 
 
+            }
+        }
+
+        public IGenericRepository<Organization> OrganizationRepository
+        {
+            get
+            {
+                if (_organizationRepository == null)
+                {
+                    _organizationRepository = new GenericRepository<Organization>(_context);
+                }
+                return _organizationRepository;
             }
         }
 
