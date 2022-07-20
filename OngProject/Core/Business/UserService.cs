@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Entities;
 using OngProject.Repositories;
 using System;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
 {
-    public class UserService/*:IUserService*/
+    public class UserService:IUserService
     {
         private readonly UnitOfWork unitOfWork;
 
@@ -26,32 +27,15 @@ namespace OngProject.Core.Business
             this.configuration = configuration;
         }
 
-        public bool Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
+        
 
-        public IEnumerable<Users> Find(Expression<Func<Users, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Users> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public News GetById(int? id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetToken(Users usuario)
+        public string GetToken(UserResponse usuario)
         {
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
-                new Claim(JwtRegisteredClaimNames.NameId, usuario.Role.ToString())
+                new Claim(JwtRegisteredClaimNames.NameId, usuario.UserId.ToString()),
+                new Claim(ClaimTypes.Role, usuario.RoleId.ToString())
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
