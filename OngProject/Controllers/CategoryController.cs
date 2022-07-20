@@ -1,117 +1,114 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class CategoryController : ControllerBase
     {
 
-        private readonly IUserService _userService;
+        private readonly ICategoryService _categoryService;
 
-        public UserController(UserService userService)
+        public CategoryController(CategoryService categoryService)
         {
-            //_userService = userService;
-        }
+            _categoryService = categoryService;
+        }   
 
         [Route("GetAll")]
         [HttpGet]
-        public ActionResult<IEnumerable<Users>> GetAll()
+        public ActionResult <IEnumerable<News>> GetAll()
         {
 
             try
             {
-                var usersList = _userService.GetAll();
+                var newsList = _categoryService.GetAll();
 
-                return Ok(usersList);
+                return Ok(newsList);
             }
             catch (Exception ex)
             {
 
-                return BadRequest(ex.Message);
+                return BadRequest(ex.Message);  
             }
-
-
+            
+            
         }
 
-
+        
         [HttpGet("{id}")]
-        public ActionResult<Users> Get(int id)
+        public ActionResult<Category> Get(int id)
         {
             try
             {
-                var users = _userService.GetById(id);
+                var category = _categoryService.GetById(id);
 
-                return Ok(users);
+                return Ok(category);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
+            
         }
 
-
+       
         [HttpPost]
-        public ActionResult<Users> Post([FromBody] Users user)
+        public ActionResult<Category> Post([FromBody] Category category)
         {
             try
             {
-                var newUsers = _userService.Insert(user);
+                var newCategory = _categoryService.Insert(category);
 
-                return Ok(newUsers);
+                return Ok(newCategory);
             }
             catch (Exception ex)
             {
 
                 return BadRequest(ex.Message);
             }
-
+            
         }
 
-
+     
         [HttpPut]
-        public ActionResult<Users> Put([FromBody] Users user)
+        public ActionResult<Category> Put([FromBody] Category category)
         {
             try
             {
-                var editUser = _userService.Update(user);
+                var editCategory = _categoryService.Update(category);
 
-                return Ok(editUser);
+                return Ok(editCategory);
             }
             catch (Exception ex)
             {
 
                 return BadRequest(ex.Message);
             }
-
+            
         }
 
-
+       
         [HttpDelete("{id}")]
         public ActionResult<bool> Delete(int id)
         {
             try
             {
-                var deleteUser = _userService.Delete(id);
+                var deleteCategory = _categoryService.Delete(id);
 
                 return Ok(true);
             }
             catch (Exception ex)
             {
 
-                return BadRequest(ex.Message);
+                return BadRequest(ex.Message);  
             }
-
+            
         }
-
     }
 }

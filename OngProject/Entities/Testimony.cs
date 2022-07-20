@@ -14,7 +14,7 @@ namespace OngProject.Entities
         [Column(TypeName = "varchar(255)")]
         public string Image { get; set; }
 
-        [Column(TypeName = "varchar(65535)")]
+        [Column(TypeName = "varchar(255)")]
         public string Content { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace OngProject.Entities
 
         public string Address { get; set; }
 
-        public ulong Phone { get; set; }
+        public string Phone { get; set; }
 
         [MaxLength(320)]
         [Required]
@@ -26,18 +26,18 @@ namespace OngProject.Entities
 
         [MaxLength(500)]
         [Required]
-        public char[] WelcomeText { get; set; }
+        public string WelcomeText { get; set; }
 
         [MaxLength(2000)]
-        public char[] AboutUsText { get; set; }
+        public string AboutUsText { get; set; }
 
         [MaxLength(255)]
-        public string? FacebookUrl { get; set; }
+        public string FacebookUrl { get; set; }
 
         [MaxLength(255)]
-        public string? InstagramUrl { get; set; }
+        public string InstagramUrl { get; set; }
 
         [MaxLength(255)]
-        public string? LinkedinUrl { get; set; }
+        public string LinkedinUrl { get; set; }
     }
 }

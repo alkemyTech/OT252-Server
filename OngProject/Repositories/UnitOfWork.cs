@@ -14,13 +14,20 @@ namespace OngProject.Repositories
 
         private IGenericRepository<Slide> _slideRepository;
 
-        private IGenericRepository<Members> _memberRepository;
+        private IGenericRepository<Member> _memberRepository;
 
         private IGenericRepository<Activity> _activitiyRepository;
 
         private IGenericRepository<Role> _roleRepository;
 
+
         private IGenericRepository<Organization> _organizationRepository;
+
+        private IGenericRepository<Users> _userRepository;
+
+        private IGenericRepository<Category> _categoryRepository;
+
+
 
 
         public UnitOfWork(ApplicationDbContext context)
@@ -72,13 +79,14 @@ namespace OngProject.Repositories
             }
         }
 
-        public IGenericRepository<Members> MemberRepository
+
+        public IGenericRepository<Member> MemberRepository
         {
             get
             {
                 if (_memberRepository == null)
                 {
-                    _memberRepository = new GenericRepository<Members>(_context);
+                    _memberRepository = new GenericRepository<Member>(_context);
                 }
                 return _memberRepository;
             }
@@ -98,6 +106,7 @@ namespace OngProject.Repositories
             }
         }
 
+
         public IGenericRepository<Organization> OrganizationRepository
         {
             get
@@ -109,5 +118,35 @@ namespace OngProject.Repositories
                 return _organizationRepository;
             }
         }
+
+        public IGenericRepository<Users> UserRepository
+        {
+            get
+            {
+                if (_userRepository == null)
+                {
+                    _userRepository = new GenericRepository<Users>(_context);
+                }
+                return _userRepository;
+
+
+            }
+        }
+
+        public IGenericRepository<Category> CategoryRepository
+        {
+            get
+            {
+                if (_categoryRepository == null)
+                {
+                    _categoryRepository = new GenericRepository<Category>(_context);
+                }
+                return _categoryRepository;
+
+
+            }
+        }
+
+
     }
 }
