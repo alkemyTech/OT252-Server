@@ -2,6 +2,7 @@
 using Amazon.S3.Model;
 using Amazon.S3.Util;
 using OngProject.Core.Interfaces;
+using OngProject.Entities;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -32,7 +33,7 @@ namespace OngProject.Core.Business
                     return new S3Response
                     {
                         Message = response.ResponseMetadata.RequestId,
-                        status = response.HttpStatusCode
+                        Status = response.HttpStatusCode
                     };
                 }
             }

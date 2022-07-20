@@ -19,7 +19,7 @@ namespace OngProject.Controllers
 
         public UserController(UserService userService)
         {
-            _userService = userService;
+            //_userService = userService;
         }
 
         [Route("GetAll")]

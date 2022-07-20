@@ -21,6 +21,11 @@ namespace OngProject.DataAccess
 
         public DbSet<Slide> Slides { get; set; }
 
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Organization> Organizations { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Users> Users { get; set; }
         public DbSet<Activity> Activities { get; set; }
 
 
