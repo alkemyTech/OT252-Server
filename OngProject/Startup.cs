@@ -44,14 +44,14 @@ namespace OngProject
 
            
             //services.AddScoped<ITestimonialsService, TestimonialsService>();
-            services.AddScoped<ISendGrid, SendGridHelper>();
 
 
             services.AddDbContext<ApplicationDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-           services.AddScoped<ITestimonialsService, TestimonialsService>();
            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ISendGrid, SendGridHelper>();
+           services.AddScoped<ITestimonialsService, TestimonialsService>();
 
         }
 
