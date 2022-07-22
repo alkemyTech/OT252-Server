@@ -1,6 +1,9 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
+using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +14,10 @@ namespace OngProject.Core.Business
 {
     public class SlideService : ISlideService
     {
-        private UnitOfWork _unitOfWork;
+        private IUnitOfWork _unitOfWork;
+        private SlideMapper mapper;
 
-        public SlideService(UnitOfWork unitOfWork)
+        public SlideService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -29,9 +33,13 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Slide> GetAll()
+        public async Task<IEnumerable<SlideDto>> GetAll()
         {
-            throw new NotImplementedException();
+            mapper = new SlideMapper();
+            var slides = await _unitOfWork.SlideRepository.GetAll();
+            var slideDto = mapper.ConvertListToDto(slides);
+            return slideDto;
+
         }
 
         public Slide GetById(int? id)
