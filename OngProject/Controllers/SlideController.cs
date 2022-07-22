@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.HttpSys;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.DataAccess;
 using OngProject.Entities;
+using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +18,6 @@ namespace OngProject.Controllers
     [ApiController]
     public class SlideController : ControllerBase
     {
-
         private readonly ISlideService slideService;
 
         public SlideController(ISlideService slideService)
@@ -26,13 +27,11 @@ namespace OngProject.Controllers
 
         [Route("GetAll")]
         [HttpGet]
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrador")]
-
-        public ActionResult<IEnumerable<Slide>> GetAll()
+        public async Task <ActionResult<IEnumerable<Slide>>> GetAll()
         {
             try
             {
-                var slideList = slideService.GetAll();
+                var slideList = await slideService.GetAll();
                 if (slideList == null)
                 {
                     return BadRequest();

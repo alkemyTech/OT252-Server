@@ -37,7 +37,7 @@ namespace OngProject.Core.Business
         public async Task<IEnumerable<SlideDto>> GetAll()
         {
             IEnumerable<SlideDto> slideDtos = new List<SlideDto>();
-            var slides = await _unitOfWork.SlideRepository.GetAll();
+            IEnumerable<Slide> slides = await _unitOfWork.SlideRepository.GetAll();
             var slidesDto = _slideMapper.ConvertListToDto(slides);
             return slidesDto;
         }
