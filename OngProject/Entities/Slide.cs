@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace OngProject.Entities
 {
@@ -8,11 +9,11 @@ namespace OngProject.Entities
     {
         [MaxLength(255)]
         [Required]
-        public String ImageUrl { get; set; }
+        public string ImageUrl { get; set; }
 
         [MaxLength(500)]
         [Required]
-        public String Text { get; set; }
+        public string Text { get; set; }
 
         [MaxLength(255)]
         [Required]
@@ -21,6 +22,7 @@ namespace OngProject.Entities
         [ForeignKey("Organization")]
         [Required]
         public int OrganizationId { get; set; }
+        [JsonIgnore]
         public Organization Organization { get; set; }
     }
 }

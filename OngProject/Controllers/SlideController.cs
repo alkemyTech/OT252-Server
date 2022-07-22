@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.HttpSys;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
@@ -16,19 +19,24 @@ namespace OngProject.Controllers
 
         private readonly ISlideService slideService;
 
-        public SlideController(SlideService slideService)
+        public SlideController(ISlideService slideService)
         {
             this.slideService = slideService;
         }
 
         [Route("GetAll")]
         [HttpGet]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrador")]
 
         public ActionResult<IEnumerable<Slide>> GetAll()
         {
             try
             {
                 var slideList = slideService.GetAll();
+                if (slideList == null)
+                {
+                    return BadRequest();
+                }
                 return Ok(slideList);
             }
             catch (Exception ex)
