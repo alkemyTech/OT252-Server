@@ -11,7 +11,7 @@ namespace OngProject.DataAccess
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            //Add Seed Data Activity
+            //Add Seed Data Category
             modelBuilder.Entity<Category>()
                 .HasData(
                     new Category { Id = 1, Name = "Organización", Description = "Noticias propias sobre la organización", 
