@@ -41,16 +41,14 @@ namespace OngProject
             });
 
 
-           
-            //services.AddScoped<ITestimonialsService, TestimonialsService>();
             services.AddScoped<ISendGridService, SendGridHelper>();
 
 
             services.AddDbContext<ApplicationDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-           services.AddScoped<ITestimonialsService, TestimonialsService>();
            services.AddScoped<IUnitOfWork, UnitOfWork>();
+           services.AddScoped<ISlideService, SlideService>();
 
         }
 

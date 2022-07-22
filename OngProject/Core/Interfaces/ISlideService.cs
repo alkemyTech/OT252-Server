@@ -1,4 +1,5 @@
-﻿using OngProject.Entities;
+﻿using OngProject.Core.Models.DTOs;
+using OngProject.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace OngProject.Core.Interfaces
 {
     public interface ISlideService
     {
-        Task<IEnumerable<Slide>> GetAll();
+        Task<IEnumerable<SlideDto>> GetAll();
 
         Slide GetById(int? id);
 
