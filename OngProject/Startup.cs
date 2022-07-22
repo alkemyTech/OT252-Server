@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using OngProject.Repositories.Interfaces;
 using OngProject.Repositories;
 
@@ -44,7 +43,7 @@ namespace OngProject
 
            
             //services.AddScoped<ITestimonialsService, TestimonialsService>();
-            services.AddScoped<ISendGrid, SendGridHelper>();
+            services.AddScoped<ISendGridService, SendGridHelper>();
 
 
             services.AddDbContext<ApplicationDbContext>(options => {

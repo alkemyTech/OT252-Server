@@ -9,7 +9,7 @@ namespace OngProject.Core.Interfaces
 {
     public interface ISlideService
     {
-        IEnumerable<Slide> GetAll();
+        Task<IEnumerable<Slide>> GetAll();
 
         Slide GetById(int? id);
 

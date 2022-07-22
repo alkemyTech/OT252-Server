@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Helper
 {
-    public class SendGridHelper : ISendGrid
+    public class SendGridHelper : ISendGridService
     {
         private IConfiguration _config;
         public SendGridHelper(IConfiguration config)

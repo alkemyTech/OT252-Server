@@ -29,9 +29,9 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Slide> GetAll()
+        public async Task<IEnumerable<Slide>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _unitOfWork.SlideRepository.GetAll();
         }
 
         public Slide GetById(int? id)
@@ -45,6 +45,11 @@ namespace OngProject.Core.Business
         }
 
         public Slide Update(Slide slide)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<Slide> ISlideService.GetAll()
         {
             throw new NotImplementedException();
         }

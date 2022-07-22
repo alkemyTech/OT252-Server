@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Interfaces
 {
-    public interface ISendGrid
+    public interface ISendGridService
     {
         Task WelcomeEmail(string email, string subject, string content);
     }
