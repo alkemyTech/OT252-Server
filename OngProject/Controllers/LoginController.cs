@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,28 +11,41 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class LoginController : ControllerBase
     {
 
 
-        private readonly IUserService usuarioService;
+        private readonly ILoginService _loginService;
 
-        public LoginController(UserService usuarioService)
+        public LoginController(LoginService loginService)
         {
-            this.usuarioService = usuarioService;
+            _loginService = loginService;
         }
-        [HttpPost]
+
+        [HttpPost("Login")]
         public ActionResult Login()
         {
             return Ok();
         }
 
-        [HttpPost("Registro")]
-        public ActionResult RegistrarUsuario()
+        [HttpPost("Register")]
+        public async Task<ActionResult> RegisterAsync(RegisterDTO registerDTO)
         {
-            return Ok();
+            try
+            {
+                var userDto = await _loginService.Register(registerDTO);
+                if (userDto == null)
+                {
+                    return BadRequest("Ya hay un Usuario registrado con el Email ingresado.");
+                }
+                return Ok(userDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
