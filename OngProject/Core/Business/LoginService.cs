@@ -31,7 +31,7 @@ namespace OngProject.Core.Business
                 Email = registerUser.Email, 
                 Password = EncryptHelper.encriptar(registerUser.Password),
                 Photo=registerUser.Photo,
-                RoleId=0, //Aca debe ir el Rol de Usuario
+                RoleId=2, //Aca debe ir el Rol de Usuario (Entiendo que 1 sería Administrador y 2 Usuario)
             };
             
             await _unitOfWork.UserRepository.Insert(user);
