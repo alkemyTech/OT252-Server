@@ -80,6 +80,20 @@ namespace OngProject.DataAccess
                         "de los niños, niñas y adolescentes al área educativa.", Image = "Agregar ruta de la imagen",
                         TimeStamps = DateTime.Now, SoftDelete = false}
                 );
+
+
+            //Add Seed Data Members
+            modelBuilder.Entity<Member>()
+                        .HasData(
+                    new Member { Id = 1, Name = "María Iraola", FacebookUrl= "https://www.facebook.com/", InstragramUrl= "https://www.instagram.com/", LinkedinUrl= "https://www.linkedin.com/feed/", Image="Ruta a la magen", TimeStamps = DateTime.Now, SoftDelete = false },
+                    new Member { Id = 2, Name = "Marita Gomez", FacebookUrl = "https://www.facebook.com/", InstragramUrl = "https://www.instagram.com/", LinkedinUrl = "https://www.linkedin.com/feed/", Image = "Ruta a la magen", TimeStamps = DateTime.Now, SoftDelete = false },
+                    new Member { Id = 3, Name = "Miriam Rodriguez", FacebookUrl = "https://www.facebook.com/", InstragramUrl = "https://www.instagram.com/", LinkedinUrl = "https://www.linkedin.com/feed/", Image = "Ruta a la magen", TimeStamps = DateTime.Now, SoftDelete = false },
+                    new Member { Id = 4, Name = "Cecilia Mendez", FacebookUrl = "https://www.facebook.com/", InstragramUrl = "https://www.instagram.com/", LinkedinUrl = "https://www.linkedin.com/feed/", Image = "Ruta a la magen", TimeStamps = DateTime.Now, SoftDelete = false },
+                    new Member { Id = 5, Name = "Rodrigo Fuentes", FacebookUrl = "https://www.facebook.com/", InstragramUrl = "https://www.instagram.com/", LinkedinUrl = "https://www.linkedin.com/feed/", Image = "Ruta a la magen", TimeStamps = DateTime.Now, SoftDelete = false },
+                    new Member { Id = 6, Name = "María Garcia", FacebookUrl = "https://www.facebook.com/", InstragramUrl = "https://www.instagram.com/", LinkedinUrl = "https://www.linkedin.com/feed/", Image = "Ruta a la magen", TimeStamps = DateTime.Now, SoftDelete = false },
+                    new Member { Id = 7, Name = "Marco Fernandez", FacebookUrl = "https://www.facebook.com/", InstragramUrl = "https://www.instagram.com/", LinkedinUrl = "https://www.linkedin.com/feed/", Image = "Ruta a la magen", TimeStamps = DateTime.Now, SoftDelete = false }
+                    );
+
         }
     }
 }
