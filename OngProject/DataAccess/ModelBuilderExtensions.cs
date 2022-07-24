@@ -96,9 +96,14 @@ namespace OngProject.DataAccess
                     new Member { Id = 7, Name = "Marco Fernandez", FacebookUrl = "https://www.facebook.com/", InstragramUrl = "https://www.instagram.com/", LinkedinUrl = "https://www.linkedin.com/feed/", Image = "Ruta a la magen", TimeStamps = DateTime.Now, SoftDelete = false }
                     );
 
+            modelBuilder.Entity<Role>().HasData(
+                new Role { Id = 1, SoftDelete = false, Name = "Administrador", Description = "Role Administrator", TimeStamps = DateTime.UtcNow },
+                new Role { Id = 2, SoftDelete = false, Name = "Comun", Description = "Role Common", TimeStamps = DateTime.UtcNow }
+                );
+
             modelBuilder.Entity<Users>().HasData(
                 new Users { Id = 1, FirstName = "Milton", LastName = "Casco", Email = "miltoncasco20@seed.com",
-                    Password = GetSHA256("milton123"), Photo = "foto.jpg", RoleId = 1 },
+                    Password = GetSHA256("milton123"), Photo = "foto.jpg", RoleId = 1,  },
                 new Users
                 {
                     Id = 2, FirstName = "Enzo",
@@ -283,11 +288,15 @@ namespace OngProject.DataAccess
                     Id = 20,
                     FirstName = "Bruno",
                     LastName = "Zuculini",
-                    Email = "miltoncasco20@seed.com",
-                    Password = GetSHA256("milton123"),
+                    Email = "zuculini@seed.com",
+                    Password = GetSHA256("zucu123"),
                     Photo = "foto.jpg",
-                    RoleId = 1
+                    RoleId = 2
                 }
+                );
+
+            modelBuilder.Entity<Slide>().HasData(
+                    new Slide { }
                 );
         }
 
