@@ -111,7 +111,9 @@ namespace OngProject.DataAccess
                     Email = "enzopere24@seed.com",
                     Password = GetSHA256("enzo123"),
                     Photo = "foto.jpg",
-                    RoleId = 1
+                    RoleId = 1,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 },
                 new Users
                 {
@@ -121,7 +123,9 @@ namespace OngProject.DataAccess
                     Email = "juanfer10@seed.com",
                     Password = GetSHA256("juanfer123"),
                     Photo = "foto.jpg",
-                    RoleId = 1
+                    RoleId = 1,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 },
                 new Users
                 {
@@ -131,7 +135,9 @@ namespace OngProject.DataAccess
                     Email = "muñeco@seed.com",
                     Password = GetSHA256("muñeco123"),
                     Photo = "foto.jpg",
-                    RoleId = 1
+                    RoleId = 1,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 },
                 new Users
                 {
@@ -141,7 +147,9 @@ namespace OngProject.DataAccess
                     Email = "lucasbeltran@seed.com",
                     Password = GetSHA256("lucas123"),
                     Photo = "foto.jpg",
-                    RoleId = 1
+                    RoleId = 1,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 },
                 new Users
                 {
@@ -151,7 +159,9 @@ namespace OngProject.DataAccess
                     Email = "nacho26@seed.com",
                     Password = GetSHA256("nacho123"),
                     Photo = "foto.jpg",
-                    RoleId = 1
+                    RoleId = 1,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 },
                 new Users
                 {
@@ -161,7 +171,9 @@ namespace OngProject.DataAccess
                     Email = "leon23@seed.com",
                     Password = GetSHA256("ponzio123"),
                     Photo = "foto.jpg",
-                    RoleId = 1
+                    RoleId = 1,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 },
                 new Users
                 {
@@ -171,7 +183,9 @@ namespace OngProject.DataAccess
                     Email = "zuculini@seed.com",
                     Password = GetSHA256("zucu123"),
                     Photo = "foto.jpg",
-                    RoleId = 1
+                    RoleId = 1,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 },
                 new Users
                 {
@@ -181,7 +195,9 @@ namespace OngProject.DataAccess
                     Email = "montiel29@seed.com",
                     Password = GetSHA256("gonza123"),
                     Photo = "foto.jpg",
-                    RoleId = 1
+                    RoleId = 1,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 },
                 new Users
                 {
@@ -191,7 +207,9 @@ namespace OngProject.DataAccess
                     Email = "javipinola@seed.com",
                     Password = GetSHA256("pinola123"),
                     Photo = "foto.jpg",
-                    RoleId = 1
+                    RoleId = 1,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 },
                 new Users
                 {
@@ -201,7 +219,9 @@ namespace OngProject.DataAccess
                     Email = "armani1@seed.com",
                     Password = GetSHA256("armani123"),
                     Photo = "foto.jpg",
-                    RoleId = 2
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 },
                 new Users
                 {
@@ -211,7 +231,9 @@ namespace OngProject.DataAccess
                     Email = "julian9@seed.com",
                     Password = GetSHA256("julian123"),
                     Photo = "foto.jpg",
-                    RoleId = 2
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 },
                 new Users
                 {
@@ -221,7 +243,9 @@ namespace OngProject.DataAccess
                     Email = "ariel14@seed.com",
                     Password = GetSHA256("ariel123"),
                     Photo = "foto.jpg",
-                    RoleId = 2
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 },
                 new Users
                 {
@@ -231,7 +255,9 @@ namespace OngProject.DataAccess
                     Email = "matiasdt@seed.com",
                     Password = GetSHA256("matias123"),
                     Photo = "foto.jpg",
-                    RoleId = 12
+                    RoleId = 12,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 },
                 new Users
                 {
@@ -241,7 +267,9 @@ namespace OngProject.DataAccess
                     Email = "paradela@seed.com",
                     Password = GetSHA256("jose123"),
                     Photo = "foto.jpg",
-                    RoleId = 2
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 },
                 new Users
                 {
@@ -251,7 +279,9 @@ namespace OngProject.DataAccess
                     Email = "eliasgomez@seed.com",
                     Password = GetSHA256("elias123"),
                     Photo = "foto.jpg",
-                    RoleId = 2
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 },
                 new Users
                 {
@@ -261,7 +291,9 @@ namespace OngProject.DataAccess
                     Email = "barco21@seed.com",
                     Password = GetSHA256("barco123"),
                     Photo = "foto.jpg",
-                    RoleId = 2
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 },
                 new Users
                 {
@@ -271,7 +303,9 @@ namespace OngProject.DataAccess
                     Email = "aguspala@seed.com",
                     Password = GetSHA256("agus123"),
                     Photo = "foto.jpg",
-                    RoleId = 2
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 },
                 new Users
                 {
@@ -281,7 +315,9 @@ namespace OngProject.DataAccess
                     Email = "aliendro@seed.com",
                     Password = GetSHA256("rodrigo123"),
                     Photo = "foto.jpg",
-                    RoleId = 2
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 },
                 new Users
                 {
@@ -291,12 +327,56 @@ namespace OngProject.DataAccess
                     Email = "zuculini@seed.com",
                     Password = GetSHA256("zucu123"),
                     Photo = "foto.jpg",
-                    RoleId = 2
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
                 }
                 );
 
+            modelBuilder.Entity<Organization>().HasData(
+                new Organization
+                {
+                    Id = 1,
+                    Name = "Somos Mas",
+                    Image = "somosmas.jpg",
+                    Address = "Direccion Falsa 123",
+                    Email = "somosfundacionmas@gmail.com",
+                    Phone = "1160112988",
+                    WelcomeText = "Bienvenidos nosotros somos Somos Mas",
+                    AboutUsText = "Somos una asociacion civil sin fines de lucro",
+                    FacebookUrl = "facebook.com/Somos_Mas",
+                    InstagramUrl = "instragram.com/SomosMas",
+                    LinkedinUrl = "linkedin.com/SomosMas",
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                }
+            );
+
             modelBuilder.Entity<Slide>().HasData(
-                    new Slide { }
+                    new Slide {Id = 1, ImageUrl = "primerslide.jpg", Text = "Este es el primer slide", Order = 1, OrganizationId = 1,
+                        SoftDelete = false,
+                        TimeStamps = DateTime.UtcNow
+                    },
+                      new Slide
+                      {
+                          Id = 2,
+                          ImageUrl = "segundoslide.jpg",
+                          Text = "Este es el segundo slide",
+                          Order = 2,
+                          OrganizationId = 1,
+                          SoftDelete = false,
+                          TimeStamps = DateTime.UtcNow
+                      },
+                        new Slide
+                        {
+                            Id = 3,
+                            ImageUrl = "tercerslide.jpg",
+                            Text = "Este es el tercer slide",
+                            Order = 3,
+                            OrganizationId = 1,
+                            SoftDelete = false,
+                            TimeStamps = DateTime.UtcNow
+                        }
                 );
         }
 
