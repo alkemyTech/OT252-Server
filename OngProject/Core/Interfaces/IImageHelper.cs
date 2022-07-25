@@ -8,6 +8,6 @@ namespace OngProject.Core.Interfaces
 {
     public interface IImageHelper
     {
-        public Task UploadImage(IFormFile file);
+        public Task<string> UploadImage(IFormFile file);
     }
 }
