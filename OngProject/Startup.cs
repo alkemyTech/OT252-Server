@@ -59,10 +59,11 @@ namespace OngProject
             services.AddScoped<ISendGrid, SendGridHelper>();
            services.AddScoped<ITestimonialsService, TestimonialsService>();
             services.AddScoped<ISlideService, SlideService>();
+            services.AddScoped<IMemberService, MemberService>();
 
 
-           
-           services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
            
             //services.AddScoped<ITestimonialsService, TestimonialsService>();
 
