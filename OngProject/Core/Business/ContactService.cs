@@ -37,7 +37,7 @@ namespace OngProject.Core.Business
             {
                 ContactMapper mapper = new ContactMapper();
 
-                IEnumerable<Contact> contacts = (IEnumerable<Contact>)_unitOfWork.ContactsRepository.GetAll();
+                List<Contact> contacts = (List<Contact>)await _unitOfWork.ContactsRepository.GetAll();
                                
                 List<ContactDTO> contactsDTO = new List<ContactDTO>();
                 
