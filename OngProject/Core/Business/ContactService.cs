@@ -14,9 +14,9 @@ namespace OngProject.Core.Business
     public class ContactService : IContactService
     {
 
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ContactService(UnitOfWork unitOfWork)
+        public ContactService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -26,12 +26,12 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Contact> Find(Expression<Func<Contact, bool>> predicate)
+        public IEnumerable<ContactDTO> Find(Expression<Func<Contact, bool>> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ContactDTO> GetAll()
+        public async Task<IEnumerable<ContactDTO>> GetAll()
         {
             try
             {
@@ -56,7 +56,7 @@ namespace OngProject.Core.Business
             }
         }
 
-        public ContactDTO GetById(int? id)
+        public Task<ContactDTO> GetById(int? id)
         {
             throw new NotImplementedException();
         }

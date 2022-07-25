@@ -18,19 +18,19 @@ namespace OngProject.Controllers
 
         private readonly IContactService _contactService;
 
-        public ContactsController(ContactService contactService)
+        public ContactsController(IContactService contactService)
         {
            _contactService = contactService;
         }
 
        
         [HttpGet]
-        //[Authorize(Roles = "Administrador")]
-        public ActionResult<IEnumerable<ContactDTO>> GetAll()
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<IEnumerable<ContactDTO>>> GetAll()
         {
             try
             {
-                var contactsList = _contactService.GetAll();
+                var contactsList = await _contactService.GetAll();
                 return Ok(contactsList);
             }
             catch (Exception ex)
@@ -40,7 +40,7 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Contact> Get(int id)
+        public async Task<ActionResult<Contact>> Get(int id)
         {
             try
             {

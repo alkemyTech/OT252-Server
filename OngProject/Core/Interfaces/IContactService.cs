@@ -9,11 +9,11 @@ namespace OngProject.Core.Interfaces
 {
     public interface IContactService
     {
-        IEnumerable<ContactDTO> GetAll();
+        Task<IEnumerable<ContactDTO>> GetAll();
 
-        ContactDTO GetById(int? id);
+        Task<ContactDTO> GetById(int? id);
 
-        IEnumerable<Contact> Find(Expression<Func<Contact, bool>> predicate);
+        IEnumerable<ContactDTO> Find(Expression<Func<Contact, bool>> predicate);
 
         Contact Insert(Contact contact);
         Contact Update(Contact contact);
