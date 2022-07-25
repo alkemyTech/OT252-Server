@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OngProject.Core.Helper;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -108,7 +109,7 @@ namespace OngProject.DataAccess
                     FirstName = "Milton",
                     LastName = "Casco",
                     Email = "miltoncasco20@seed.com",
-                    Password = GetSHA256("milton123"),
+                    Password = EncryptHelper.GetSHA256("milton123"),
                     Photo = "foto.jpg",
                     RoleId = 1,
                 },
@@ -118,7 +119,7 @@ namespace OngProject.DataAccess
                     FirstName = "Enzo",
                     LastName = "Perez",
                     Email = "enzopere24@seed.com",
-                    Password = GetSHA256("enzo123"),
+                    Password = EncryptHelper.GetSHA256("enzo123"),
                     Photo = "foto.jpg",
                     RoleId = 1,
                     SoftDelete = false,
@@ -130,7 +131,7 @@ namespace OngProject.DataAccess
                     FirstName = "Juan Fernando",
                     LastName = "Quintero",
                     Email = "juanfer10@seed.com",
-                    Password = GetSHA256("juanfer123"),
+                    Password = EncryptHelper.GetSHA256("juanfer123"),
                     Photo = "foto.jpg",
                     RoleId = 1,
                     SoftDelete = false,
@@ -142,7 +143,7 @@ namespace OngProject.DataAccess
                     FirstName = "Marcelo",
                     LastName = "Gallardo",
                     Email = "muñeco@seed.com",
-                    Password = GetSHA256("muñeco123"),
+                    Password = EncryptHelper.GetSHA256("muñeco123"),
                     Photo = "foto.jpg",
                     RoleId = 1,
                     SoftDelete = false,
@@ -154,7 +155,7 @@ namespace OngProject.DataAccess
                     FirstName = "Lucas",
                     LastName = "Beltran",
                     Email = "lucasbeltran@seed.com",
-                    Password = GetSHA256("lucas123"),
+                    Password = EncryptHelper.GetSHA256("lucas123"),
                     Photo = "foto.jpg",
                     RoleId = 1,
                     SoftDelete = false,
@@ -166,7 +167,7 @@ namespace OngProject.DataAccess
                     FirstName = "Ignacio",
                     LastName = "Fernandez",
                     Email = "nacho26@seed.com",
-                    Password = GetSHA256("nacho123"),
+                    Password = EncryptHelper.GetSHA256("nacho123"),
                     Photo = "foto.jpg",
                     RoleId = 1,
                     SoftDelete = false,
@@ -178,7 +179,7 @@ namespace OngProject.DataAccess
                     FirstName = "Leonardo",
                     LastName = "Ponzio",
                     Email = "leon23@seed.com",
-                    Password = GetSHA256("ponzio123"),
+                    Password = EncryptHelper.GetSHA256("ponzio123"),
                     Photo = "foto.jpg",
                     RoleId = 1,
                     SoftDelete = false,
@@ -190,7 +191,7 @@ namespace OngProject.DataAccess
                     FirstName = "Bruno",
                     LastName = "Zuculini",
                     Email = "zuculini@seed.com",
-                    Password = GetSHA256("zucu123"),
+                    Password = EncryptHelper.GetSHA256("zucu123"),
                     Photo = "foto.jpg",
                     RoleId = 1,
                     SoftDelete = false,
@@ -202,7 +203,7 @@ namespace OngProject.DataAccess
                     FirstName = "Gonzalo",
                     LastName = "Montiel",
                     Email = "montiel29@seed.com",
-                    Password = GetSHA256("gonza123"),
+                    Password = EncryptHelper.GetSHA256("gonza123"),
                     Photo = "foto.jpg",
                     RoleId = 1,
                     SoftDelete = false,
@@ -214,7 +215,7 @@ namespace OngProject.DataAccess
                     FirstName = "Javier",
                     LastName = "Pinola",
                     Email = "javipinola@seed.com",
-                    Password = GetSHA256("pinola123"),
+                    Password = EncryptHelper.GetSHA256("pinola123"),
                     Photo = "foto.jpg",
                     RoleId = 1,
                     SoftDelete = false,
@@ -226,7 +227,7 @@ namespace OngProject.DataAccess
                     FirstName = "Franco",
                     LastName = "Armani",
                     Email = "armani1@seed.com",
-                    Password = GetSHA256("armani123"),
+                    Password = EncryptHelper.GetSHA256("armani123"),
                     Photo = "foto.jpg",
                     RoleId = 2,
                     SoftDelete = false,
@@ -238,7 +239,7 @@ namespace OngProject.DataAccess
                     FirstName = "Julian",
                     LastName = "Alvarez",
                     Email = "julian9@seed.com",
-                    Password = GetSHA256("julian123"),
+                    Password = EncryptHelper.GetSHA256("julian123"),
                     Photo = "foto.jpg",
                     RoleId = 2,
                     SoftDelete = false,
@@ -250,7 +251,7 @@ namespace OngProject.DataAccess
                     FirstName = "Ariel",
                     LastName = "Ortega",
                     Email = "ariel14@seed.com",
-                    Password = GetSHA256("ariel123"),
+                    Password = EncryptHelper.GetSHA256("ariel123"),
                     Photo = "foto.jpg",
                     RoleId = 2,
                     SoftDelete = false,
@@ -262,7 +263,7 @@ namespace OngProject.DataAccess
                     FirstName = "Matias",
                     LastName = "Biscay",
                     Email = "matiasdt@seed.com",
-                    Password = GetSHA256("matias123"),
+                    Password = EncryptHelper.GetSHA256("matias123"),
                     Photo = "foto.jpg",
                     RoleId = 2,
                     SoftDelete = false,
@@ -274,7 +275,7 @@ namespace OngProject.DataAccess
                     FirstName = "Jose",
                     LastName = "Paradela",
                     Email = "paradela@seed.com",
-                    Password = GetSHA256("jose123"),
+                    Password = EncryptHelper.GetSHA256("jose123"),
                     Photo = "foto.jpg",
                     RoleId = 2,
                     SoftDelete = false,
@@ -286,7 +287,7 @@ namespace OngProject.DataAccess
                     FirstName = "Elias",
                     LastName = "Gomez",
                     Email = "eliasgomez@seed.com",
-                    Password = GetSHA256("elias123"),
+                    Password = EncryptHelper.GetSHA256("elias123"),
                     Photo = "foto.jpg",
                     RoleId = 2,
                     SoftDelete = false,
@@ -298,7 +299,7 @@ namespace OngProject.DataAccess
                     FirstName = "Esequiel",
                     LastName = "Barco",
                     Email = "barco21@seed.com",
-                    Password = GetSHA256("barco123"),
+                    Password = EncryptHelper.GetSHA256("barco123"),
                     Photo = "foto.jpg",
                     RoleId = 2,
                     SoftDelete = false,
@@ -310,7 +311,7 @@ namespace OngProject.DataAccess
                     FirstName = "Agustin",
                     LastName = "Palavecino",
                     Email = "aguspala@seed.com",
-                    Password = GetSHA256("agus123"),
+                    Password = EncryptHelper.GetSHA256("agus123"),
                     Photo = "foto.jpg",
                     RoleId = 2,
                     SoftDelete = false,
@@ -322,7 +323,7 @@ namespace OngProject.DataAccess
                     FirstName = "Rodrigo",
                     LastName = "Aliendro",
                     Email = "aliendro@seed.com",
-                    Password = GetSHA256("rodri123"),
+                    Password = EncryptHelper.GetSHA256("rodri123"),
                     Photo = "foto.jpg",
                     RoleId = 2,
                     SoftDelete = false,
@@ -334,7 +335,7 @@ namespace OngProject.DataAccess
                     FirstName = "Bruno",
                     LastName = "Zuculini",
                     Email = "zuculini@seed.com",
-                    Password = GetSHA256("zucu123"),
+                    Password = EncryptHelper.GetSHA256("zucu123"),
                     Photo = "foto.jpg",
                     RoleId = 2,
                     SoftDelete = false,
@@ -395,15 +396,6 @@ namespace OngProject.DataAccess
                 );
         }
 
-        public static string GetSHA256(string str)
-        {
-            SHA256 sha256 = SHA256Managed.Create();
-            ASCIIEncoding encoding = new ASCIIEncoding();
-            byte[] stream = null;
-            StringBuilder sb = new StringBuilder();
-            stream = sha256.ComputeHash(encoding.GetBytes(str));
-            for (int i = 0; i < stream.Length; i++) sb.AppendFormat("{0:x2}", stream[i]);
-            return sb.ToString();
-        }
+   
     }
 }
