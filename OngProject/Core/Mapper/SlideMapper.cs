@@ -23,5 +23,14 @@ namespace OngProject.Core.Mapper
             }
             return listDtos;
         }
+
+        public SlideDto ConverToDto(Slide slide)
+        {
+            var slideDto = new SlideDto();
+            slideDto.UrlImage = slide.ImageUrl;
+            slideDto.Text = slide.Text;
+            slideDto.Order = slide.Order;
+            return slideDto;
+        }
     }
 }

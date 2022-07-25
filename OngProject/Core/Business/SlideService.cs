@@ -42,9 +42,18 @@ namespace OngProject.Core.Business
 
         }
 
-        public Slide GetById(int? id)
+        public async Task<SlideDto> GetById(int? id)
         {
-            throw new NotImplementedException();
+            mapper = new SlideMapper();
+            var slide = await _unitOfWork.SlideRepository.GetById(id);
+            if (slide == null)
+            {
+                return null;
+            }
+            var slideDto = mapper.ConverToDto(slide);
+            return slideDto;
+
+            
         }
 
         public Slide Insert(Slide slide)

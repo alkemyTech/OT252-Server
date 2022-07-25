@@ -12,7 +12,7 @@ namespace OngProject.Core.Interfaces
     {
         Task<IEnumerable<SlideDto>> GetAll();
 
-        Slide GetById(int? id);
+        Task<SlideDto> GetById(int? id);
 
         IEnumerable<Slide> Find(Expression<Func<Slide, bool>> predicate);
 

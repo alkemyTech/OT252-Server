@@ -42,11 +42,15 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Slide> Get(int id)
+        public async Task<ActionResult<Slide>> Get(int id)
         {
             try
             {
-                var slide = slideService.GetById(id);
+                var slide = await slideService.GetById(id);
+                if (slide == null)
+                {
+                    return BadRequest();
+                }
                 return Ok(slide);
             }
             catch (Exception ex)
