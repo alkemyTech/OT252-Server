@@ -16,9 +16,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using OngProject.Repositories.Interfaces;
 using OngProject.Repositories;
+using Amazon.S3;
 
 namespace OngProject
 {
@@ -50,8 +50,9 @@ namespace OngProject
             services.AddDbContext<ApplicationDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-           
+
            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IImageHelper, ImageHelper>();
            
             //services.AddScoped<ITestimonialsService, TestimonialsService>();
         }
