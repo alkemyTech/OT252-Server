@@ -16,7 +16,7 @@ namespace OngProject.Controllers
 
         private readonly ISlideService slideService;
 
-        public SlideController(SlideService slideService)
+        public SlideController(ISlideService slideService)
         {
             this.slideService = slideService;
         }
@@ -24,11 +24,15 @@ namespace OngProject.Controllers
         [Route("GetAll")]
         [HttpGet]
 
-        public ActionResult<IEnumerable<Slide>> GetAll()
+        public async Task<ActionResult<IEnumerable<Slide>>> GetAll()
         {
             try
             {
-                var slideList = slideService.GetAll();
+                var slideList = await slideService.GetAll();
+                if (slideList == null)
+                {
+                    return NotFound();
+                }
                 return Ok(slideList);
             }
             catch (Exception ex)
@@ -38,11 +42,15 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Slide> Get(int id)
+        public async Task<ActionResult<Slide>> Get(int id)
         {
             try
             {
-                var slide = slideService.GetById(id);
+                var slide = await slideService.GetById(id);
+                if (slide == null)
+                {
+                    return BadRequest();
+                }
                 return Ok(slide);
             }
             catch (Exception ex)

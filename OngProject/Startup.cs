@@ -43,17 +43,29 @@ namespace OngProject
 
 
            
+
+            //services.AddScoped<ITestimonialsService, TestimonialsService>();
+
            
             services.AddScoped<ISendGrid, SendGridHelper>();
+
 
 
             services.AddDbContext<ApplicationDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+           services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ISendGrid, SendGridHelper>();
+           services.AddScoped<ITestimonialsService, TestimonialsService>();
+            services.AddScoped<ISlideService, SlideService>();
+
+
            
            services.AddScoped<IUnitOfWork, UnitOfWork>();
            
             //services.AddScoped<ITestimonialsService, TestimonialsService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
