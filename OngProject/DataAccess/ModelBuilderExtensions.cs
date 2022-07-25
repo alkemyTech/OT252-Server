@@ -102,11 +102,20 @@ namespace OngProject.DataAccess
                 );
 
             modelBuilder.Entity<Users>().HasData(
-                new Users { Id = 1, FirstName = "Milton", LastName = "Casco", Email = "miltoncasco20@seed.com",
-                    Password = GetSHA256("milton123"), Photo = "foto.jpg", RoleId = 1,  },
                 new Users
                 {
-                    Id = 2, FirstName = "Enzo",
+                    Id = 1,
+                    FirstName = "Milton",
+                    LastName = "Casco",
+                    Email = "miltoncasco20@seed.com",
+                    Password = GetSHA256("milton123"),
+                    Photo = "foto.jpg",
+                    RoleId = 1,
+                },
+                new Users
+                {
+                    Id = 2,
+                    FirstName = "Enzo",
                     LastName = "Perez",
                     Email = "enzopere24@seed.com",
                     Password = GetSHA256("enzo123"),
@@ -255,7 +264,7 @@ namespace OngProject.DataAccess
                     Email = "matiasdt@seed.com",
                     Password = GetSHA256("matias123"),
                     Photo = "foto.jpg",
-                    RoleId = 12,
+                    RoleId = 2,
                     SoftDelete = false,
                     TimeStamps = DateTime.UtcNow
                 },
@@ -313,7 +322,7 @@ namespace OngProject.DataAccess
                     FirstName = "Rodrigo",
                     LastName = "Aliendro",
                     Email = "aliendro@seed.com",
-                    Password = GetSHA256("rodrigo123"),
+                    Password = GetSHA256("rodri123"),
                     Photo = "foto.jpg",
                     RoleId = 2,
                     SoftDelete = false,
@@ -353,7 +362,13 @@ namespace OngProject.DataAccess
             );
 
             modelBuilder.Entity<Slide>().HasData(
-                    new Slide {Id = 1, ImageUrl = "primerslide.jpg", Text = "Este es el primer slide", Order = 1, OrganizationId = 1,
+                    new Slide
+                    {
+                        Id = 1,
+                        ImageUrl = "primerslide.jpg",
+                        Text = "Este es el primer slide",
+                        Order = 1,
+                        OrganizationId = 1,
                         SoftDelete = false,
                         TimeStamps = DateTime.UtcNow
                     },
