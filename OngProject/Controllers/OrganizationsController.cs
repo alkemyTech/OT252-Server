@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
@@ -14,19 +16,19 @@ namespace OngProject.Controllers
 
         private readonly IOrganizationsService _organizationsService;
 
-        public OrganizationsController(OrganizationsService organizationsService)
+        public OrganizationsController(IOrganizationsService organizationsService)
         {
             _organizationsService = organizationsService;
         }   
 
-        [Route("GetAll")]
+        [Route("public")]
         [HttpGet]
-        public ActionResult <IEnumerable<Organization>> GetAll()
+        public async Task<ActionResult<IEnumerable<OrganizationDTO>>> GetAll()
         {
 
             try
             {
-                var organizationList = _organizationsService.GetAll();
+                var organizationList = await _organizationsService.GetAll();
 
                 return Ok(organizationList);
             }
@@ -41,11 +43,11 @@ namespace OngProject.Controllers
 
         
         [HttpGet("{id}")]
-        public ActionResult<Organization> Get(int id)
+        public async Task<ActionResult<OrganizationDTO>> Get(int id)
         {
             try
             {
-                var organization = _organizationsService.GetById(id);
+                var organization = await _organizationsService.GetById(id);
 
                 return Ok(organization);
             }

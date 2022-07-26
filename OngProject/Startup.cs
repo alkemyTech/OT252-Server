@@ -1,12 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using OngProject.Core.Business;
 using OngProject.Core.Helper;
@@ -16,9 +13,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using OngProject.Repositories.Interfaces;
 using OngProject.Repositories;
+using Amazon.S3;
 
 namespace OngProject
 {
@@ -40,32 +37,36 @@ namespace OngProject
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OngProject", Version = "v1" });
             });
-
-
-           
-
-            //services.AddScoped<ITestimonialsService, TestimonialsService>();
-
-           
-            services.AddScoped<ISendGrid, SendGridHelper>();
-
-
+  
 
             services.AddDbContext<ApplicationDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-           services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddScoped<ISendGrid, SendGridHelper>();
-           services.AddScoped<ITestimonialsService, TestimonialsService>();
+            services.AddScoped<ITestimonialsService, TestimonialsService>();
             services.AddScoped<ISlideService, SlideService>();
-            services.AddScoped<IMemberService, MemberService>();
+
+            services.AddScoped<IOrganizationsService, OrganizationsService>();
+
+
+            
+            services.AddScoped<INewsService, NewsService>();
 
 
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-           
-            //services.AddScoped<ITestimonialsService, TestimonialsService>();
+
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IContactService, ContactService>();
+            services.AddScoped<IImageHelper, ImageHelper>();
+
+    
+            
+
 
         }
 
