@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
@@ -22,6 +23,7 @@ namespace OngProject.Controllers
 
         [Route("GetAll")]
         [HttpGet]
+        [Authorize]
         public ActionResult <IEnumerable<Testimony>> GetAll()
         {
 
@@ -42,6 +44,7 @@ namespace OngProject.Controllers
 
         
         [HttpGet("{id}")]
+        [Authorize]
         public ActionResult<Testimony> Get(int id)
         {
             try
@@ -59,6 +62,7 @@ namespace OngProject.Controllers
 
        
         [HttpPost]
+        [Authorize]
         public ActionResult<Testimony> Post([FromBody] Testimony testimony)
         {
             try
@@ -77,6 +81,7 @@ namespace OngProject.Controllers
 
      
         [HttpPut]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<Testimony> Put([FromBody] Testimony testimony)
         {
             try
@@ -95,6 +100,7 @@ namespace OngProject.Controllers
 
        
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<bool> Delete(int id)
         {
             try
