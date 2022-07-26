@@ -18,6 +18,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using OngProject.Repositories.Interfaces;
 using OngProject.Repositories;
+using Amazon.S3;
 
 namespace OngProject
 {
@@ -54,7 +55,9 @@ namespace OngProject
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+
            //services.AddScoped<ITestimonialsService, TestimonialsService>();
+
 
 
            services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -64,6 +67,7 @@ namespace OngProject
             services.AddScoped<ICategoryService, CategoryService>();
 
            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IImageHelper, ImageHelper>();
            
             //services.AddScoped<ITestimonialsService, TestimonialsService>();
 
