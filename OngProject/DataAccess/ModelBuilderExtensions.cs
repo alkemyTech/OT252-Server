@@ -1,9 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+using OngProject.Entities;
+using System;
+using OngProject.Core.Helper;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
+
 
 namespace OngProject.DataAccess
 {
@@ -11,6 +18,61 @@ namespace OngProject.DataAccess
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
+            
+            modelBuilder.Entity<News>()
+                .HasData(
+                     new News
+                     {
+                         Id = 1,
+                         Name = "Clases de Refuerzo Escolar",
+                         Content = "Gracias a la colaboracion de Docentes vecinos del barrio es que " +
+                                  "logramos lanzar un proyecto para brindar apoyo escolar a los chicos " +
+                                  "del barrio y barrios aledaños que lo necesiten.",
+                         Image = "Agregar ruta de la imagen",
+                         CategoryId = 2,      // Me base en las Categorias que agrego Lucas.
+                         TimeStamps = DateTime.Now,
+                         SoftDelete = false
+                     },
+                     new News
+                     {
+                         Id = 2,
+                         Name = "Futbol y Danza Juvenil",
+                         Content = "Con la Ayuda del Club 25 de Mayo, lanzamos las clases de Futbol " +
+                                   "y Danza para los jovenes del barrio, las mismas se impartiran " +
+                                   "los dias sabados por la mañana o la tarde dependiendo de la edad del chico.",
+                         Image = "Agregar ruta de la imagen",
+                         CategoryId = 4,      
+                         TimeStamps = DateTime.Now,
+                         SoftDelete = false
+                     },
+                     new News
+                     {
+                         Id = 3,
+                         Name = "Subsidio Nacional",
+                         Content = "Gracias al apoyo del Gobierno Nacional ahora contamos con un nuevo aporte " +
+                                   "economico que nos permitira brinadar 2 raciones alimentarias diarias a 200 " +
+                                   "personas, pudiendo alcanzar no solo a familias del barrio de La Cava, sino " +
+                                   "tambien de barrios aledños.",
+                         Image = "Agregar ruta de la imagen",
+                         CategoryId = 3,
+                         TimeStamps = DateTime.Now,
+                         SoftDelete = false
+                     },
+                     new News
+                     {
+                         Id = 4,
+                         Name = "Donación Supermercado El Juanito",
+                         Content = "El Supermercado el Juanito, se contacto con nosotros para apoyar a la Orgaización." +
+                                   "El Señor Pascual Perez, dueño del Juanito comenzo a donarnos a partir de hoy 50 Kgs " +
+                                   "de pan por dia, esta aporte no resulta de ran ayuda para poder reforzar nuestras" +
+                                   " raciones que hoy alimentan a 342 familias del barrio de La Cava y barrios aledaños.",
+                         CategoryId = 4,      
+                         TimeStamps = DateTime.Now,
+                         SoftDelete = false
+                     }
+                );
+        }
+=======
             //Add Seed Data Category
             modelBuilder.Entity<Category>()
                 .HasData(
@@ -80,6 +142,318 @@ namespace OngProject.DataAccess
                         "de los niños, niñas y adolescentes al área educativa.", Image = "Agregar ruta de la imagen",
                         TimeStamps = DateTime.Now, SoftDelete = false}
                 );
+
+
+            //Add Seed Data Members
+            modelBuilder.Entity<Member>()
+                        .HasData(
+                    new Member { Id = 1, Name = "María Iraola", FacebookUrl= "https://www.facebook.com/", InstragramUrl= "https://www.instagram.com/", LinkedinUrl= "https://www.linkedin.com/feed/", Image="Ruta a la magen", TimeStamps = DateTime.Now, SoftDelete = false },
+                    new Member { Id = 2, Name = "Marita Gomez", FacebookUrl = "https://www.facebook.com/", InstragramUrl = "https://www.instagram.com/", LinkedinUrl = "https://www.linkedin.com/feed/", Image = "Ruta a la magen", TimeStamps = DateTime.Now, SoftDelete = false },
+                    new Member { Id = 3, Name = "Miriam Rodriguez", FacebookUrl = "https://www.facebook.com/", InstragramUrl = "https://www.instagram.com/", LinkedinUrl = "https://www.linkedin.com/feed/", Image = "Ruta a la magen", TimeStamps = DateTime.Now, SoftDelete = false },
+                    new Member { Id = 4, Name = "Cecilia Mendez", FacebookUrl = "https://www.facebook.com/", InstragramUrl = "https://www.instagram.com/", LinkedinUrl = "https://www.linkedin.com/feed/", Image = "Ruta a la magen", TimeStamps = DateTime.Now, SoftDelete = false },
+                    new Member { Id = 5, Name = "Rodrigo Fuentes", FacebookUrl = "https://www.facebook.com/", InstragramUrl = "https://www.instagram.com/", LinkedinUrl = "https://www.linkedin.com/feed/", Image = "Ruta a la magen", TimeStamps = DateTime.Now, SoftDelete = false },
+                    new Member { Id = 6, Name = "María Garcia", FacebookUrl = "https://www.facebook.com/", InstragramUrl = "https://www.instagram.com/", LinkedinUrl = "https://www.linkedin.com/feed/", Image = "Ruta a la magen", TimeStamps = DateTime.Now, SoftDelete = false },
+                    new Member { Id = 7, Name = "Marco Fernandez", FacebookUrl = "https://www.facebook.com/", InstragramUrl = "https://www.instagram.com/", LinkedinUrl = "https://www.linkedin.com/feed/", Image = "Ruta a la magen", TimeStamps = DateTime.Now, SoftDelete = false }
+                    );
+
+            modelBuilder.Entity<Role>().HasData(
+                new Role { Id = 1, SoftDelete = false, Name = "Administrador", Description = "Role Administrator", TimeStamps = DateTime.UtcNow },
+                new Role { Id = 2, SoftDelete = false, Name = "Comun", Description = "Role Common", TimeStamps = DateTime.UtcNow }
+                );
+
+            modelBuilder.Entity<Users>().HasData(
+                new Users
+                {
+                    Id = 1,
+                    FirstName = "Milton",
+                    LastName = "Casco",
+                    Email = "miltoncasco20@seed.com",
+                    Password = EncryptHelper.GetSHA256("milton123"),
+                    Photo = "foto.jpg",
+                    RoleId = 1,
+                },
+                new Users
+                {
+                    Id = 2,
+                    FirstName = "Enzo",
+                    LastName = "Perez",
+                    Email = "enzopere24@seed.com",
+                    Password = EncryptHelper.GetSHA256("enzo123"),
+                    Photo = "foto.jpg",
+                    RoleId = 1,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                },
+                new Users
+                {
+                    Id = 3,
+                    FirstName = "Juan Fernando",
+                    LastName = "Quintero",
+                    Email = "juanfer10@seed.com",
+                    Password = EncryptHelper.GetSHA256("juanfer123"),
+                    Photo = "foto.jpg",
+                    RoleId = 1,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                },
+                new Users
+                {
+                    Id = 4,
+                    FirstName = "Marcelo",
+                    LastName = "Gallardo",
+                    Email = "muñeco@seed.com",
+                    Password = EncryptHelper.GetSHA256("muñeco123"),
+                    Photo = "foto.jpg",
+                    RoleId = 1,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                },
+                new Users
+                {
+                    Id = 5,
+                    FirstName = "Lucas",
+                    LastName = "Beltran",
+                    Email = "lucasbeltran@seed.com",
+                    Password = EncryptHelper.GetSHA256("lucas123"),
+                    Photo = "foto.jpg",
+                    RoleId = 1,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                },
+                new Users
+                {
+                    Id = 6,
+                    FirstName = "Ignacio",
+                    LastName = "Fernandez",
+                    Email = "nacho26@seed.com",
+                    Password = EncryptHelper.GetSHA256("nacho123"),
+                    Photo = "foto.jpg",
+                    RoleId = 1,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                },
+                new Users
+                {
+                    Id = 7,
+                    FirstName = "Leonardo",
+                    LastName = "Ponzio",
+                    Email = "leon23@seed.com",
+                    Password = EncryptHelper.GetSHA256("ponzio123"),
+                    Photo = "foto.jpg",
+                    RoleId = 1,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                },
+                new Users
+                {
+                    Id = 8,
+                    FirstName = "Bruno",
+                    LastName = "Zuculini",
+                    Email = "zuculini@seed.com",
+                    Password = EncryptHelper.GetSHA256("zucu123"),
+                    Photo = "foto.jpg",
+                    RoleId = 1,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                },
+                new Users
+                {
+                    Id = 9,
+                    FirstName = "Gonzalo",
+                    LastName = "Montiel",
+                    Email = "montiel29@seed.com",
+                    Password = EncryptHelper.GetSHA256("gonza123"),
+                    Photo = "foto.jpg",
+                    RoleId = 1,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                },
+                new Users
+                {
+                    Id = 10,
+                    FirstName = "Javier",
+                    LastName = "Pinola",
+                    Email = "javipinola@seed.com",
+                    Password = EncryptHelper.GetSHA256("pinola123"),
+                    Photo = "foto.jpg",
+                    RoleId = 1,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                },
+                new Users
+                {
+                    Id = 11,
+                    FirstName = "Franco",
+                    LastName = "Armani",
+                    Email = "armani1@seed.com",
+                    Password = EncryptHelper.GetSHA256("armani123"),
+                    Photo = "foto.jpg",
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                },
+                new Users
+                {
+                    Id = 12,
+                    FirstName = "Julian",
+                    LastName = "Alvarez",
+                    Email = "julian9@seed.com",
+                    Password = EncryptHelper.GetSHA256("julian123"),
+                    Photo = "foto.jpg",
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                },
+                new Users
+                {
+                    Id = 13,
+                    FirstName = "Ariel",
+                    LastName = "Ortega",
+                    Email = "ariel14@seed.com",
+                    Password = EncryptHelper.GetSHA256("ariel123"),
+                    Photo = "foto.jpg",
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                },
+                new Users
+                {
+                    Id = 14,
+                    FirstName = "Matias",
+                    LastName = "Biscay",
+                    Email = "matiasdt@seed.com",
+                    Password = EncryptHelper.GetSHA256("matias123"),
+                    Photo = "foto.jpg",
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                },
+                new Users
+                {
+                    Id = 15,
+                    FirstName = "Jose",
+                    LastName = "Paradela",
+                    Email = "paradela@seed.com",
+                    Password = EncryptHelper.GetSHA256("jose123"),
+                    Photo = "foto.jpg",
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                },
+                new Users
+                {
+                    Id = 16,
+                    FirstName = "Elias",
+                    LastName = "Gomez",
+                    Email = "eliasgomez@seed.com",
+                    Password = EncryptHelper.GetSHA256("elias123"),
+                    Photo = "foto.jpg",
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                },
+                new Users
+                {
+                    Id = 17,
+                    FirstName = "Esequiel",
+                    LastName = "Barco",
+                    Email = "barco21@seed.com",
+                    Password = EncryptHelper.GetSHA256("barco123"),
+                    Photo = "foto.jpg",
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                },
+                new Users
+                {
+                    Id = 18,
+                    FirstName = "Agustin",
+                    LastName = "Palavecino",
+                    Email = "aguspala@seed.com",
+                    Password = EncryptHelper.GetSHA256("agus123"),
+                    Photo = "foto.jpg",
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                },
+                new Users
+                {
+                    Id = 19,
+                    FirstName = "Rodrigo",
+                    LastName = "Aliendro",
+                    Email = "aliendro@seed.com",
+                    Password = EncryptHelper.GetSHA256("rodri123"),
+                    Photo = "foto.jpg",
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                },
+                new Users
+                {
+                    Id = 20,
+                    FirstName = "Bruno",
+                    LastName = "Zuculini",
+                    Email = "zuculini@seed.com",
+                    Password = EncryptHelper.GetSHA256("zucu123"),
+                    Photo = "foto.jpg",
+                    RoleId = 2,
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                }
+                );
+
+            modelBuilder.Entity<Organization>().HasData(
+                new Organization
+                {
+                    Id = 1,
+                    Name = "Somos Mas",
+                    Image = "somosmas.jpg",
+                    Address = "Direccion Falsa 123",
+                    Email = "somosfundacionmas@gmail.com",
+                    Phone = "1160112988",
+                    WelcomeText = "Bienvenidos nosotros somos Somos Mas",
+                    AboutUsText = "Somos una asociacion civil sin fines de lucro",
+                    FacebookUrl = "facebook.com/Somos_Mas",
+                    InstagramUrl = "instragram.com/SomosMas",
+                    LinkedinUrl = "linkedin.com/SomosMas",
+                    SoftDelete = false,
+                    TimeStamps = DateTime.UtcNow
+                }
+            );
+
+            modelBuilder.Entity<Slide>().HasData(
+                    new Slide
+                    {
+                        Id = 1,
+                        ImageUrl = "primerslide.jpg",
+                        Text = "Este es el primer slide",
+                        Order = 1,
+                        OrganizationId = 1,
+                        SoftDelete = false,
+                        TimeStamps = DateTime.UtcNow
+                    },
+                      new Slide
+                      {
+                          Id = 2,
+                          ImageUrl = "segundoslide.jpg",
+                          Text = "Este es el segundo slide",
+                          Order = 2,
+                          OrganizationId = 1,
+                          SoftDelete = false,
+                          TimeStamps = DateTime.UtcNow
+                      },
+                        new Slide
+                        {
+                            Id = 3,
+                            ImageUrl = "tercerslide.jpg",
+                            Text = "Este es el tercer slide",
+                            Order = 3,
+                            OrganizationId = 1,
+                            SoftDelete = false,
+                            TimeStamps = DateTime.UtcNow
+                        }
+                );
         }
+
     }
 }
