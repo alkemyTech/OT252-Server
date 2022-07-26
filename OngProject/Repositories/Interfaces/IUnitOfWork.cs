@@ -6,6 +6,7 @@ namespace OngProject.Repositories.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         public IGenericRepository<Slide> SlideRepository { get;  }
+        public IGenericRepository<Category> CategoryRepository { get; }
         void Save();
     }
 }

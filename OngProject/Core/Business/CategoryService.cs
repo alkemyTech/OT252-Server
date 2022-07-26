@@ -1,6 +1,9 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
+using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -11,11 +14,13 @@ namespace OngProject.Core.Business
     public class CategoryService : ICategoryService
     {
 
-        private UnitOfWork _unitOfWork;
+        private IUnitOfWork _unitOfWork;
+        private CategoryMapper _categoryMapper;
 
-        public CategoryService(UnitOfWork unitOfWork)
+        public CategoryService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+            _categoryMapper = new CategoryMapper();
         }
 
         public bool Delete(int id)
@@ -28,9 +33,11 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Category> GetAll()
+        public async Task<IEnumerable<CategoryDto>> GetAll()
         {
-            throw new NotImplementedException();
+            var categories = await _unitOfWork.CategoryRepository.GetAll();
+            var categoriesDto = _categoryMapper.categoryListDto(categories);
+            return categoriesDto;
         }
 
         public Category GetById(int? id)
