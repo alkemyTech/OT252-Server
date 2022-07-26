@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
@@ -15,21 +17,23 @@ namespace OngProject.Controllers
 
         private readonly ICategoryService _categoryService;
 
-        public CategoryController(CategoryService categoryService)
+        public CategoryController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }   
 
         [Route("GetAll")]
         [HttpGet]
-        public ActionResult <IEnumerable<News>> GetAll()
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAll()
         {
-
             try
             {
-                var newsList = _categoryService.GetAll();
-
-                return Ok(newsList);
+                var categoryList = await _categoryService.GetAll();
+                if(categoryList == null)
+                {
+                    return NotFound("No hay registros");
+                }
+                return Ok(categoryList);
             }
             catch (Exception ex)
             {
