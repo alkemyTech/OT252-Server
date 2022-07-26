@@ -1,10 +1,11 @@
-﻿using OngProject.Entities;
+using OngProject.Entities;
 using System;
 
 namespace OngProject.Repositories.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
+
         public IGenericRepository<Slide> SlideRepository { get; }
         public IGenericRepository<Category> CategoryRepository { get; }
         public IGenericRepository<News> NewsRepository { get; }
@@ -16,6 +17,14 @@ namespace OngProject.Repositories.Interfaces
         public IGenericRepository<Organization> OrganizationRepository { get; }
         public IGenericRepository<Contact> ContactsRepository { get; }
         public IGenericRepository<Comment> CommentRepository { get; }
+
+
+
+        IGenericRepository<Contact> ContactsRepository { get; }
+
+        public IGenericRepository<Slide> SlideRepository { get;  }
+        public IGenericRepository<Category> CategoryRepository { get; }
+
 
         void Save();
     }

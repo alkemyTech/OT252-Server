@@ -28,7 +28,9 @@ namespace OngProject.Repositories
 
         private IGenericRepository<Contact> _contactsRepository;
 
+
         private IGenericRepository<Comment> _commentRepository;
+
 
 
         public UnitOfWork(ApplicationDbContext context)
@@ -148,6 +150,7 @@ namespace OngProject.Repositories
             }
         }
 
+
         public IGenericRepository<Comment> CommentRepository
         {
             get
@@ -159,6 +162,7 @@ namespace OngProject.Repositories
                 return _commentRepository;
             }
         }
+
 
         public IGenericRepository<Contact> ContactsRepository
         {
