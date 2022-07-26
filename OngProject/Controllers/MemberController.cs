@@ -16,20 +16,24 @@ namespace OngProject.Controllers
 
         private readonly IMemberService memberService;
 
-        public MemberController(MemberService memberService)
+        public MemberController(IMemberService memberService)
         {
             this.memberService = memberService;
         }
 
-        [Route("GetAll")]
+        [Route("/Members")]
         [HttpGet]
 
-        public ActionResult<IEnumerable<Member>> GetAll()
+        public async Task<ActionResult<IEnumerable<Member>>> GetAll()
         {
             try
             {
-                var memberList = memberService.GetAll();
-                return Ok(memberList);
+                var memberList =await memberService.GetAll();
+                if(memberList == null)
+                {
+                    return NotFound();
+                }
+                    return Ok(memberList);
             }
             catch (Exception ex)
             {
