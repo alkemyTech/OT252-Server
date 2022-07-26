@@ -394,6 +394,106 @@ namespace OngProject.DataAccess
                             TimeStamps = DateTime.UtcNow
                         }
                 );
+
+            modelBuilder.Entity<News>()
+                .HasData(
+                    new News
+                    {
+                        Id = 1, Name = "Clases de Refuerzo Escolar", 
+                        Content = "Gracias a la colaboracion de Docentes vecinos del barrio es que " +
+                        "logramos lanzar un proyecto para brindar apoyo escolar a los chicos " +
+                        "del barrio y barrios aledaños que lo necesiten.",
+                        Image = "Agregar ruta de la imagen",
+                        CategoryId = 2, TimeStamps = DateTime.Now, SoftDelete = false
+
+                    },
+                    new News
+                    {
+                        Id = 2,
+                        Name = "Futbol y Danza Juvenil",
+                        Content = "Con la Ayuda del Club 25 de Mayo, lanzamos las clases de Futbol " +
+                        "y Danza para los jovenes del barrio, las mismas se impartiran " +
+                        "los dias sabados por la mañana o la tarde dependiendo de la edad del chico.",
+                        Image = "Agregar ruta de la imagen",
+                        CategoryId = 4,
+                        TimeStamps = DateTime.Now,
+                        SoftDelete = false
+
+                    },
+                    new News
+                    {
+                        Id = 3,
+                        Name = "Subsidio Nacional",
+                        Content = "Ahora contamos con un nuevo aporte " +
+                        "economico que nos permitira brinadar 2 raciones alimentarias diarias a 200 " +
+                        "personas, pudiendo alcanzar tambien a barrios aledños.",
+                        Image = "Agregar ruta de la imagen",
+                        CategoryId = 3,
+                        TimeStamps = DateTime.Now,
+                        SoftDelete = false
+
+                    },
+                    new News
+                    {
+                        Id = 4,
+                        Name = "Donación Supermercado El Juanito",
+                        Content = "El Señor Pascual Perez, dueño del Juanito comenzo a donarnos a partir de hoy 50 Kgs " +
+                        "de pan por dia, podemos reforzar nuestras" +
+                        " raciones que hoy alimentan a 342 familias del barrio de La Cava y barrios aledaños.",
+                        Image = "Agregar ruta de la imagen",
+                        CategoryId = 4,
+                        TimeStamps = DateTime.Now,
+                        SoftDelete = false
+
+                    }
+
+                );
+
+            //Add Seed Data Comment
+            modelBuilder.Entity<Comment>()
+                .HasData(
+                    new Comment
+                    {
+                        Id=1, User_Id = 7, 
+                        Body = "Con esto se siguen expandiendo nuestros diferentes refuerzos educativos para niños, niñas " +
+                        "y jóvenes", News_Id = 1, TimeStamps = DateTime.Now, SoftDelete = false
+                    },
+                    new Comment
+                    {
+                        Id=2, User_Id = 1, 
+                        Body = "Estos talleres ayudan a que los participantes también puedan divertirse y practica " +
+                        "deportes, socializando con sus pares", News_Id = 2, TimeStamps = DateTime.Now, SoftDelete = false
+                    },
+                    new Comment
+                    {
+                        Id=3, User_Id = 4, 
+                        Body = "Esta ayuda del gobierno llega en un buen momento y es perfecto para apoyar a las familias " +
+                        "y llevar alimento a las diferentes personas que lo necesiten ", 
+                        News_Id = 3, TimeStamps = DateTime.Now, SoftDelete = false 
+                    },
+                    new Comment
+                    {
+                        Id=4, User_Id = 5, 
+                        Body = "Me parece bien que mas actores se esten sumando a esta iniciativa apoyandola con " +
+                        "diferentes aportes", News_Id = 4, TimeStamps = DateTime.Now, SoftDelete = false
+                    }
+                );
+
+            //Add Seed Data Contact
+            modelBuilder.Entity<Contact>()
+                .HasData(
+                    new Contact
+                    {
+                        Id = 1, Name = "Juan Perez", Phone = 984576543, Email = "juan.perez@correo.com",
+                        Message = "Este es un mensaje", TimeStamps = DateTime.Now, SoftDelete = false
+                    },
+                    new Contact
+                    {
+                        Id = 2, Name = "Maria Gomez", Phone = 115433764, Email = "maria.gomez@correo.com",
+                        Message = "Este es otro mensaje", TimeStamps = DateTime.Now, SoftDelete = false
+                    }
+                );
+
         }
 
    

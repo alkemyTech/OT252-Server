@@ -4,6 +4,7 @@ using OngProject.Core.Interfaces;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
@@ -14,7 +15,7 @@ namespace OngProject.Controllers
 
         private readonly INewsService newService;
 
-        public NewsController(NewsService newService)
+        public NewsController(INewsService newService)
         {
             this.newService = newService;
         }   
@@ -108,6 +109,25 @@ namespace OngProject.Controllers
                 return BadRequest(ex.Message);  
             }
             
+        }
+
+        [HttpGet("{idNews}/comments")]
+        
+        public async Task<ActionResult<IEnumerable<Comment>>> GetComments(int idNews)
+        {
+            try
+            {
+                var comments = await newService.FindComment(c => c.News_Id == idNews);
+                if(comments == null)
+                {
+                    return NotFound("No hay comentarios");
+                }
+                return Ok(comments);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

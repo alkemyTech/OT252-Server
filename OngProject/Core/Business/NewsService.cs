@@ -1,6 +1,7 @@
 ﻿using OngProject.Core.Interfaces;
 using OngProject.Entities;
 using OngProject.Repositories;
+using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -11,9 +12,9 @@ namespace OngProject.Core.Business
     public class NewsService : INewsService
     {
 
-        private UnitOfWork _unitOfWork;
+        private IUnitOfWork _unitOfWork;
 
-        public NewsService(UnitOfWork unitOfWork)
+        public NewsService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -24,7 +25,7 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public IEnumerable<News> Find(Expression<Func<News, bool>> predicate)
+        public  IEnumerable<News> Find(Expression<Func<News, bool>> predicate)
         {
             throw new NotImplementedException();
         }
@@ -47,6 +48,16 @@ namespace OngProject.Core.Business
         public News Update(News news)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Comment>> FindComment(Expression<Func<Comment, bool>> predicate)
+        {
+            var comment = await _unitOfWork.CommentRepository.Find(predicate);
+            if(comment == null)
+            {
+                return null;
+            }
+            return comment;
         }
     }
 }

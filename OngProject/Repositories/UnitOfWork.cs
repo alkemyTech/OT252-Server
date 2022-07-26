@@ -26,6 +26,10 @@ namespace OngProject.Repositories
 
         private IGenericRepository<Organization> _organizationRepository;
 
+        private IGenericRepository<Contact> _contactsRepository;
+
+        private IGenericRepository<Comment> _commentRepository;
+
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -52,7 +56,7 @@ namespace OngProject.Repositories
             }
         }
 
-        public IGenericRepository<Testimony> _TestimonialsRepository
+        public IGenericRepository<Testimony> TestimonialsRepository
         {
             get
             {
@@ -90,7 +94,7 @@ namespace OngProject.Repositories
             }
         }
 
-        public IGenericRepository<Activity> ActivitiyRepository
+        public IGenericRepository<Activity> ActivityRepository
         {
             get
             {
@@ -141,6 +145,30 @@ namespace OngProject.Repositories
                     _organizationRepository = new GenericRepository<Organization>(_context);
                 }
                 return _organizationRepository;
+            }
+        }
+
+        public IGenericRepository<Comment> CommentRepository
+        {
+            get
+            {
+                if (_commentRepository == null)
+                {
+                    _commentRepository = new GenericRepository<Comment>(_context);
+                }
+                return _commentRepository;
+            }
+        }
+
+        public IGenericRepository<Contact> ContactsRepository
+        {
+            get
+            {
+                if (_contactsRepository == null)
+                {
+                    _contactsRepository = new GenericRepository<Contact>(_context);
+                }
+                return _contactsRepository;
             }
         }
 

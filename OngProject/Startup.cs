@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using OngProject.Repositories.Interfaces;
 using OngProject.Repositories;
 
@@ -59,10 +58,12 @@ namespace OngProject
             services.AddScoped<ISendGrid, SendGridHelper>();
            services.AddScoped<ITestimonialsService, TestimonialsService>();
             services.AddScoped<ISlideService, SlideService>();
+            //services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<INewsService, NewsService>();
 
 
-           
-           services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
            
             //services.AddScoped<ITestimonialsService, TestimonialsService>();
 
