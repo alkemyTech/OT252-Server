@@ -71,8 +71,16 @@ namespace OngProject.DataAccess
                          SoftDelete = false
                      }
                 );
-        }
-=======
+            //Add Sedd Data Testimomios
+            modelBuilder.Entity<Testimony>()
+                .HasData(
+                new Testimony
+                {
+                    
+                }
+                );
+        
+
             //Add Seed Data Category
             modelBuilder.Entity<Category>()
                 .HasData(
