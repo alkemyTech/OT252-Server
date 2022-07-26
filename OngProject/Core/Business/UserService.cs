@@ -29,21 +29,21 @@ namespace OngProject.Core.Business
             this.configuration = configuration;
         }
 
-        public UserResponse Login(string emial, string password)
-        {
-            if (ExisteUsuario(emial))
-            {
-                UserResponse response = new UserResponse();
-                Users user = unitOfWork.UserRepository.GetByEmail(emial);
-                if (!VerificarPassword (password, user.PasswordHash, user.PasswordSalt)) return null;
+        //public UserResponse Login(string emial, string password)
+        //{
+        //    if (ExisteUsuario(emial))
+        //    {
+        //        UserResponse response = new UserResponse();
+        //        Users user = unitOfWork.UserRepository.GetByEmail(emial);
+        //        if (!VerificarPassword (password, user.PasswordHash, user.PasswordSalt)) return null;
                 
-                response.Email = user.Email;
-                response.RoleId = user.RoleId;
-                response.UserId = user.Id;
-                return response;
-            }
-            return null;
-        }
+        //        response.Email = user.Email;
+        //        response.RoleId = user.RoleId;
+        //        response.UserId = user.Id;
+        //        return response;
+        //    }
+        //    return null;
+        //}
         private bool ExisteUsuario(string email)
         {
             var usuario = unitOfWork.UserRepository.Find(b => b.Email == email);
@@ -51,12 +51,12 @@ namespace OngProject.Core.Business
                     return true;
             return false;
         }
-        private  Task<Users> GeyByEmail(string email)
-        {
-            var usuario = unitOfWork.UserRepository.Find(b => b.Email == email).;
-            return usuario;
+        //private  Task<Users> GeyByEmail(string email)
+        //{
+        //    var usuario = unitOfWork.UserRepository.Find(b => b.Email == email).;
+        //    return usuario;
             
-        }
+        //}
         private bool VerificarPassword(string pass, byte[] pHash, byte[]pSalt)
         {
             var hMac = new HMACSHA512(pSalt);
