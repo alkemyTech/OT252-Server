@@ -15,28 +15,35 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using OngProject.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace OngProject.Core.Business
 {
-    public class UserService:IUserService
+    public class UserService : IUserService
     {
         private readonly UnitOfWork unitOfWork;
+        protected readonly ApplicationDbContext context;
+        protected DbSet<Users> entities;
+
 
         private readonly IConfiguration configuration;
-        public UserService(UnitOfWork uow, IConfiguration configuration)
+        public UserService(UnitOfWork unitOfWork, IConfiguration configuration,ApplicationDbContext context )
         {
-            this.unitOfWork = uow;
+            this.unitOfWork = unitOfWork;
             this.configuration = configuration;
+            this.entities = context.Set<Users>();
+
         }
 
         public UserResponse Login(string emial, string password)
         {
-            if (unitOfWork.UserRepository.Existeusuario(emial))
+            if (Existeusuario(emial))
             {
                 UserResponse response = new UserResponse();
-                Users user = unitOfWork.UserRepository.GetByEmail(emial);
-                if (!VerificarPassword (password, user.PasswordHash, user.PasswordSalt)) return null;
-                
+                Users user = GetByEmail(emial);
+                if (!VerificarPassword(password, user.PasswordHash, user.PasswordSalt)) return null;
+
                 response.Email = user.Email;
                 response.RoleId = user.RoleId;
                 response.UserId = user.Id;
@@ -44,7 +51,17 @@ namespace OngProject.Core.Business
             }
             return null;
         }
-        
+        private bool Existeusuario(string email)
+        {
+            var usuario = unitOfWork.UserRepository.Find(b => b.Email == email);
+            if (usuario is null) return false;
+            return true;
+        }
+        public Users GetByEmail(string email)
+        {
+            return entities.FirstOrDefault(a => a.Email == email);
+        }
+
         private bool VerificarPassword(string pass, byte[] pHash, byte[]pSalt)
         {
             var hMac = new HMACSHA512(pSalt);

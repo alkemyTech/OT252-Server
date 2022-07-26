@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -23,9 +24,17 @@ namespace OngProject.Controllers
             this.usuarioService = usuarioService;
         }
         [HttpPost]
-        public ActionResult Login()
+        public ActionResult Login([FromBody] UserRequest req)
         {
-            return Ok();
+            var response = usuarioService.Login(req.Email, req.Password);
+            if (response is null) return Unauthorized();
+            var token = usuarioService.GetToken(response);
+            return Ok(new
+            {
+                token = token,
+                usuario = response
+
+            });
         }
 
         [HttpPost("Registro")]
