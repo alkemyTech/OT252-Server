@@ -54,14 +54,15 @@ namespace OngProject
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+           //services.AddScoped<ITestimonialsService, TestimonialsService>();
+
+
            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ISendGrid, SendGridHelper>();
            services.AddScoped<ITestimonialsService, TestimonialsService>();
             services.AddScoped<ISlideService, SlideService>();
             services.AddScoped<ICategoryService, CategoryService>();
 
-
-           
            services.AddScoped<IUnitOfWork, UnitOfWork>();
            
             //services.AddScoped<ITestimonialsService, TestimonialsService>();
