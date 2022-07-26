@@ -20,8 +20,10 @@ namespace OngProject.Core.Mapper
                Phone = organization.Phone,
                Image = organization.Image,
                AboutUsText = organization.AboutUsText,
-               WelcomeText = organization.WelcomeText
-
+               WelcomeText = organization.WelcomeText,
+               FacebookUrl = organization.FacebookUrl,
+               LinkedinUrl = organization.LinkedinUrl,
+               InstagramUrl = organization.InstagramUrl,
             };
 
             return organizationDto;
@@ -37,7 +39,10 @@ namespace OngProject.Core.Mapper
                 Phone = organizationDto.Phone,
                 Image = organizationDto.Image,
                 AboutUsText = organizationDto.AboutUsText,
-                WelcomeText = organizationDto.WelcomeText
+                WelcomeText = organizationDto.WelcomeText,
+                FacebookUrl = organizationDto.FacebookUrl,
+                InstagramUrl = organizationDto.InstagramUrl,
+                LinkedinUrl = organizationDto.LinkedinUrl,
             };
 
             return organization;
