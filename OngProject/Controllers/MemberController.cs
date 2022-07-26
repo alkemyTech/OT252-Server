@@ -16,12 +16,12 @@ namespace OngProject.Controllers
 
         private readonly IMemberService memberService;
 
-        public MemberController(MemberService memberService)
+        public MemberController(IMemberService memberService)
         {
             this.memberService = memberService;
         }
 
-        [Route("/members")]
+        [Route("/Members")]
         [HttpGet]
 
         public async Task<ActionResult<IEnumerable<Member>>> GetAll()
