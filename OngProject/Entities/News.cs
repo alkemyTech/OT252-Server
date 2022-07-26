@@ -20,7 +20,6 @@ namespace OngProject.Entities
         [Required]
         public string Image { get; set; }
        
-        [ForeignKey("Category")]
         [Required]
         public int CategoryId { get; set; }
         public Category Category { get; set; }

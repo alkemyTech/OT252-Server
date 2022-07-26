@@ -49,10 +49,23 @@ namespace OngProject
             services.AddScoped<ISendGrid, SendGridHelper>();
             services.AddScoped<ITestimonialsService, TestimonialsService>();
             services.AddScoped<ISlideService, SlideService>();
+
             services.AddScoped<IOrganizationsService, OrganizationsService>();
+
+
+            //services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<INewsService, NewsService>();
+
+
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IContactService, ContactService>();
             services.AddScoped<IImageHelper, ImageHelper>();
+
+    
+            //services.AddScoped<ITestimonialsService, TestimonialsService>();
 
 
         }
