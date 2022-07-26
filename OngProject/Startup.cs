@@ -41,6 +41,20 @@ namespace OngProject
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OngProject", Version = "v1" });
             });
 
+            services.AddDbContext<ApplicationDbContext>(options => {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
+            //services.AddScoped<ITestimonialsService, TestimonialsService>();
+            services.AddScoped<IContactService, ContactService>();
+            services.AddScoped<ISendGrid, SendGridHelper>();
+
+
+           
+           //services.AddScoped<ITestimonialsService, TestimonialsService>();
 
            
 
