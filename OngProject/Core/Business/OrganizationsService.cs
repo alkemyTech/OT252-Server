@@ -1,6 +1,9 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
+using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -10,10 +13,10 @@ namespace OngProject.Core.Business
 {
     public class OrganizationsService : IOrganizationsService
     {
+        private readonly OrganizationMapper mapper = new OrganizationMapper();
+        private IUnitOfWork _unitOfWork;
 
-        private UnitOfWork _unitOfWork;
-
-        public OrganizationsService(UnitOfWork unitOfWork)
+        public OrganizationsService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -23,27 +26,60 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Organization> Find(Expression<Func<Organization, bool>> predicate)
+        public Task<IEnumerable<OrganizationDTO>> Find(Expression<Func<Organization, bool>> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Organization> GetAll()
+        public async Task<IEnumerable<OrganizationDTO>> GetAll()
+        {
+            try
+            {
+                List<Organization> lista = (List<Organization>)await _unitOfWork.OrganizationRepository.GetAll();
+
+                if (lista == null)
+                    return new List<OrganizationDTO>();
+
+                List<OrganizationDTO> listaDto = new List<OrganizationDTO>();
+
+                foreach (Organization organization in lista)
+                {
+                    listaDto.Add(mapper.ToOrganizationDTO(organization));
+                }
+
+                return listaDto;
+            }
+            catch (Exception)
+            {
+
+                return new List<OrganizationDTO>();
+            }
+            
+        }
+
+        public async Task<OrganizationDTO> GetById(int? id)
+        {
+            try
+            {
+                Organization organization = await _unitOfWork.OrganizationRepository.GetById(id);
+
+                OrganizationDTO organizationDto = mapper.ToOrganizationDTO(organization);
+               
+                return organizationDto;
+            }
+            catch (Exception)
+            {
+
+                return new OrganizationDTO();
+            }
+        }
+
+        public Organization Insert(Organization organization)
         {
             throw new NotImplementedException();
         }
 
-        public News GetById(int? id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public News Insert(Organization organization)
-        {
-            throw new NotImplementedException();
-        }
-
-        public News Update(Organization organization)
+        public Organization Update(Organization organization)
         {
             throw new NotImplementedException();
         }
