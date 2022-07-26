@@ -19,7 +19,7 @@ namespace OngProject.Controllers
         }
 
 
-        // GET: api/<CommentsController>
+        [Route("/comments")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Comment>>> Get()
         {
@@ -41,7 +41,7 @@ namespace OngProject.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return "value";
+            return "";
         }
 
         [HttpPost]
