@@ -53,7 +53,7 @@ namespace OngProject
             services.AddScoped<IOrganizationsService, OrganizationsService>();
 
 
-            //services.AddScoped<ICategoryService, CategoryService>();
+            
             services.AddScoped<INewsService, NewsService>();
 
 
@@ -65,7 +65,7 @@ namespace OngProject
             services.AddScoped<IImageHelper, ImageHelper>();
 
     
-            //services.AddScoped<ITestimonialsService, TestimonialsService>();
+            
 
 
         }
