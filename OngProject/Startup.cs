@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using OngProject.Repositories.Interfaces;
 using OngProject.Repositories;
 
@@ -43,15 +42,30 @@ namespace OngProject
 
 
            
+
             //services.AddScoped<ITestimonialsService, TestimonialsService>();
+
+           
             services.AddScoped<ISendGrid, SendGridHelper>();
+
 
 
             services.AddDbContext<ApplicationDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
            //services.AddScoped<ITestimonialsService, TestimonialsService>();
+
+
            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ISendGrid, SendGridHelper>();
+           services.AddScoped<ITestimonialsService, TestimonialsService>();
+            services.AddScoped<ISlideService, SlideService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+
+           services.AddScoped<IUnitOfWork, UnitOfWork>();
+           
+            //services.AddScoped<ITestimonialsService, TestimonialsService>();
 
         }
 
