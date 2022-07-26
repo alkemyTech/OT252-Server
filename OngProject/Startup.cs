@@ -9,8 +9,13 @@ using OngProject.Core.Business;
 using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
 using OngProject.DataAccess;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using OngProject.Repositories.Interfaces;
 using OngProject.Repositories;
+using Amazon.S3;
 
 namespace OngProject
 {
@@ -32,26 +37,23 @@ namespace OngProject
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OngProject", Version = "v1" });
             });
-
-                       
-            services.AddScoped<ISendGrid, SendGridHelper>();
-
-
+  
 
             services.AddDbContext<ApplicationDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddScoped<ISendGrid, SendGridHelper>();
             services.AddScoped<ITestimonialsService, TestimonialsService>();
             services.AddScoped<ISlideService, SlideService>();
             services.AddScoped<IOrganizationsService, OrganizationsService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IContactService, ContactService>();
+            services.AddScoped<IImageHelper, ImageHelper>();
 
-           
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-           
-           
 
         }
 

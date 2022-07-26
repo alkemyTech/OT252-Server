@@ -26,6 +26,8 @@ namespace OngProject.Repositories
 
         private IGenericRepository<Organization> _organizationRepository;
 
+        private IGenericRepository<Contact> _contactsRepository;
+
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -141,6 +143,18 @@ namespace OngProject.Repositories
                     _organizationRepository = new GenericRepository<Organization>(_context);
                 }
                 return _organizationRepository;
+            }
+        }
+
+        public IGenericRepository<Contact> ContactsRepository
+        {
+            get
+            {
+                if (_contactsRepository == null)
+                {
+                    _contactsRepository = new GenericRepository<Contact>(_context);
+                }
+                return _contactsRepository;
             }
         }
 
