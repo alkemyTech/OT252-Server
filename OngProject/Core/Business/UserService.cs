@@ -75,7 +75,7 @@ namespace OngProject.Core.Business
             {
                 new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
                 new Claim(JwtRegisteredClaimNames.NameId, usuario.UserId.ToString()),
-                new Claim(ClaimTypes.Role, usuario.RoleId.ToString())
+                new Claim(ClaimTypes.Role, usuario.Role.Name)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
