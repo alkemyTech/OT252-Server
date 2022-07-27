@@ -46,7 +46,7 @@ namespace OngProject.Controllers
 
         
         [HttpGet("/categories")]
-        public async Task<ActionResult<Category>> Get(int id)
+        public async Task<ActionResult<CategoryDto>> Get(int id)
         {
             try
             {

@@ -40,14 +40,15 @@ namespace OngProject.Core.Business
             return categoriesDto;
         }
 
-        public async Task<Category> GetById(int? id)
+        public async Task<CategoryDto> GetById(int? id)
         {
             var category = await _unitOfWork.CategoryRepository.GetById(id);
             if(category == null)
             {
                 return null;
             }
-            return category;
+            var categoryDto = _categoryMapper.ConverToDto(category);
+            return categoryDto;
             
         }
 
