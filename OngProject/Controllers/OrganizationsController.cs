@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
@@ -23,6 +24,7 @@ namespace OngProject.Controllers
 
         [Route("public")]
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<OrganizationDTO>>> GetAll()
         {
 
@@ -43,6 +45,7 @@ namespace OngProject.Controllers
 
         
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<OrganizationDTO>> Get(int id)
         {
             try
@@ -60,6 +63,7 @@ namespace OngProject.Controllers
 
        
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<News> Post([FromBody] Organization organization)
         {
             try
@@ -78,6 +82,7 @@ namespace OngProject.Controllers
 
      
         [HttpPut]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<Organization> Put([FromBody] Organization organization)
         {
             try
@@ -96,6 +101,7 @@ namespace OngProject.Controllers
 
        
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<bool> Delete(int id)
         {
             try

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
 using System;
@@ -9,6 +10,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CommentsController : ControllerBase
     {
         private readonly ICommentsService commentService;
@@ -17,7 +19,6 @@ namespace OngProject.Controllers
         {
             this.commentService = commentService;
         }
-
 
         [Route("/comments")]
         [HttpGet]
