@@ -20,5 +20,13 @@ namespace OngProject.Core.Mapper
             }
             return categoryDtos;
         }
+
+        public CategoryDto ConverToDto(Category category)
+        {
+            var categoryDto = new CategoryDto();
+            categoryDto.Name = category.Name;
+         
+            return categoryDto;
+        }
     }
 }

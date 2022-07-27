@@ -40,9 +40,16 @@ namespace OngProject.Core.Business
             return categoriesDto;
         }
 
-        public Category GetById(int? id)
+        public async Task<CategoryDto> GetById(int? id)
         {
-            throw new NotImplementedException();
+            var category = await _unitOfWork.CategoryRepository.GetById(id);
+            if(category == null)
+            {
+                return null;
+            }
+            var categoryDto = _categoryMapper.ConverToDto(category);
+            return categoryDto;
+            
         }
 
         public News Insert(Category category)
