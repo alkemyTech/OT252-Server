@@ -95,7 +95,7 @@ namespace OngProject.Controllers
             try
             {
                 var deleteMember = memberService.Delete(id);
-                if (!deleteMember)
+                if (deleteMember)
                 {
                     return NotFound();
                 }
