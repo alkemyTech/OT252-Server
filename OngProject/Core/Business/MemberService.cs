@@ -25,7 +25,12 @@ namespace OngProject.Core.Business
 
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            var deleteMember = _unitOfWork.MemberRepository.GetById(id);
+            if (deleteMember == null)
+            {
+                return false;
+            }
+            return _unitOfWork.MemberRepository.Delete(deleteMember);
         }
 
         public IEnumerable<Member> Find(Expression<Func<Member, bool>> predicate)
