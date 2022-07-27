@@ -24,6 +24,7 @@ namespace OngProject.Controllers
 
         [Route("GetAll")]
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAll()
         {
             try
@@ -46,6 +47,7 @@ namespace OngProject.Controllers
 
         
         [HttpGet("{id}")]
+        [Authorize]
         public ActionResult<Category> Get(int id)
         {
             try
@@ -60,9 +62,9 @@ namespace OngProject.Controllers
             }
             
         }
-
-       
+               
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<Category> Post([FromBody] Category category)
         {
             try
@@ -81,6 +83,7 @@ namespace OngProject.Controllers
 
      
         [HttpPut]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<Category> Put([FromBody] Category category)
         {
             try
@@ -99,6 +102,7 @@ namespace OngProject.Controllers
 
        
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<bool> Delete(int id)
         {
             try
