@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/categories")]
     [ApiController]
     public class CategoryController : ControllerBase
     {
@@ -41,8 +41,6 @@ namespace OngProject.Controllers
 
                 return BadRequest(ex.Message);  
             }
-            
-            
         }
 
         
@@ -103,20 +101,21 @@ namespace OngProject.Controllers
             
         }
 
-       
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Administrador")]
-        public ActionResult<bool> Delete(int id)
+        //[Authorize(Roles = "Administrador")]
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                var deleteCategory = _categoryService.Delete(id);
-
-                return Ok(true);
+                var deleteCategory = await _categoryService.Delete(id);
+                if (!deleteCategory)
+                {
+                    return BadRequest("El registro no existe");
+                }
+                return Ok("Se ha eliminado el registro");
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);  
             }
             

@@ -17,7 +17,7 @@ namespace OngProject.Core.Interfaces
 
         News Insert(Category category);
         News Update(Category category);
-        bool Delete(int id);
+        Task<bool> Delete(int id);
         
 
     }
