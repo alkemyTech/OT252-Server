@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
@@ -9,6 +10,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Administrador")]
     public class RoleController : ControllerBase
     {
         private readonly IRoleService roleService;

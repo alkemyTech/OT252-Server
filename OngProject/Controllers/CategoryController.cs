@@ -24,6 +24,7 @@ namespace OngProject.Controllers
 
         [Route("GetAll")]
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAll()
         {
             try
@@ -45,13 +46,17 @@ namespace OngProject.Controllers
         }
 
         
-        [HttpGet("{id}")]
-        public ActionResult<Category> Get(int id)
+
+        [HttpGet("/categories")]
+        public async Task<ActionResult<CategoryDto>> Get(int id)
         {
             try
             {
-                var category = _categoryService.GetById(id);
-
+                var category =await _categoryService.GetById(id);
+                if (category == null)
+                {
+                    return NotFound();
+                }
                 return Ok(category);
             }
             catch (Exception ex)
@@ -60,9 +65,9 @@ namespace OngProject.Controllers
             }
             
         }
-
-       
+               
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<Category> Post([FromBody] Category category)
         {
             try
@@ -81,6 +86,7 @@ namespace OngProject.Controllers
 
      
         [HttpPut]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<Category> Put([FromBody] Category category)
         {
             try
@@ -99,6 +105,7 @@ namespace OngProject.Controllers
 
        
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<bool> Delete(int id)
         {
             try
