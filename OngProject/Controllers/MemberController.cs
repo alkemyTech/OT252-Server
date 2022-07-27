@@ -57,7 +57,7 @@ namespace OngProject.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("/Members")]
         [Authorize(Roles = "Administrador")]
         public ActionResult<Member> Post([FromBody] Member member)
         {
