@@ -1,4 +1,6 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
@@ -13,6 +15,7 @@ namespace OngProject.Core.Business
     {
 
         private IUnitOfWork _unitOfWork;
+        private NewsMapper mapper;
 
         public NewsService(IUnitOfWork unitOfWork)
         {
@@ -35,14 +38,16 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public async Task<News> GetById(int? id)
+        public async Task<NewsDto> GetById(int? id)
         {
+            mapper = new NewsMapper();
             var news =await _unitOfWork.NewsRepository.GetById(id);
             if (news == null)
             {
                 return null;
             }
-            return news;
+            var newsDto = mapper.ConverToDto(news);
+            return newsDto;
         }
 
         public News Insert(News news)

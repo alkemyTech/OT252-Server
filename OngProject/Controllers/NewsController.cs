@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,7 @@ namespace OngProject.Controllers
 
         
         [HttpGet("/news")]
-        public async Task<ActionResult<News>> Get(int id)
+        public async Task<ActionResult<NewsDto>> Get(int id)
         {
             try
             {
@@ -51,6 +52,7 @@ namespace OngProject.Controllers
                 {
                     return NotFound();
                 }
+                
 
                 return Ok(news);
             }
