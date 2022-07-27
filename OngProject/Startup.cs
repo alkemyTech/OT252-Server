@@ -55,7 +55,7 @@ namespace OngProject
 
             
             services.AddScoped<INewsService, NewsService>();
-
+            services.AddScoped<ILoginService, LoginService>();
 
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
