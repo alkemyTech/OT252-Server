@@ -41,12 +41,16 @@ namespace OngProject.Controllers
         }
 
         
-        [HttpGet("{id}")]
-        public ActionResult<News> Get(int id)
+        [HttpGet("/news")]
+        public async Task<ActionResult<News>> Get(int id)
         {
             try
             {
-                var news = newService.GetById(id);
+                var news =await newService.GetById(id);
+                if (news == null)
+                {
+                    return NotFound();
+                }
 
                 return Ok(news);
             }

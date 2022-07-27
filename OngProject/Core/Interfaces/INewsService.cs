@@ -10,7 +10,7 @@ namespace OngProject.Core.Interfaces
     {
         IEnumerable<News> GetAll();
 
-        News GetById(int? id);
+        Task<News> GetById(int? id);
 
         IEnumerable<News> Find(Expression<Func<News, bool>> predicate);
 

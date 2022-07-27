@@ -35,9 +35,14 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public News GetById(int? id)
+        public async Task<News> GetById(int? id)
         {
-            throw new NotImplementedException();
+            var news =await _unitOfWork.NewsRepository.GetById(id);
+            if (news == null)
+            {
+                return null;
+            }
+            return news;
         }
 
         public News Insert(News news)
