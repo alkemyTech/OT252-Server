@@ -1,6 +1,7 @@
 ﻿using OngProject.Core.Interfaces;
 using OngProject.Entities;
 using OngProject.Repositories;
+using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -11,9 +12,9 @@ namespace OngProject.Core.Business
     public class OrganizationsService : IOrganizationsService
     {
 
-        private UnitOfWork _unitOfWork;
+        private IUnitOfWork _unitOfWork;
 
-        public OrganizationsService(UnitOfWork unitOfWork)
+        public OrganizationsService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

@@ -17,18 +17,19 @@ using System.Text;
 using System.Threading.Tasks;
 using OngProject.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using OngProject.Repositories.Interfaces;
 
 namespace OngProject.Core.Business
 {
     public class UserService : IUserService
     {
-        private readonly UnitOfWork unitOfWork;
+        private readonly IUnitOfWork unitOfWork;
         protected readonly ApplicationDbContext context;
         protected DbSet<Users> entities;
 
 
         private readonly IConfiguration configuration;
-        public UserService(UnitOfWork unitOfWork, IConfiguration configuration,ApplicationDbContext context )
+        public UserService(IUnitOfWork unitOfWork, IConfiguration configuration,ApplicationDbContext context )
         {
             this.unitOfWork = unitOfWork;
             this.configuration = configuration;
