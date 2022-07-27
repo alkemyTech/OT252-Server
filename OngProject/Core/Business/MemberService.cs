@@ -25,13 +25,13 @@ namespace OngProject.Core.Business
 
         public bool Delete(int id)
         {
-            var deleteMember = _unitOfWork.MemberRepository.GetById(id);
-            
-            if (deleteMember == null)
+            // var deleteMember = _unitOfWork.MemberRepository.GetById(id);
+            var memberToDelete = _unitOfWork.MemberRepository.Find(x=>x.Id == id);
+            if (memberToDelete == null)
             {
                 return false;
             }
-            return _unitOfWork.MemberRepository.Delete();
+            return _unitOfWork.MemberRepository.Delete(memberToDelete);
         }
 
         public IEnumerable<Member> Find(Expression<Func<Member, bool>> predicate)
