@@ -11,7 +11,7 @@ namespace OngProject.Core.Interfaces
     {
         Task<IEnumerable<CategoryDto>> GetAll();
 
-        Category GetById(int? id);
+        Task<Category> GetById(int? id);
 
         IEnumerable<Category> Find(Expression<Func<Category, bool>> predicate);
 

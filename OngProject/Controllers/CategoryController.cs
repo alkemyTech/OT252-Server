@@ -45,13 +45,16 @@ namespace OngProject.Controllers
         }
 
         
-        [HttpGet("{id}")]
-        public ActionResult<Category> Get(int id)
+        [HttpGet("/categories")]
+        public async Task<ActionResult<Category>> Get(int id)
         {
             try
             {
-                var category = _categoryService.GetById(id);
-
+                var category =await _categoryService.GetById(id);
+                if (category == null)
+                {
+                    return NotFound();
+                }
                 return Ok(category);
             }
             catch (Exception ex)
