@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -58,8 +59,8 @@ namespace OngProject.Controllers
         }
 
         [HttpPost("/Members")]
-        [Authorize(Roles = "Administrador")]
-        public ActionResult<Member> Post([FromBody] Member member)
+        //[Authorize(Roles = "Administrador")]
+        public ActionResult<MemberDto> Post([FromBody] MemberDto member)
         {
             try
             {
