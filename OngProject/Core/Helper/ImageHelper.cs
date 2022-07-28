@@ -60,7 +60,7 @@ namespace OngProject.Core.Helper
                         await client.PutObjectAsync(request);
                     }
                 }
-                return $"https://{S3Data.BucketName}.s3.amazonaws.com/{filename}";
+                return $"https://{S3Data.BucketName}.s3.amazonaws.com/{filename}.jpg";
 
             }
             catch (Exception ex)

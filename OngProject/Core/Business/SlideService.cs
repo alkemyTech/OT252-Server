@@ -78,7 +78,7 @@ namespace OngProject.Core.Business
             {
                 if (await GetOrder(slideDto))
                 {
-                    await _imageHelper.UploadToS3(slideDto.UrlImage, slideDto.Order.ToString());
+                    slideDto.UrlImage = await _imageHelper.UploadToS3(slideDto.UrlImage, slideDto.Order.ToString());
                     mapper = new SlideMapper();
                     var slide = mapper.ConvertToEntity(slideDto);
                     await _unitOfWork.SlideRepository.Insert(slide);

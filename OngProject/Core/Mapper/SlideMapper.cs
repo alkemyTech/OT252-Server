@@ -36,7 +36,7 @@ namespace OngProject.Core.Mapper
         public Slide ConvertToEntity(SlideDto dto)
         {
             var slide = new Slide();
-            slide.ImageUrl = $"slide{dto.Order.ToString()}.jpg";
+            slide.ImageUrl = dto.UrlImage;
             slide.Text = dto.Text;
             slide.Order = dto.Order;
             slide.OrganizationId = 1;
