@@ -94,7 +94,7 @@ namespace OngProject.Controllers
         }
 
         [HttpDelete("/members")]
-        [Authorize(Roles = "Administrador")]
+        //[Authorize(Roles = "Administrador")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
             try
