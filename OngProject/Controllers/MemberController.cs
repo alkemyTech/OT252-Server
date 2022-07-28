@@ -93,13 +93,13 @@ namespace OngProject.Controllers
 
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("/members")]
         [Authorize(Roles = "Administrador")]
-        public ActionResult<bool> Delete(int id)
+        public async Task<ActionResult<bool>> Delete(int id)
         {
             try
             {
-                var deleteMember = memberService.Delete(id);
+                var deleteMember =await memberService.Delete(id);
                 if (!deleteMember)
                 {
                     return NotFound();

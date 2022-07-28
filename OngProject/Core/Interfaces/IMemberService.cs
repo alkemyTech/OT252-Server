@@ -18,6 +18,6 @@ namespace OngProject.Core.Interfaces
 
         Member Insert(Member member);
         Member Update(Member member);
-        bool Delete(int id);
+        Task<bool> Delete(int id);
     }
 }
