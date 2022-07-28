@@ -18,6 +18,6 @@ namespace OngProject.Core.Interfaces
 
         Slide Insert(Slide slide);
         Slide Update(Slide slide);
-        bool Delete(int id);
+        Task<bool> Delete(int id);
     }
 }

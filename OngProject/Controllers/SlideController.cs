@@ -98,19 +98,17 @@ namespace OngProject.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Administrador")]
-        public ActionResult<bool> Delete(int id)
+
+        public async Task<ActionResult<bool>> Delete(int id)
+
         {
-            try
+            if (await slideService.Delete(id))
             {
-                var deleteSlide = slideService.Delete(id);
-
-                return Ok(true);
+                return Ok();
             }
-            catch (Exception ex)
+            else
             {
-
-                return BadRequest(ex.Message);
+                return BadRequest();
             }
 
         }

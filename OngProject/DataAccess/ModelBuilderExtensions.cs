@@ -1,15 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-
 using OngProject.Entities;
 using System;
 using OngProject.Core.Helper;
-using OngProject.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace OngProject.DataAccess
@@ -18,17 +10,26 @@ namespace OngProject.DataAccess
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            
-            
+
+
             //Add Sedd Data Testimomios
-            //modelBuilder.Entity<Testimony>()
-            //    .HasData(
-            //    new Testimony
-            //    {
-                    
-            //    }
-            //    );
-        
+            modelBuilder.Entity<Testimony>()
+                .HasData(
+                new Testimony
+                { Id=1,Name="Juan Perez",Content= "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                    Image="urlconimagenpersona", SoftDelete = false, TimeStamps= DateTime.Now },
+                new Testimony
+                {
+                    Id = 2, Name = "Micaela Suarez", Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                    Image = "urlconimagenpersona", SoftDelete = false, TimeStamps = DateTime.Now
+                },
+                new Testimony
+                {
+                    Id = 3, Name = "Hernan Gomez", Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                    Image = "urlconimagenpersona", SoftDelete = false, TimeStamps = DateTime.Now
+                }
+                );
+
 
             //Add Seed Data Category
             modelBuilder.Entity<Category>()
