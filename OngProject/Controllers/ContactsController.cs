@@ -25,7 +25,7 @@ namespace OngProject.Controllers
 
        
         [HttpGet]
-        [Authorize(Roles = "Administrador")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<ContactDTO>>> GetAll()
         {
             try
@@ -40,6 +40,7 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Contact>> Get(int id)
         {
             try
@@ -54,6 +55,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<Contact> Post([FromBody] Contact contact)
         {
             try
@@ -71,6 +73,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<Contact> Put([FromBody] Contact contact)
         {
             try
@@ -88,6 +91,7 @@ namespace OngProject.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<bool> Delete(int id)
         {
             try

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
@@ -23,7 +24,7 @@ namespace OngProject.Controllers
 
         [Route("/Members")]
         [HttpGet]
-
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Member>>> GetAll()
         {
             try
@@ -42,6 +43,7 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public ActionResult<Member> Get(int id)
         {
             try
@@ -56,6 +58,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<Member> Post([FromBody] Member member)
         {
             try
@@ -73,6 +76,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<Member> Put([FromBody] Member member)
         {
             try
@@ -89,14 +93,18 @@ namespace OngProject.Controllers
 
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult<bool> Delete(int id)
+        [HttpDelete("/members")]
+        //[Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<bool>> Delete(int id)
         {
             try
             {
-                var deleteMember = memberService.Delete(id);
-
-                return Ok(true);
+                var deleteMember =await memberService.Delete(id);
+                if (deleteMember)
+                {
+                    return Ok();
+                }
+                return NotFound();
             }
             catch (Exception ex)
             {

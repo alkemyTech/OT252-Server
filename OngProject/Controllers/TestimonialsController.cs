@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,13 +17,14 @@ namespace OngProject.Controllers
 
         private readonly ITestimonialsService _testimonialsService;
 
-        public TestimonialsController(TestimonialsService testimonialsService)
+        public TestimonialsController(ITestimonialsService testimonialsService)
         {
             _testimonialsService = testimonialsService;
         } 
 
         [Route("GetAll")]
         [HttpGet]
+        [Authorize]
         public ActionResult <IEnumerable<Testimony>> GetAll()
         {
 
@@ -46,9 +49,9 @@ namespace OngProject.Controllers
         {
             try
             {
-                var news = _testimonialsService.GetById(id);
+                var testimonyDTO = _testimonialsService.GetById(id);
 
-                return Ok(news);
+                return Ok(testimonyDTO);
             }
             catch (Exception ex)
             {
@@ -59,8 +62,10 @@ namespace OngProject.Controllers
 
        
         [HttpPost]
-        public ActionResult<Testimony> Post([FromBody] Testimony testimony)
+        public ActionResult<TestimonyDTO> Post([FromBody] TestimonyDTO testimony)
         {
+
+            
             try
             {
                 var newTestimony = _testimonialsService.Insert(testimony);
@@ -77,7 +82,7 @@ namespace OngProject.Controllers
 
      
         [HttpPut]
-        public ActionResult<Testimony> Put([FromBody] Testimony testimony)
+        public ActionResult<TestimonyDTO> Put([FromBody] TestimonyDTO testimony)
         {
             try
             {
@@ -95,6 +100,7 @@ namespace OngProject.Controllers
 
        
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<bool> Delete(int id)
         {
             try

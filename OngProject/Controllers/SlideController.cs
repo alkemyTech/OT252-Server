@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
@@ -24,7 +25,7 @@ namespace OngProject.Controllers
 
         [Route("GetAll")]
         [HttpGet]
-
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Slide>>> GetAll()
         {
             try
@@ -43,6 +44,7 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Slide>> Get(int id)
         {
             try
@@ -61,7 +63,9 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
+
         public async Task <ActionResult<Slide>> Post(SlideDto slide)
+
         {
             try
             {
@@ -83,6 +87,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<Slide> Put([FromBody] Slide slide)
         {
             try
@@ -100,7 +105,9 @@ namespace OngProject.Controllers
         }
 
         [HttpDelete("{id}")]
+
         public async Task<ActionResult<bool>> Delete(int id)
+
         {
             if (await slideService.Delete(id))
             {

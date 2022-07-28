@@ -23,9 +23,15 @@ namespace OngProject.Core.Business
         }
 
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            var deleteMember =await _unitOfWork.MemberRepository.GetById(id);
+            if (deleteMember == null)
+            {
+                return false;
+            }
+            await _unitOfWork.MemberRepository.Delete(deleteMember);
+            return true;
         }
 
         public IEnumerable<Member> Find(Expression<Func<Member, bool>> predicate)
