@@ -100,7 +100,7 @@ namespace OngProject.Controllers
             try
             {
                 var deleteMember =await memberService.Delete(id);
-                if (!deleteMember)
+                if (deleteMember)
                 {
                     return Ok();
                 }
