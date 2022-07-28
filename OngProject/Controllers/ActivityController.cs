@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
@@ -23,7 +24,7 @@ namespace OngProject.Controllers
 
         [Route("GetAll")]
         [HttpGet]
-
+        [Authorize]
         public ActionResult<IEnumerable<Activity>> GetAll()
         {
             try
@@ -38,6 +39,7 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public ActionResult<Activity> Get(int id)
         {
             try
@@ -52,6 +54,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<Activity> Post([FromBody] Activity activity)
         {
             try
@@ -69,6 +72,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<Activity> Put([FromBody] Activity activity)
         {
             try
@@ -86,6 +90,7 @@ namespace OngProject.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<bool> Delete(int id)
         {
             try
