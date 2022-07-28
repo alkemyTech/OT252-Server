@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -60,13 +61,18 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Slide> Post([FromBody] Slide slide)
+        public async Task <ActionResult<Slide>> Post(SlideDto slide)
         {
             try
             {
-                var newSlide = slideService.Insert(slide);
+                if (await slideService.Insert(slide))
+                {
+                    return Ok(slide);
+                }
+                return BadRequest("Ya existe un slide con ese orden");                
 
-                return Ok(newSlide);
+                
+
             }
             catch (Exception ex)
             {

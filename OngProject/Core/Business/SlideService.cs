@@ -27,9 +27,9 @@ namespace OngProject.Core.Business
         {
             try
             {
-            var slide = await _unitOfWork.SlideRepository.GetById(id);
-            await _unitOfWork.SlideRepository.Delete(slide);
-            _unitOfWork.Save();
+                var slide = await _unitOfWork.SlideRepository.GetById(id);
+                await _unitOfWork.SlideRepository.Delete(slide);
+                _unitOfWork.Save();
                 return true;
 
             }
@@ -64,17 +64,50 @@ namespace OngProject.Core.Business
             var slideDto = mapper.ConverToDto(slide);
             return slideDto;
 
-            
+
         }
 
-        public Slide Insert(Slide slide)
+        public async Task<bool> Insert(SlideDto slideDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (await GetOrder(slideDto))
+                {
+                    mapper = new SlideMapper();
+                    var slide = mapper.ConvertToEntity(slideDto);
+                    await _unitOfWork.SlideRepository.Insert(slide);
+                    _unitOfWork.Save();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public Slide Update(Slide slide)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<bool> GetOrder(SlideDto dto)
+        {
+            var slides = await _unitOfWork.SlideRepository.GetAll();
+            foreach (var item in slides)
+            {
+                if (item.Order == dto.Order)
+                {
+                    return false;
+                }
+            }
+
+            var lastOrder = slides.Last().Order;
+            dto.Order = lastOrder + 1;
+            return true;
+
         }
     }
 }
