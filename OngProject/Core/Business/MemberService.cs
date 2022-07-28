@@ -25,7 +25,6 @@ namespace OngProject.Core.Business
 
         public async Task<bool> Delete(int id)
         {
-<<<<<<< HEAD
             var deleteMember =await _unitOfWork.MemberRepository.GetById(id);
             if (deleteMember == null)
             {
@@ -33,15 +32,6 @@ namespace OngProject.Core.Business
             }
             await _unitOfWork.MemberRepository.Delete(deleteMember);
             return true;
-=======
-            // var deleteMember = _unitOfWork.MemberRepository.GetById(id);
-            var memberToDelete = _unitOfWork.MemberRepository.Find(x=>x.Id == id);
-            if (memberToDelete == null)
-            {
-                return false;
-            }
-            return _unitOfWork.MemberRepository.Delete(memberToDelete);
->>>>>>> 591413cccee3be4f59be820d0ed76c5bbb784fb8
         }
 
         public IEnumerable<Member> Find(Expression<Func<Member, bool>> predicate)
