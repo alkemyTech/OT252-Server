@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
@@ -16,19 +17,23 @@ namespace OngProject.Controllers
 
         private readonly ISlideService slideService;
 
-        public SlideController(SlideService slideService)
+        public SlideController(ISlideService slideService)
         {
             this.slideService = slideService;
         }
 
         [Route("GetAll")]
         [HttpGet]
-
-        public ActionResult<IEnumerable<Slide>> GetAll()
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<Slide>>> GetAll()
         {
             try
             {
-                var slideList = slideService.GetAll();
+                var slideList = await slideService.GetAll();
+                if (slideList == null)
+                {
+                    return NotFound();
+                }
                 return Ok(slideList);
             }
             catch (Exception ex)
@@ -38,11 +43,16 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Slide> Get(int id)
+        [Authorize]
+        public async Task<ActionResult<Slide>> Get(int id)
         {
             try
             {
-                var slide = slideService.GetById(id);
+                var slide = await slideService.GetById(id);
+                if (slide == null)
+                {
+                    return BadRequest();
+                }
                 return Ok(slide);
             }
             catch (Exception ex)
@@ -52,6 +62,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<Slide> Post([FromBody] Slide slide)
         {
             try
@@ -69,6 +80,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<Slide> Put([FromBody] Slide slide)
         {
             try
@@ -86,18 +98,17 @@ namespace OngProject.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<bool> Delete(int id)
+
+        public async Task<ActionResult<bool>> Delete(int id)
+
         {
-            try
+            if (await slideService.Delete(id))
             {
-                var deleteSlide = slideService.Delete(id);
-
-                return Ok(true);
+                return Ok();
             }
-            catch (Exception ex)
+            else
             {
-
-                return BadRequest(ex.Message);
+                return BadRequest();
             }
 
         }

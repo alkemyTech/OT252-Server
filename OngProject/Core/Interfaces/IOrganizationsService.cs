@@ -1,4 +1,5 @@
-﻿using OngProject.Entities;
+﻿using OngProject.Core.Models.DTOs;
+using OngProject.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -8,14 +9,14 @@ namespace OngProject.Core.Interfaces
 {
     public interface IOrganizationsService
     {
-        IEnumerable<Organization> GetAll();
+        Task<IEnumerable<OrganizationDTO>> GetAll();
 
-        News GetById(int? id);
+        Task<OrganizationDTO> GetById(int? id);
 
-        IEnumerable<Organization> Find(Expression<Func<Organization, bool>> predicate);
+        Task<IEnumerable<OrganizationDTO>> Find(Expression<Func<Organization, bool>> predicate);
 
-        News Insert(Organization organization);
-        News Update(Organization organization);
+        Organization Insert(Organization organization);
+        Organization Update(Organization organization);
         bool Delete(int id);
         
 

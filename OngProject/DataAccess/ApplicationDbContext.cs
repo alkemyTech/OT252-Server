@@ -28,6 +28,9 @@ namespace OngProject.DataAccess
         public DbSet<Users> Users { get; set; }
         public DbSet<Activity> Activities { get; set; }
 
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Seed();
+        }
     }
 }

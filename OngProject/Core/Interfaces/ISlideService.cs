@@ -1,4 +1,5 @@
-﻿using OngProject.Entities;
+﻿using OngProject.Core.Models.DTOs;
+using OngProject.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ namespace OngProject.Core.Interfaces
 {
     public interface ISlideService
     {
-        IEnumerable<Slide> GetAll();
+        Task<IEnumerable<SlideDto>> GetAll();
 
-        Slide GetById(int? id);
+        Task<SlideDto> GetById(int? id);
 
         IEnumerable<Slide> Find(Expression<Func<Slide, bool>> predicate);
 
         Slide Insert(Slide slide);
         Slide Update(Slide slide);
-        bool Delete(int id);
+        Task<bool> Delete(int id);
     }
 }

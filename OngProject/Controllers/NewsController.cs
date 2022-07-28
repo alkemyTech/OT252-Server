@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
@@ -14,13 +17,14 @@ namespace OngProject.Controllers
 
         private readonly INewsService newService;
 
-        public NewsController(NewsService newService)
+        public NewsController(INewsService newService)
         {
             this.newService = newService;
         }   
 
         [Route("GetAll")]
         [HttpGet]
+        [Authorize]
         public ActionResult <IEnumerable<News>> GetAll()
         {
 
@@ -40,12 +44,18 @@ namespace OngProject.Controllers
         }
 
         
-        [HttpGet("{id}")]
-        public ActionResult<News> Get(int id)
+
+        [HttpGet("/news")]
+        public async Task<ActionResult<NewsDto>> Get(int id)
         {
             try
             {
-                var news = newService.GetById(id);
+                var news =await newService.GetById(id);
+                if (news == null)
+                {
+                    return NotFound();
+                }
+                
 
                 return Ok(news);
             }
@@ -58,6 +68,7 @@ namespace OngProject.Controllers
 
        
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<News> Post([FromBody] News news)
         {
             try
@@ -76,6 +87,7 @@ namespace OngProject.Controllers
 
      
         [HttpPut]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<News> Put([FromBody] News news)
         {
             try
@@ -94,6 +106,7 @@ namespace OngProject.Controllers
 
        
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<bool> Delete(int id)
         {
             try
@@ -108,6 +121,25 @@ namespace OngProject.Controllers
                 return BadRequest(ex.Message);  
             }
             
+        }
+
+        [HttpGet("{idNews}/comments")]
+        
+        public async Task<ActionResult<IEnumerable<Comment>>> GetComments(int idNews)
+        {
+            try
+            {
+                var comments = await newService.FindComment(c => c.News_Id == idNews);
+                if(comments == null)
+                {
+                    return NotFound("No hay comentarios");
+                }
+                return Ok(comments);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

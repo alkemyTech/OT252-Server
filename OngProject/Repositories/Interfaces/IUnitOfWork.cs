@@ -1,19 +1,30 @@
-﻿using OngProject.Entities;
+using OngProject.Entities;
 using System;
 
 namespace OngProject.Repositories.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IGenericRepository<News> NewsRepository { get;}
-        IGenericRepository<Testimony> TestimonialsRepository { get; }
-        IGenericRepository<Slide> SlideRepository { get; }
-        IGenericRepository<Member> MemberRepository { get; }
-        IGenericRepository<Activity> ActivitiyRepository { get; }
-        IGenericRepository<Role> RoleRepository { get; }
-        IGenericRepository<Users> UserRepository { get; }
-        IGenericRepository<Category> CategoryRepository { get; }
-        IGenericRepository<Organization> OrganizationRepository { get; }
+
+
+        public IGenericRepository<Slide> SlideRepository { get; }
+        public IGenericRepository<Category> CategoryRepository { get; }
+        public IGenericRepository<News> NewsRepository { get; }
+        public IGenericRepository<Testimony> TestimonialsRepository { get; }
+        public IGenericRepository<Member> MemberRepository { get; }
+        public IGenericRepository<Activity> ActivityRepository { get; }
+        public IGenericRepository<Role> RoleRepository { get; }
+        public IGenericRepository<Users> UserRepository { get; }
+        public IGenericRepository<Organization> OrganizationRepository { get; }
+        public IGenericRepository<Contact> ContactsRepository { get; }
+        public IGenericRepository<Comment> CommentRepository { get; }
+
+
+
+        
+
+
+
         void Save();
     }
 }

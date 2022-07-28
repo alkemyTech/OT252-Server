@@ -1,4 +1,6 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
@@ -14,15 +16,29 @@ namespace OngProject.Core.Business
     {
         private IUnitOfWork _unitOfWork;
 
+        private SlideMapper mapper;
+
+
         public SlideService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+            var slide = await _unitOfWork.SlideRepository.GetById(id);
+            await _unitOfWork.SlideRepository.Delete(slide);
+            _unitOfWork.Save();
+                return true;
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public IEnumerable<Slide> Find(Expression<Func<Slide, bool>> predicate)
@@ -30,14 +46,27 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Slide> GetAll()
+        public async Task<IEnumerable<SlideDto>> GetAll()
         {
-            throw new NotImplementedException();
+            mapper = new SlideMapper();
+            var slides = await _unitOfWork.SlideRepository.GetAll();
+            var slideDto = mapper.ConvertListToDto(slides);
+            return slideDto;
+
         }
 
-        public Slide GetById(int? id)
+        public async Task<SlideDto> GetById(int? id)
         {
-            throw new NotImplementedException();
+            mapper = new SlideMapper();
+            var slide = await _unitOfWork.SlideRepository.GetById(id);
+            if (slide == null)
+            {
+                return null;
+            }
+            var slideDto = mapper.ConverToDto(slide);
+            return slideDto;
+
+            
         }
 
         public Slide Insert(Slide slide)

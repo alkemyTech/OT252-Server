@@ -1,4 +1,6 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
@@ -14,15 +16,24 @@ namespace OngProject.Core.Business
     {
         private IUnitOfWork _unitOfWork;
 
+        private MemberMapper memberMapper;
+
+
         public MemberService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            var deleteMember =await _unitOfWork.MemberRepository.GetById(id);
+            if (deleteMember == null)
+            {
+                return false;
+            }
+            await _unitOfWork.MemberRepository.Delete(deleteMember);
+            return true;
         }
 
         public IEnumerable<Member> Find(Expression<Func<Member, bool>> predicate)
@@ -30,12 +41,15 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Member> GetAll()
+        public async Task<IEnumerable<MemberDto>> GetAll()
         {
-            throw new NotImplementedException();
+            memberMapper = new MemberMapper();
+            var listMember =await _unitOfWork.MemberRepository.GetAll();
+            var membersDto = memberMapper.ConvertListToDto(listMember);
+            return membersDto;
         }
 
-        public Member GetById(int? id)
+        public Task<MemberDto> GetById(int? id)
         {
             throw new NotImplementedException();
         }

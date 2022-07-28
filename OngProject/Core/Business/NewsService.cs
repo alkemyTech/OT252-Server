@@ -1,4 +1,6 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
@@ -14,6 +16,9 @@ namespace OngProject.Core.Business
 
         private IUnitOfWork _unitOfWork;
 
+        private NewsMapper mapper;
+
+
         public NewsService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -25,7 +30,7 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public IEnumerable<News> Find(Expression<Func<News, bool>> predicate)
+        public  IEnumerable<News> Find(Expression<Func<News, bool>> predicate)
         {
             throw new NotImplementedException();
         }
@@ -35,9 +40,16 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public News GetById(int? id)
+        public async Task<NewsDto> GetById(int? id)
         {
-            throw new NotImplementedException();
+            mapper = new NewsMapper();
+            var news =await _unitOfWork.NewsRepository.GetById(id);
+            if (news == null)
+            {
+                return null;
+            }
+            var newsDto = mapper.ConverToDto(news);
+            return newsDto;
         }
 
         public News Insert(News news)
@@ -48,6 +60,16 @@ namespace OngProject.Core.Business
         public News Update(News news)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Comment>> FindComment(Expression<Func<Comment, bool>> predicate)
+        {
+            var comment = await _unitOfWork.CommentRepository.Find(predicate);
+            if(comment == null)
+            {
+                return null;
+            }
+            return comment;
         }
     }
 }

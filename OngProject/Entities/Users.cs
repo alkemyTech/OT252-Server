@@ -21,7 +21,7 @@ namespace OngProject.Entities
         [Required]
         public string Email { get; set; }
 
-        [MaxLength(20)]
+        [MaxLength(255)]
         [Required]
         public byte[] PasswordHash { get; set; }
 

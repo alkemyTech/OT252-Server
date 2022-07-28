@@ -1,4 +1,6 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
@@ -14,14 +16,25 @@ namespace OngProject.Core.Business
 
         private IUnitOfWork _unitOfWork;
 
+
+        private CategoryMapper _categoryMapper;
+
+
         public CategoryService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+            _categoryMapper = new CategoryMapper();
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            var category = await _unitOfWork.CategoryRepository.GetById(id);
+            if (category == null)
+            {
+                return false;
+            }
+            await _unitOfWork.CategoryRepository.Delete(category);
+            return true;
         }
 
         public IEnumerable<Category> Find(Expression<Func<Category, bool>> predicate)
@@ -29,14 +42,23 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Category> GetAll()
+        public async Task<IEnumerable<CategoryDto>> GetAll()
         {
-            throw new NotImplementedException();
+            var categories = await _unitOfWork.CategoryRepository.GetAll();
+            var categoriesDto = _categoryMapper.categoryListDto(categories);
+            return categoriesDto;
         }
 
-        public Category GetById(int? id)
+        public async Task<CategoryDto> GetById(int? id)
         {
-            throw new NotImplementedException();
+            var category = await _unitOfWork.CategoryRepository.GetById(id);
+            if(category == null)
+            {
+                return null;
+            }
+            var categoryDto = _categoryMapper.ConverToDto(category);
+            return categoryDto;
+            
         }
 
         public News Insert(Category category)

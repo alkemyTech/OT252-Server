@@ -11,6 +11,6 @@ namespace OngProject.Entities
         public string Body { get; set; }
         [Required]
         public int News_Id { get; set; }
-        public News? News_id { get; set; }
+        public News? News { get; set; }
     }
 }

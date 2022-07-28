@@ -2,52 +2,59 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/categories")]
     [ApiController]
     public class CategoryController : ControllerBase
     {
 
         private readonly ICategoryService _categoryService;
 
-        public CategoryController(CategoryService categoryService)
+        public CategoryController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }   
 
         [Route("GetAll")]
         [HttpGet]
-        public ActionResult <IEnumerable<News>> GetAll()
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAll()
         {
-
             try
             {
-                var newsList = _categoryService.GetAll();
-
-                return Ok(newsList);
+                var categoryList = await _categoryService.GetAll();
+                if(categoryList == null)
+                {
+                    return NotFound("No hay registros");
+                }
+                return Ok(categoryList);
             }
             catch (Exception ex)
             {
 
                 return BadRequest(ex.Message);  
             }
-            
-            
         }
 
         
-        [HttpGet("{id}")]
-        public ActionResult<Category> Get(int id)
+
+        [HttpGet("/categories")]
+        public async Task<ActionResult<CategoryDto>> Get(int id)
         {
             try
             {
-                var category = _categoryService.GetById(id);
-
+                var category =await _categoryService.GetById(id);
+                if (category == null)
+                {
+                    return NotFound();
+                }
                 return Ok(category);
             }
             catch (Exception ex)
@@ -56,9 +63,9 @@ namespace OngProject.Controllers
             }
             
         }
-
-       
+               
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<Category> Post([FromBody] Category category)
         {
             try
@@ -77,6 +84,7 @@ namespace OngProject.Controllers
 
      
         [HttpPut]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<Category> Put([FromBody] Category category)
         {
             try
@@ -93,19 +101,21 @@ namespace OngProject.Controllers
             
         }
 
-       
         [HttpDelete("{id}")]
-        public ActionResult<bool> Delete(int id)
+        //[Authorize(Roles = "Administrador")]
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                var deleteCategory = _categoryService.Delete(id);
-
-                return Ok(true);
+                var deleteCategory = await _categoryService.Delete(id);
+                if (!deleteCategory)
+                {
+                    return BadRequest("El registro no existe");
+                }
+                return Ok("Se ha eliminado el registro");
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);  
             }
             

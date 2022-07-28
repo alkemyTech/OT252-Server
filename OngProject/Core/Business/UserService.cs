@@ -37,6 +37,7 @@ namespace OngProject.Core.Business
 
         }
 
+
         public UserResponse Login(string emial, string password)
         {
             if (Existeusuario(emial))
@@ -63,6 +64,10 @@ namespace OngProject.Core.Business
             return entities.FirstOrDefault(a => a.Email == email);
         }
 
+
+       
+       
+
         private bool VerificarPassword(string pass, byte[] pHash, byte[]pSalt)
         {
             var hMac = new HMACSHA512(pSalt);
@@ -80,7 +85,7 @@ namespace OngProject.Core.Business
             {
                 new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
                 new Claim(JwtRegisteredClaimNames.NameId, usuario.UserId.ToString()),
-                new Claim(ClaimTypes.Role, usuario.RoleId.ToString())
+                new Claim(ClaimTypes.Role, usuario.Role.Name)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
