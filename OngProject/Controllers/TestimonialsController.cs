@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace OngProject.Controllers
 
         private readonly ITestimonialsService _testimonialsService;
 
-        public TestimonialsController(TestimonialsService testimonialsService)
+        public TestimonialsController(ITestimonialsService testimonialsService)
         {
             _testimonialsService = testimonialsService;
         } 
@@ -44,14 +45,13 @@ namespace OngProject.Controllers
 
         
         [HttpGet("{id}")]
-        [Authorize]
         public ActionResult<Testimony> Get(int id)
         {
             try
             {
-                var news = _testimonialsService.GetById(id);
+                var testimonyDTO = _testimonialsService.GetById(id);
 
-                return Ok(news);
+                return Ok(testimonyDTO);
             }
             catch (Exception ex)
             {
@@ -62,9 +62,10 @@ namespace OngProject.Controllers
 
        
         [HttpPost]
-        [Authorize(Roles = "Administrador")]
-        public ActionResult<Testimony> Post([FromBody] Testimony testimony)
+        public ActionResult<TestimonyDTO> Post([FromBody] TestimonyDTO testimony)
         {
+
+            
             try
             {
                 var newTestimony = _testimonialsService.Insert(testimony);
@@ -81,8 +82,7 @@ namespace OngProject.Controllers
 
      
         [HttpPut]
-        [Authorize(Roles = "Administrador")]
-        public ActionResult<Testimony> Put([FromBody] Testimony testimony)
+        public ActionResult<TestimonyDTO> Put([FromBody] TestimonyDTO testimony)
         {
             try
             {

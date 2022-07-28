@@ -1,4 +1,5 @@
-﻿using OngProject.Entities;
+﻿using OngProject.Core.Models.DTOs;
+using OngProject.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -8,14 +9,14 @@ namespace OngProject.Core.Interfaces
 {
     public interface ITestimonialsService
     {
-        IEnumerable<Testimony> GetAll();
+        IEnumerable<TestimonyDTO> GetAll();
 
-        Testimony GetById(int? id);
+        TestimonyDTO GetById(int? id);
 
-        IEnumerable<Testimony> Find(Expression<Func<Testimony, bool>> predicate);
+        IEnumerable<TestimonyDTO> Find(Expression<Func<Testimony, bool>> predicate);
 
-        Testimony Insert(Testimony testimony);
-        Testimony Update(Testimony testimony);
+        TestimonyDTO Insert(TestimonyDTO testimony);
+        TestimonyDTO Update(TestimonyDTO testimony);
         bool Delete(int id);
         
 
