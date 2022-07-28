@@ -23,9 +23,20 @@ namespace OngProject.Core.Business
         }
 
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+            var slide = await _unitOfWork.SlideRepository.GetById(id);
+            await _unitOfWork.SlideRepository.Delete(slide);
+            _unitOfWork.Save();
+                return true;
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public IEnumerable<Slide> Find(Expression<Func<Slide, bool>> predicate)
