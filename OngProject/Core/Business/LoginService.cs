@@ -14,13 +14,15 @@ namespace OngProject.Core.Business
     {
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserService _userService;
 
-        public LoginService(IUnitOfWork unitOfWork)
+        public LoginService(IUnitOfWork unitOfWork, IUserService userService)
         {
             _unitOfWork = unitOfWork;
+            _userService = userService;
         }
 
-        public async Task<UserDTO> Register(RegisterDTO registerUser)
+        public async Task<string> Register(RegisterDTO registerUser)
         {
 
             if (await ExistingEmail(registerUser.Email))
@@ -32,23 +34,17 @@ namespace OngProject.Core.Business
                 FirstName = registerUser.FirstName, 
                 LastName = registerUser.LastName,
                 Email = registerUser.Email, 
-                Password = EncryptHelper.encriptar(registerUser.Password),
+                Password = EncryptHelper.GetSHA256(registerUser.Password),
                 Photo=registerUser.Photo,
-                RoleId=2, //Aca debe ir el Rol de Usuario (Entiendo que 1 sería Administrador y 2 Usuario)
+                RoleId=registerUser.RoleId, //Aca debe ir el Rol de Usuario (Entiendo que 1 sería Administrador y 2 Usuario)
             };
             
             await _unitOfWork.UserRepository.Insert(user);
             _unitOfWork.Save();
+            return _userService.GetToken(user);
 
-            var userDTO = new UserDTO()
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                Photo = user.Photo,
-            };
 
-            return userDTO;
+            
         }
 
         private async Task<bool> ExistingEmail(String email)
