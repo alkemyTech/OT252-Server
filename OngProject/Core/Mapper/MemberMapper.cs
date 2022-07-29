@@ -34,5 +34,17 @@ namespace OngProject.Core.Mapper
 
             return memberDto;
         }
+
+        public Member ConvertToMember (MemberDto memberDto)
+        {
+            Member member = new Member();
+            member.Name = memberDto.Name;
+            member.FacebookUrl = memberDto.FacebookUrl;
+            member.InstragramUrl = memberDto.InstagramUrl;
+            member.LinkedinUrl = memberDto.LinkedinUrl;
+            member.Image = memberDto.Image;
+            
+            return member;
+        }
     }
 }
