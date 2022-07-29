@@ -1,6 +1,7 @@
 ﻿using OngProject.Core.Interfaces;
 using OngProject.Entities;
 using OngProject.Repositories;
+using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -10,9 +11,9 @@ namespace OngProject.Core.Business
     public class RoleService :IRoleService
     {
 
-        private UnitOfWork unitOfWork;
+        private IUnitOfWork unitOfWork;
 
-        public RoleService(UnitOfWork unitOfWork)
+        public RoleService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }

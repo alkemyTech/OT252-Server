@@ -15,7 +15,9 @@ namespace OngProject.Core.Business
     public class SlideService : ISlideService
     {
         private IUnitOfWork _unitOfWork;
+
         private SlideMapper mapper;
+
 
         public SlideService(IUnitOfWork unitOfWork)
         {

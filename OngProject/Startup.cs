@@ -44,7 +44,9 @@ namespace OngProject
             });
 
 
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 
             services.AddScoped<ISendGrid, SendGridHelper>();
             services.AddScoped<ITestimonialsService, TestimonialsService>();

@@ -15,7 +15,9 @@ namespace OngProject.Core.Business
     public class MemberService : IMemberService
     {
         private IUnitOfWork _unitOfWork;
+
         private MemberMapper memberMapper;
+
 
         public MemberService(IUnitOfWork unitOfWork)
         {

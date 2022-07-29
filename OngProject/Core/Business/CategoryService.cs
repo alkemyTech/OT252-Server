@@ -15,7 +15,10 @@ namespace OngProject.Core.Business
     {
 
         private IUnitOfWork _unitOfWork;
+
+
         private CategoryMapper _categoryMapper;
+
 
         public CategoryService(IUnitOfWork unitOfWork)
         {

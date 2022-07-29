@@ -16,6 +16,10 @@ namespace OngProject.Core.Business
         private readonly OrganizationMapper mapper = new OrganizationMapper();
         private IUnitOfWork _unitOfWork;
 
+
+        private IUnitOfWork _unitOfWork;
+
+
         public OrganizationsService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
