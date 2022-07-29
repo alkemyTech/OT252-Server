@@ -35,7 +35,7 @@ namespace OngProject.Repositories
 
         public UnitOfWork(ApplicationDbContext context)
         {
-            context = context;
+            this.context = context;
            
         }
         public void Dispose(){ context.Dispose(); }
@@ -157,7 +157,7 @@ namespace OngProject.Repositories
             {
                 if (_commentRepository == null)
                 {
-                    _commentRepository = new GenericRepository<Comment>(_context);
+                    _commentRepository = new GenericRepository<Comment>(context);
                 }
                 return _commentRepository;
             }
@@ -170,7 +170,7 @@ namespace OngProject.Repositories
             {
                 if (_contactsRepository == null)
                 {
-                    _contactsRepository = new GenericRepository<Contact>(_context);
+                    _contactsRepository = new GenericRepository<Contact>(context);
                 }
                 return _contactsRepository;
             }
