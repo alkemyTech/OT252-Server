@@ -67,6 +67,7 @@ namespace OngProject
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<ICommentsService, CommentService>();
+            services.AddScoped<IActivityService, ActivityService>();
 
 
 
