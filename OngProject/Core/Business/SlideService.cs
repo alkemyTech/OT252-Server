@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Interfaces;
+﻿using Microsoft.AspNetCore.Http;
+using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
@@ -6,8 +7,10 @@ using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
@@ -15,13 +18,15 @@ namespace OngProject.Core.Business
     public class SlideService : ISlideService
     {
         private IUnitOfWork _unitOfWork;
+        private IImageHelper _imageHelper;
+        private SlideMapper mapper;      
 
-        private SlideMapper mapper;
 
 
-        public SlideService(IUnitOfWork unitOfWork)
+        public SlideService(IUnitOfWork unitOfWork, IImageHelper imageHelper)
         {
             _unitOfWork = unitOfWork;
+            _imageHelper = imageHelper;
         }
 
 
@@ -29,9 +34,9 @@ namespace OngProject.Core.Business
         {
             try
             {
-            var slide = await _unitOfWork.SlideRepository.GetById(id);
-            await _unitOfWork.SlideRepository.Delete(slide);
-            _unitOfWork.Save();
+                var slide = await _unitOfWork.SlideRepository.GetById(id);
+                await _unitOfWork.SlideRepository.Delete(slide);
+                _unitOfWork.Save();
                 return true;
 
             }
@@ -66,17 +71,63 @@ namespace OngProject.Core.Business
             var slideDto = mapper.ConverToDto(slide);
             return slideDto;
 
-            
+
         }
 
-        public Slide Insert(Slide slide)
+        public async Task<bool> Insert(SlideDto slideDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (await GetOrder(slideDto))
+                {
+                    slideDto.UrlImage = await _imageHelper.UploadToS3(slideDto.UrlImage, slideDto.Order.ToString());
+                    mapper = new SlideMapper();
+                    var slide = mapper.ConvertToEntity(slideDto);
+                    await _unitOfWork.SlideRepository.Insert(slide);
+                    _unitOfWork.Save();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void ImageBase64(string url)
+        {
+
+
+            byte[] bytes = Convert.FromBase64String(url);
+            MemoryStream stream = new MemoryStream(bytes);
+            File.WriteAllBytes(@"C:\Users\User\Desktop\prueba.jpg", bytes);
+
+
+
         }
 
         public Slide Update(Slide slide)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<bool> GetOrder(SlideDto dto)
+        {
+            var slides = await _unitOfWork.SlideRepository.GetAll();
+            foreach (var item in slides)
+            {
+                if (item.Order == dto.Order)
+                {
+                    return false;
+                }
+            }
+
+            var lastOrder = slides.Last().Order;
+            dto.Order = lastOrder + 1;
+            return true;
+
         }
     }
 }

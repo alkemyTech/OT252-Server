@@ -32,5 +32,17 @@ namespace OngProject.Core.Mapper
             slideDto.Order = slide.Order;
             return slideDto;
         }
+
+        public Slide ConvertToEntity(SlideDto dto)
+        {
+            var slide = new Slide();
+            slide.ImageUrl = dto.UrlImage;
+            slide.Text = dto.Text;
+            slide.Order = dto.Order;
+            slide.OrganizationId = 1;
+            slide.SoftDelete = false;
+            slide.TimeStamps = DateTime.UtcNow;
+            return slide;
+        }
     }
 }
