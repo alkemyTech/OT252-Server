@@ -15,7 +15,9 @@ namespace OngProject.Core.Business
     {
 
         private IUnitOfWork _unitOfWork;
+
         private NewsMapper mapper;
+
 
         public NewsService(IUnitOfWork unitOfWork)
         {

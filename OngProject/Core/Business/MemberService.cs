@@ -15,7 +15,9 @@ namespace OngProject.Core.Business
     public class MemberService : IMemberService
     {
         private IUnitOfWork _unitOfWork;
+
         private MemberMapper memberMapper;
+
 
         public MemberService(IUnitOfWork unitOfWork)
         {
@@ -52,9 +54,17 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Member Insert(Member member)
+        public MemberDto Insert(MemberDto memberDto)
         {
-            throw new NotImplementedException();
+            memberMapper = new MemberMapper();
+            Member member = memberMapper.ConvertToMember(memberDto);
+
+            _unitOfWork.MemberRepository.Insert(member);
+            _unitOfWork.Save();
+
+            MemberDto newMember = memberMapper.ConvertToDto(member);
+
+            return newMember;
         }
 
         public Member Update(Member member)

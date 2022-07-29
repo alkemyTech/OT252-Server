@@ -15,7 +15,7 @@
   <ItemGroup>
     <PackageReference Include="AWSSDK.S3" Version="3.7.9.27" />
 
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" />
 
 
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
@@ -31,5 +31,7 @@
   <ItemGroup>
     <Folder Include="App_data\" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

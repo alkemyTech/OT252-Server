@@ -19,7 +19,9 @@ namespace OngProject.Core.Business
     {
         private IUnitOfWork _unitOfWork;
         private IImageHelper _imageHelper;
-        private SlideMapper mapper;
+        private SlideMapper mapper;      
+
+
 
         public SlideService(IUnitOfWork unitOfWork, IImageHelper imageHelper)
         {

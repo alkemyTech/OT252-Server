@@ -8,23 +8,23 @@ namespace OngProject.Repositories
     {
 
 
-        private readonly ApplicationDbContext _context;
-        private IGenericRepository<News> _newsRepository;
-        private IGenericRepository<Testimony> _testimonialsRepository;
+        private readonly ApplicationDbContext context;
+        private IGenericRepository<News> newsRepository;
+        private IGenericRepository<Testimony> testimonialsRepository;
 
-        private IGenericRepository<Slide> _slideRepository;
+        private IGenericRepository<Slide> slideRepository;
 
-        private IGenericRepository<Member> _memberRepository;
+        private IGenericRepository<Member> memberRepository;
 
-        private IGenericRepository<Activity> _activitiyRepository;
+        private IGenericRepository<Activity> activitiyRepository;
 
-        private IGenericRepository<Role> _roleRepository;
+        private IGenericRepository<Role> roleRepository;
 
-        private IGenericRepository<Users> _userRepository;
+        private IGenericRepository<Users> userRepository;
 
-        private IGenericRepository<Category> _categoryRepository;
+        private IGenericRepository<Category> categoryRepository;
 
-        private IGenericRepository<Organization> _organizationRepository;
+        private IGenericRepository<Organization> organizationRepository;
 
         private IGenericRepository<Contact> _contactsRepository;
 
@@ -35,26 +35,26 @@ namespace OngProject.Repositories
 
         public UnitOfWork(ApplicationDbContext context)
         {
-            _context = context;
+            context = context;
            
         }
-        public void Dispose(){ _context.Dispose(); }
+        public void Dispose(){ context.Dispose(); }
 
-        public void Save() { _context.SaveChanges(); }
+        public void Save() { context.SaveChanges(); }
         public IGenericRepository<Role> RoleRepository {
-            get { if (_roleRepository is null)
-                    _roleRepository = new GenericRepository<Role>(_context);
-                return _roleRepository; }
+            get { if (roleRepository is null)
+                    roleRepository = new GenericRepository<Role>(context);
+                return roleRepository; }
         }
 
         public IGenericRepository<News> NewsRepository { 
             get
             {
-                if (_newsRepository == null)
+                if (newsRepository == null)
                 {
-                    _newsRepository = new GenericRepository<News>(_context);
+                    newsRepository = new GenericRepository<News>(context);
                 }
-                return _newsRepository;
+                return newsRepository;
             }
         }
 
@@ -62,11 +62,11 @@ namespace OngProject.Repositories
         {
             get
             {
-                if (_testimonialsRepository == null)
+                if (testimonialsRepository == null)
                 {
-                    _testimonialsRepository = new GenericRepository<Testimony>(_context);
+                    testimonialsRepository = new GenericRepository<Testimony>(context);
                 }
-                return _testimonialsRepository;
+                return testimonialsRepository;
             }
         }
 
@@ -75,11 +75,11 @@ namespace OngProject.Repositories
         {
             get
             {
-                if (_slideRepository == null)
+                if (slideRepository == null)
                 {
-                    _slideRepository = new GenericRepository<Slide>(_context);
+                    slideRepository = new GenericRepository<Slide>(context);
                 }
-                return _slideRepository;
+                return slideRepository;
             }
         }
 
@@ -88,11 +88,11 @@ namespace OngProject.Repositories
         {
             get
             {
-                if (_memberRepository == null)
+                if (memberRepository == null)
                 {
-                    _memberRepository = new GenericRepository<Member>(_context);
+                    memberRepository = new GenericRepository<Member>(context);
                 }
-                return _memberRepository;
+                return memberRepository;
             }
         }
 
@@ -100,11 +100,11 @@ namespace OngProject.Repositories
         {
             get
             {
-                if (_activitiyRepository == null)
+                if (activitiyRepository == null)
                 {
-                    _activitiyRepository = new GenericRepository<Activity>(_context);
+                    activitiyRepository = new GenericRepository<Activity>(context);
                 }
-                return _activitiyRepository;
+                return activitiyRepository;
 
 
             }
@@ -114,11 +114,11 @@ namespace OngProject.Repositories
         {
             get
             {
-                if (_userRepository == null)
+                if (userRepository == null)
                 {
-                    _userRepository = new GenericRepository<Users>(_context);
+                    userRepository = new GenericRepository<Users>(context);
                 }
-                return _userRepository;
+                return userRepository;
 
 
             }
@@ -128,11 +128,11 @@ namespace OngProject.Repositories
         {
             get
             {
-                if (_categoryRepository == null)
+                if (categoryRepository == null)
                 {
-                    _categoryRepository = new GenericRepository<Category>(_context);
+                    categoryRepository = new GenericRepository<Category>(context);
                 }
-                return _categoryRepository;
+                return categoryRepository;
 
 
             }
@@ -142,11 +142,11 @@ namespace OngProject.Repositories
         {
             get
             {
-                if (_organizationRepository == null)
+                if (organizationRepository == null)
                 {
-                    _organizationRepository = new GenericRepository<Organization>(_context);
+                    organizationRepository = new GenericRepository<Organization>(context);
                 }
-                return _organizationRepository;
+                return organizationRepository;
             }
         }
 
