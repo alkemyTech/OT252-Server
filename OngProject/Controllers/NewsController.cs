@@ -24,7 +24,7 @@ namespace OngProject.Controllers
 
         [Route("GetAll")]
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public ActionResult <IEnumerable<News>> GetAll()
         {
 
@@ -68,7 +68,7 @@ namespace OngProject.Controllers
 
        
         [HttpPost]
-        [Authorize(Roles = "Administrador")]
+        //[Authorize(Roles = "Administrador")]
         public ActionResult<News> Post([FromBody] News news)
         {
             try
@@ -87,7 +87,7 @@ namespace OngProject.Controllers
 
      
         [HttpPut]
-        [Authorize(Roles = "Administrador")]
+        //[Authorize(Roles = "Administrador")]
         public ActionResult<News> Put([FromBody] News news)
         {
             try
@@ -106,21 +106,23 @@ namespace OngProject.Controllers
 
        
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Administrador")]
-        public ActionResult<bool> Delete(int id)
+        //[Authorize(Roles = "Administrador")]
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                var deleteNews = newService.Delete(id);
-
-                return Ok(true);
+                var deleteCategory = await newService.Delete(id);
+                if (!deleteCategory)
+                {
+                    return BadRequest("El registro no existe");
+                }
+                return Ok("Se ha eliminado el registro");
             }
             catch (Exception ex)
             {
-
-                return BadRequest(ex.Message);  
+                return BadRequest(ex.Message);
             }
-            
+
         }
 
         [HttpGet("{idNews}/comments")]

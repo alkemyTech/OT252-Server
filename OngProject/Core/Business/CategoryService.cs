@@ -34,6 +34,7 @@ namespace OngProject.Core.Business
                 return false;
             }
             await _unitOfWork.CategoryRepository.Delete(category);
+            _unitOfWork.Save();
             return true;
         }
 
@@ -61,12 +62,12 @@ namespace OngProject.Core.Business
             
         }
 
-        public News Insert(Category category)
+        public Category Insert(Category category)
         {
             throw new NotImplementedException();
         }
 
-        public News Update(Category category)
+        public Category Update(Category category)
         {
             throw new NotImplementedException();
         }
