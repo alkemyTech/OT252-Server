@@ -104,23 +104,25 @@ namespace OngProject.Controllers
             
         }
 
-       
+
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Administrador")]
-        public ActionResult<bool> Delete(int id)
+        //[Authorize(Roles = "Administrador")]
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                var deleteNews = newService.Delete(id);
-
-                return Ok(true);
+                var deleteCategory = await newService.Delete(id);
+                if (!deleteCategory)
+                {
+                    return BadRequest("El registro no existe");
+                }
+                return Ok("Se ha eliminado el registro");
             }
             catch (Exception ex)
             {
-
-                return BadRequest(ex.Message);  
+                return BadRequest(ex.Message);
             }
-            
+
         }
 
         [HttpGet("{idNews}/comments")]
