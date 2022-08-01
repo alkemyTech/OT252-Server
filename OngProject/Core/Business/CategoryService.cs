@@ -15,15 +15,15 @@ namespace OngProject.Core.Business
     {
 
         private IUnitOfWork _unitOfWork;
-
-
+        private IImageHelper _imageHelper;
         private CategoryMapper _categoryMapper;
 
 
-        public CategoryService(IUnitOfWork unitOfWork)
+        public CategoryService(IUnitOfWork unitOfWork, IImageHelper imageHelper)
         {
             _unitOfWork = unitOfWork;
             _categoryMapper = new CategoryMapper();
+            _imageHelper = imageHelper;
         }
 
         public async Task<bool> Delete(int id)
@@ -34,6 +34,7 @@ namespace OngProject.Core.Business
                 return false;
             }
             await _unitOfWork.CategoryRepository.Delete(category);
+            _unitOfWork.Save();
             return true;
         }
 
@@ -61,12 +62,17 @@ namespace OngProject.Core.Business
             
         }
 
-        public News Insert(Category category)
+        public async Task<Category> Insert(CreationCategoryDto categoryDto)
         {
-            throw new NotImplementedException();
+            var imgUrl = await _imageHelper.UploadImage(categoryDto.Image);
+            var category = _categoryMapper.ConvertToCategory(categoryDto);
+            category.Image = imgUrl.ToString();
+            await _unitOfWork.CategoryRepository.Insert(category);
+            _unitOfWork.Save();
+            return category;
         }
 
-        public News Update(Category category)
+        public Category Update(Category category)
         {
             throw new NotImplementedException();
         }
