@@ -17,7 +17,7 @@ namespace OngProject.Core.Interfaces
 
         News Insert(News news);
         News Update(News news);
-        bool Delete(int id);
+        Task<bool> Delete(int id);
 
         Task<IEnumerable<Comment>> FindComment(Expression<Func<Comment, bool>> predicate);
 
