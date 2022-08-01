@@ -28,5 +28,15 @@ namespace OngProject.Core.Mapper
          
             return categoryDto;
         }
+
+        public Category ConvertToCategory(CreationCategoryDto categoryDto)
+        {
+            var category = new Category();
+            category.Name = categoryDto.Name;
+            category.Description = categoryDto.Description;
+            category.TimeStamps = DateTime.Now;
+            category.SoftDelete = false;
+            return category;
+        }
     }
 }
