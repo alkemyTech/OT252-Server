@@ -5,6 +5,6 @@ namespace OngProject.Core.Interfaces
 {
     public interface ILoginService
     {
-        Task<UserDTO> Register(RegisterDTO registerUser);
+        Task<string> Register(RegisterDTO registerUser);
     }
 }

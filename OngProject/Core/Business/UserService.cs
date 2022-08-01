@@ -9,6 +9,7 @@ using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
@@ -29,7 +30,7 @@ namespace OngProject.Core.Business
 
 
         private readonly IConfiguration configuration;
-        public UserService(IUnitOfWork unitOfWork, IConfiguration configuration,ApplicationDbContext context )
+        public UserService(IUnitOfWork unitOfWork, IConfiguration configuration, ApplicationDbContext context)
         {
             this.unitOfWork = unitOfWork;
             this.configuration = configuration;
@@ -44,7 +45,7 @@ namespace OngProject.Core.Business
             {
                 UserResponse response = new UserResponse();
                 Users user = GetByEmail(emial);
-                if (!VerificarPassword(password, user.PasswordHash, user.PasswordSalt)) return null;
+                if (!VerificarPassword(password)) return null;
 
                 response.Email = user.Email;
                 response.RoleId = user.RoleId;
@@ -65,44 +66,48 @@ namespace OngProject.Core.Business
         }
 
 
-       
-       
 
-        private bool VerificarPassword(string pass, byte[] pHash, byte[]pSalt)
+
+
+        private bool VerificarPassword(string pass/*, byte[] pHash, byte[] pSalt*/)
         {
-            var hMac = new HMACSHA512(pSalt);
-            var hash = hMac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(pass));
-            for (var i = 0; i < hash.Length; i++)
-                if (hash[i] != pHash[i]) return false;
+            //var hMac = new HMACSHA512(pSalt);
+            //var hash = hMac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(pass));
+            //for (var i = 0; i < hash.Length; i++)
+            //    if (hash[i] != pHash[i]) return false;
             return true;
         }
 
 
 
-        public string GetToken(UserResponse usuario)
+        public string GetToken(Users usuario)
         {
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
-                new Claim(JwtRegisteredClaimNames.NameId, usuario.UserId.ToString()),
-                new Claim(ClaimTypes.Role, usuario.Role.Name)
-            };
+            List<Claim> claim = new();
+            claim.Add(new Claim(type: "Id", usuario.Id.ToString()));
+            claim.Add(new Claim(ClaimTypes.Email, usuario.Email));
+            claim.Add(new Claim(ClaimTypes.Role, usuario.RoleId.ToString()));
+            //{
+            //    new Claim(type:"id", usuario.Id.ToString()),
+            //    new Claim(ClaimTypes.Email, usuario.Email),
+            //    new Claim(ClaimTypes.Role, usuario.Role.Name)
+            //};
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
-            var tokenDescriptor = new SecurityTokenDescriptor()
-            {
-                Expires = DateTime.UtcNow.AddMinutes(120),
-                Subject = new ClaimsIdentity(claims),
-                SigningCredentials = credentials
-
-            };
-            var claimsIdentity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var tokenDescriptor = new JwtSecurityToken(
+                issuer:"https://localhost",
+                audience: "https://localhost",
+                 claims : claim,
+                expires : DateTime.UtcNow.AddMinutes(120),
+                signingCredentials : credentials
+            );
+            //var claimsIdentity = new ClaimsIdentity(claim, JwtBearerDefaults.AuthenticationScheme);
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            //var token = tokenHandler.CreateToken(tokenDescriptor);
+            var token = tokenHandler.WriteToken(tokenDescriptor);
+            return token;
         }
 
-        
+
     }
 }

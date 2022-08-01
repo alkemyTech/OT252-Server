@@ -22,36 +22,38 @@ namespace OngProject.Controllers
 
 
         private readonly ILoginService _loginService;
+        private readonly IUserService _userService;
 
-        public LoginController(ILoginService loginService)
+        public LoginController(ILoginService loginService, IUserService userService)
         {
             _loginService = loginService;
+            _userService = userService;
         }
-        [HttpPost]
-        public ActionResult Login([FromBody] UserRequest req)
-        {
-            var response = usuarioService.Login(req.Email, req.Password);
-            if (response is null) return Unauthorized();
-            var token = usuarioService.GetToken(response);
-            return Ok(new
-            {
-                token = token,
-                usuario = response
+        //[HttpPost]
+        //public ActionResult Login([FromBody] UserRequest req)
+        //{
+        //    var response = _userService.Login(req.Email, req.Password);
+        //    if (response is null) return Unauthorized();
+        //    var token = _userService.GetToken(response);
+        //    return Ok(new
+        //    {
+        //        token = token,
+        //        usuario = response
 
-            });
-        }
+        //    });
+        //}
 
         [HttpPost("Register")]
         public async Task<ActionResult> RegisterAsync(RegisterDTO registerDTO)
         {
             try
             {
-                var userDto = await _loginService.Register(registerDTO);
-                if (userDto == null)
+                var token = await _loginService.Register(registerDTO);
+                if (token == null)
                 {
                     return BadRequest("Ya hay un Usuario registrado con el Email ingresado.");
                 }
-                return Ok(userDto);
+                return Ok(token);
             }
             catch (Exception ex)
             {

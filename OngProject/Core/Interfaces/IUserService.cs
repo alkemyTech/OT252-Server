@@ -9,9 +9,9 @@ namespace OngProject.Core.Interfaces
 {
     public interface IUserService
     {
-       
-        UserResponse Login(string email, string password);
-        string GetToken(UserResponse usuario);
+
+        //UserResponse Login(string email, string password);
+        string GetToken(Users usuario);
 
 
     }
