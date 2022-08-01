@@ -55,7 +55,7 @@ namespace OngProject
             services.AddScoped<IOrganizationsService, OrganizationsService>();
 
 
-            
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<INewsService, NewsService>();
             services.AddScoped<ILoginService, LoginService>();
 
@@ -91,6 +91,7 @@ namespace OngProject
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

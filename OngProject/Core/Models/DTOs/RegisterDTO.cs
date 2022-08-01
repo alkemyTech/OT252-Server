@@ -16,6 +16,8 @@ namespace OngProject.Core.Models.DTOs
         public string Password { get; set; }
        
         public string Photo { get; set; }
+        [Required]
+        public int RoleId { get; set; }
     }
 }
 
