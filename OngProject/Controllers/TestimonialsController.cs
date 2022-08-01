@@ -100,7 +100,7 @@ namespace OngProject.Controllers
 
        
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador")]
         public ActionResult<bool> Delete(int id)
         {
             try
@@ -110,11 +110,7 @@ namespace OngProject.Controllers
                 if (deleteTestimony)
                     return Ok(true);
                 else
-                    return BadRequest("No se pudo eliminar");
-            }
-            catch(NullReferenceException ex)
-            {
-                return NotFound(ex.Message);
+                    return NotFound($"No se pudo eliminar no se encontro testimonio id: {id}");
             }
             catch (Exception ex)
             {

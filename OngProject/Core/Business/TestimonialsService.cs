@@ -30,8 +30,8 @@ namespace OngProject.Core.Business
             
             Testimony testimony = await _unitOfWork.TestimonialsRepository.GetById(id);
 
-            if (testimony == null)
-                throw new NullReferenceException($"No se encuentra el testimony con el id {id}");
+                if (testimony == null)
+                    return false;
 
             await _unitOfWork.TestimonialsRepository.Delete(testimony);
 
