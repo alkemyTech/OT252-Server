@@ -62,6 +62,25 @@ namespace OngProject.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        [Route("public/{id}")]
+        public async Task<ActionResult<Slide>> GetByOrganization(int id)
+        {
+            try
+            {
+                var slides = await slideService.GetByOrganization(id);
+                if (slides == null)
+                {
+                    return NotFound();
+                }
+                return Ok(slides);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
 
         public async Task <ActionResult<Slide>> Post(SlideDto slide)

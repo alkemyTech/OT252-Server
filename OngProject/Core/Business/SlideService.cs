@@ -74,6 +74,31 @@ namespace OngProject.Core.Business
 
         }
 
+        public async Task<IEnumerable<SlideDto>> GetByOrganization(int? id)
+        {
+            mapper = new SlideMapper();
+
+            var slides = await _unitOfWork.SlideRepository.GetAll();
+            slides = slides.Where(s => s.OrganizationId == id).ToList();
+
+            if (slides == null)
+            {
+                return null;
+            }
+
+            List<SlideDto> slidesDTO = new List<SlideDto>();
+
+            foreach(Slide slide in slides)
+            {
+                slidesDTO.Add(mapper.ConverToDto(slide));
+            }
+
+          
+            return slidesDTO;
+
+
+        }
+
         public async Task<bool> Insert(SlideDto slideDto)
         {
             try
