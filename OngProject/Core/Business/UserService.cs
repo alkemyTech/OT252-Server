@@ -68,10 +68,8 @@ namespace OngProject.Core.Business
 
         public async Task<IEnumerable<UserDTO>> GetAll()
         {
-            return new UserMapper().ConvertListToDto(await unitOfWork.UserRepository.GetAll());
-            
+            return new UserMapper().ConvertListToDto(await unitOfWork.UserRepository.GetAll());  
         }
-
 
 
         private bool VerificarPassword(string pass, byte[] pHash, byte[]pSalt)

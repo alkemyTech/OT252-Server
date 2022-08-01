@@ -1,4 +1,5 @@
 ﻿using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace OngProject.Core.Interfaces
        
         UserResponse Login(string email, string password);
         string GetToken(UserResponse usuario);
-        Task<IEnumerable<Users>> GetAllUsers();
+        Task<IEnumerable<UserDTO>> GetAll();
 
 
     }
