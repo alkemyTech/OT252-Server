@@ -1,11 +1,19 @@
-﻿using OngProject.Core.Helper;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
@@ -14,37 +22,92 @@ namespace OngProject.Core.Business
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserService _userService;
+        private readonly IConfiguration _configuration;
+        private RegisterMapper mapper;
 
-        public LoginService(IUnitOfWork unitOfWork, IUserService userService)
+        public LoginService(IUnitOfWork unitOfWork, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
-            _userService = userService;
+            _configuration = configuration;
+        }
+
+        public async Task<string> GetToken(LoginDto usuario)
+        {
+            var user = await GetUser(usuario);
+            var rol = await GetRole(usuario);
+            List<Claim> claim = new();
+            claim.Add(new Claim(type: "Id", user.Id.ToString()));
+            claim.Add(new Claim(ClaimTypes.Email, usuario.Email));
+            claim.Add(new Claim(ClaimTypes.Role, rol.Name));
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var tokenDescriptor = new JwtSecurityToken(
+                claims: claim,
+                expires: DateTime.UtcNow.AddMinutes(120),
+                signingCredentials: credentials
+            );
+            var token = new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
+            return token;
+        }
+
+        private async Task<Users> GetUser(LoginDto usuario)
+        {
+            var users = await _unitOfWork.UserRepository.Find(e => e.Email == usuario.Email);
+            var user = users.FirstOrDefault();
+            return user;
+        }
+
+        private async Task<Role> GetRole(LoginDto usuario)
+        {
+            var rol = await _unitOfWork.RoleRepository.GetById(usuario.RoleId);
+            return rol;
+        }
+
+        public async Task<UserResponse> Login(string email, string password)
+        {
+            //if (await Existeusuario(email))
+            //{
+            //    UserResponse response = new UserResponse();
+            //    var users = await _unitOfWork.UserRepository.Find(u => u.Email == user.Email);
+            //    var us = users.FirstOrDefault();
+            //    if (!VerificarPassword(user.Password, password)) return null;
+
+            //    response.Email = user.Email;
+            //    response.RoleId = user.RoleId;
+            //    response.RoleName = user.Role.Name;
+            //    response.UserId = user.Id;
+            //    return response;
+            //}
+            return null;
+        }
+
+        private bool VerificarPassword(string password, string pass)
+        {
+            return EncryptHelper.GetSHA256(pass) == password;
+        }
+        private async Task<bool> Existeusuario(string email)
+        {
+            var usuario = await _unitOfWork.UserRepository.Find(b => b.Email == email);
+            if (usuario is null) return false;
+            return true;
         }
 
         public async Task<string> Register(RegisterDTO registerUser)
         {
+            mapper = new RegisterMapper();
 
             if (await ExistingEmail(registerUser.Email))
             {
                 return null;
             }
-
-            var user = new Users() {
-                FirstName = registerUser.FirstName, 
-                LastName = registerUser.LastName,
-                Email = registerUser.Email, 
-                Password = EncryptHelper.GetSHA256(registerUser.Password),
-                Photo=registerUser.Photo,
-                RoleId=registerUser.RoleId, //Aca debe ir el Rol de Usuario (Entiendo que 1 sería Administrador y 2 Usuario)
-            };
-            
+            registerUser.Password = EncryptHelper.GetSHA256(registerUser.Password);
+            var user = mapper.ConvertToUser(registerUser);
+            var userlogin = mapper.ConvertToUserLogin(user);
             await _unitOfWork.UserRepository.Insert(user);
             _unitOfWork.Save();
-            return _userService.GetToken(user);
-
-
-            
+            var token = await GetToken(userlogin);
+            return token;
         }
 
         private async Task<bool> ExistingEmail(String email)
