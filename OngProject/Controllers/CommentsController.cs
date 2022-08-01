@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
+using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,14 +11,18 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    
     public class CommentsController : ControllerBase
     {
         private readonly ICommentsService commentService;
+        private readonly IUnitOfWork unitOfWork;
 
-        public CommentsController(ICommentsService commentService)
+       
+
+        public CommentsController(ICommentsService commentService, IUnitOfWork unitOfWork)
         {
             this.commentService = commentService;
+            this.unitOfWork = unitOfWork;
         }
 
         [Route("/comments")]
@@ -26,12 +31,9 @@ namespace OngProject.Controllers
         {
             try
             {
-                var commentsList = await commentService.GetAll();
-                if (commentsList == null)
-                {
+                if (await commentService.GetAll() is null)
                     return NotFound();
-                }
-                return Ok(commentsList);
+                return Ok(await commentService.GetAll());
             }
             catch (Exception ex)
             {
@@ -39,25 +41,30 @@ namespace OngProject.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "";
-        }
+        
 
         [HttpPost]
-        public void Post()
+        public ActionResult<Comment> Post(Comment comment)
         {
+            if (unitOfWork.CommentRepository is null) return BadRequest();
+            unitOfWork.CommentRepository.Insert(comment);
+            unitOfWork.Save();
+            return NoContent();
         }
 
         [HttpPut("{id}")]
-        public void Put()
+        public void PutComments(int id, Comment comment)
         {
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            if (unitOfWork.CommentRepository.GetById(id) is null) return NotFound();
+           // unitOfWork.CommentRepository.Delete(id);
+            unitOfWork.Save();
+            return NoContent();
+
         }
     }
 }

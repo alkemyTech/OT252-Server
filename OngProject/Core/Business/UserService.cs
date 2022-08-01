@@ -18,6 +18,8 @@ using System.Threading.Tasks;
 using OngProject.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using OngProject.Repositories.Interfaces;
+using OngProject.Core.Models.DTOs;
+using OngProject.Core.Mapper;
 
 namespace OngProject.Core.Business
 {
@@ -64,9 +66,13 @@ namespace OngProject.Core.Business
             return entities.FirstOrDefault(a => a.Email == email);
         }
 
+        public async Task<IEnumerable<UserDTO>> GetAll()
+        {
+            return new UserMapper().ConvertListToDto(await unitOfWork.UserRepository.GetAll());
+            
+        }
 
-       
-       
+
 
         private bool VerificarPassword(string pass, byte[] pHash, byte[]pSalt)
         {

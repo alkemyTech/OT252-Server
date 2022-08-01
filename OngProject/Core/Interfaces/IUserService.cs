@@ -12,6 +12,7 @@ namespace OngProject.Core.Interfaces
        
         UserResponse Login(string email, string password);
         string GetToken(UserResponse usuario);
+        Task<IEnumerable<Users>> GetAllUsers();
 
 
     }

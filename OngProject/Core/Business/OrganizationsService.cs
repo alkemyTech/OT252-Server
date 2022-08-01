@@ -17,7 +17,7 @@ namespace OngProject.Core.Business
         private IUnitOfWork _unitOfWork;
 
 
-        private IUnitOfWork _unitOfWork;
+     
 
 
         public OrganizationsService(IUnitOfWork unitOfWork)

@@ -8,6 +8,7 @@ using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 
 using OngProject.Entities;
+using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +23,13 @@ namespace OngProject.Controllers
 
 
         private readonly ILoginService _loginService;
-
-        public LoginController(ILoginService loginService)
+        private readonly IUserService usuarioService;
+        private readonly IUnitOfWork unitOfWork;
+        public LoginController(ILoginService loginService, IUnitOfWork unitOfWork, IUserService usuarioService)
         {
             _loginService = loginService;
+            this.unitOfWork = unitOfWork;
+            this.usuarioService = usuarioService;
         }
         [HttpPost]
         public ActionResult Login([FromBody] UserRequest req)
@@ -58,7 +62,20 @@ namespace OngProject.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+       [HttpGet]
+        public async Task<ActionResult<IEnumerable<Users>>> GetAll()
+        {
+            try
+            {     
+                if (await usuarioService.GetAll())
+                    return NotFound();
+                return Ok(await usuarioService.GetAll());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 }
