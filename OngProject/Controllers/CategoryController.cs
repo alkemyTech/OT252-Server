@@ -6,6 +6,7 @@ using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
@@ -65,24 +66,29 @@ namespace OngProject.Controllers
         }
                
         [HttpPost]
-        [Authorize(Roles = "Administrador")]
-        public ActionResult<Category> Post([FromBody] Category category)
+        //[Authorize(Roles = "Administrador")]
+        public async Task<ActionResult> Post([FromForm] CreationCategoryDto categorydto)
         {
             try
             {
-                var newCategory = _categoryService.Insert(category);
-
-                return Ok(newCategory);
+                if (!Regex.IsMatch(categorydto.Name, "^[a-zA-Z][a-zA-Z0-9 ]*$"))
+                {
+                    return BadRequest("El nombre debe empezar con una letra, tener caracteres alfanúmericos, y puede tener espacios ");
+                }
+                var newCategory = await _categoryService.Insert(categorydto);
+                ResponseCategory response = new ResponseCategory();
+                response.Mensaje = "Se ha guardado el registro";
+                response.Category = newCategory;
+                return Ok(response);
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);
             }
-            
+
         }
 
-     
+
         [HttpPut]
         [Authorize(Roles = "Administrador")]
         public ActionResult<Category> Put([FromBody] Category category)
@@ -119,6 +125,12 @@ namespace OngProject.Controllers
                 return BadRequest(ex.Message);  
             }
             
+        }
+
+        private class ResponseCategory
+        {
+            public string Mensaje { get; set; }
+            public object Category { get; set; }
         }
     }
 }
