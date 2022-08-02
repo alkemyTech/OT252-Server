@@ -62,8 +62,8 @@ namespace OngProject.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        [Route("public/{id}")]
+        [HttpGet]
+        //[Route("public/{id}")]
         public async Task<ActionResult<Slide>> GetByOrganization(int id)
         {
             try
