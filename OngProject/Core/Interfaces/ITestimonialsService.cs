@@ -17,7 +17,7 @@ namespace OngProject.Core.Interfaces
 
         TestimonyDTO Insert(TestimonyDTO testimony);
         TestimonyDTO Update(TestimonyDTO testimony);
-        bool Delete(int id);
+        Task<bool> Delete(int id);
         
 
     }

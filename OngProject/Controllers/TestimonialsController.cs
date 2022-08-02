@@ -105,9 +105,12 @@ namespace OngProject.Controllers
         {
             try
             {
-                var deleteTestimony = _testimonialsService.Delete(id);
+                var deleteTestimony = _testimonialsService.Delete(id).Result;
 
-                return Ok(true);
+                if (deleteTestimony)
+                    return Ok(true);
+                else
+                    return NotFound($"No se pudo eliminar no se encontro testimonio id: {id}");
             }
             catch (Exception ex)
             {
