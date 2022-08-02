@@ -23,26 +23,24 @@ namespace OngProject.Controllers
 
 
         private readonly ILoginService _loginService;
+
         private readonly IUserService usuarioService;
         private readonly IUnitOfWork unitOfWork;
         public LoginController(ILoginService loginService, IUnitOfWork unitOfWork, IUserService usuarioService)
+
+        
+        
         {
             _loginService = loginService;
             this.unitOfWork = unitOfWork;
             this.usuarioService = usuarioService;
         }
         [HttpPost]
-        public ActionResult Login([FromBody] UserRequest req)
+        public ActionResult Login(string email, string password)
         {
-            var response = usuarioService.Login(req.Email, req.Password);
+            var response = _loginService.Login(email, password);
             if (response is null) return Unauthorized();
-            var token = usuarioService.GetToken(response);
-            return Ok(new
-            {
-                token = token,
-                usuario = response
-
-            });
+            return Ok(response);
         }
 
         [HttpPost("Register")]
@@ -50,12 +48,12 @@ namespace OngProject.Controllers
         {
             try
             {
-                var userDto = await _loginService.Register(registerDTO);
-                if (userDto == null)
+                var token = await _loginService.Register(registerDTO);
+                if (token == null)
                 {
                     return BadRequest("Ya hay un Usuario registrado con el Email ingresado.");
                 }
-                return Ok(userDto);
+                return Ok(token);
             }
             catch (Exception ex)
             {

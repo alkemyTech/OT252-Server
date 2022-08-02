@@ -10,10 +10,11 @@ namespace OngProject.Core.Interfaces
 {
     public interface IUserService
     {
-       
+
         UserResponse Login(string email, string password);
         string GetToken(UserResponse usuario);
         Task<IEnumerable<UserDTO>> GetAll();
+
 
 
     }

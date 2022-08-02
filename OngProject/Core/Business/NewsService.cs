@@ -15,19 +15,28 @@ namespace OngProject.Core.Business
     {
 
         private IUnitOfWork _unitOfWork;
+        private IImageHelper _imageHelper;
+        private NewsMapper _newsMapper;
 
-        private NewsMapper mapper;
 
-
-        public NewsService(IUnitOfWork unitOfWork)
+        public NewsService(IUnitOfWork unitOfWork, IImageHelper imageHelper)
         {
             _unitOfWork = unitOfWork;
+            _imageHelper = imageHelper;
+            _newsMapper = new NewsMapper();
         }
 
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            var news = await _unitOfWork.NewsRepository.GetById(id);
+            if (news == null)
+            {
+                return false;
+            }
+            await _unitOfWork.NewsRepository.Delete(news);
+            _unitOfWork.Save();
+            return true;
         }
 
         public  IEnumerable<News> Find(Expression<Func<News, bool>> predicate)
@@ -42,19 +51,24 @@ namespace OngProject.Core.Business
 
         public async Task<NewsDto> GetById(int? id)
         {
-            mapper = new NewsMapper();
             var news =await _unitOfWork.NewsRepository.GetById(id);
             if (news == null)
             {
                 return null;
             }
-            var newsDto = mapper.ConverToDto(news);
+            var newsDto = _newsMapper.ConverToDto(news);
             return newsDto;
         }
 
-        public News Insert(News news)
+        public async Task<ViewNewsDto> Insert(CreationNewsDto newsDto)
         {
-            throw new NotImplementedException();
+            var imgUrl = await _imageHelper.UploadImage(newsDto.Image);
+            var news = _newsMapper.ConvertToNews(newsDto);
+            news.Image = imgUrl.ToString();
+            await _unitOfWork.NewsRepository.Insert(news);
+            _unitOfWork.Save();
+            var viewNewsDto = _newsMapper.ConverToViewDto(news);
+            return viewNewsDto;
         }
 
         public News Update(News news)

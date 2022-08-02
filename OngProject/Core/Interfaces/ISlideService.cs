@@ -13,6 +13,7 @@ namespace OngProject.Core.Interfaces
         Task<IEnumerable<SlideDto>> GetAll();
 
         Task<SlideDto> GetById(int? id);
+        Task<IEnumerable<SlideDto>> GetByOrganization(int? id);
 
         IEnumerable<Slide> Find(Expression<Func<Slide, bool>> predicate);
 

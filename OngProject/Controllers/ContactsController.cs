@@ -55,14 +55,16 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrador")]
-        public ActionResult<Contact> Post([FromBody] Contact contact)
+        //[Authorize(Roles = "Administrador")]
+        public async Task<ActionResult> Post([FromBody] ContactDTO contactDTO)
         {
             try
             {
-                var newContact = _contactService.Insert(contact);
-
-                return Ok(newContact);
+                var newContact = await _contactService.Insert(contactDTO);
+                ResponseContact response = new ResponseContact();
+                response.Message = "Se ha guardado el registro";
+                response.Contact = newContact;
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -106,6 +108,12 @@ namespace OngProject.Controllers
                 return BadRequest(ex.Message);
             }
 
+        }
+
+        private class ResponseContact
+        {
+            public string Message { get; set; }
+            public object Contact { get; set; }
         }
     }
 }

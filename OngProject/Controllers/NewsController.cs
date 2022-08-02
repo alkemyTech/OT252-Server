@@ -15,11 +15,13 @@ namespace OngProject.Controllers
     public class NewsController : ControllerBase
     {
 
-        private readonly INewsService newService;
+        private readonly INewsService _newService;
+        private readonly ICategoryService _categoryService;
 
-        public NewsController(INewsService newService)
+        public NewsController(INewsService newService, ICategoryService categoryService)
         {
-            this.newService = newService;
+            _newService = newService;
+            _categoryService = categoryService;
         }   
 
         [Route("GetAll")]
@@ -30,7 +32,7 @@ namespace OngProject.Controllers
 
             try
             {
-                var newsList = newService.GetAll();
+                var newsList = _newService.GetAll();
 
                 return Ok(newsList);
             }
@@ -50,7 +52,7 @@ namespace OngProject.Controllers
         {
             try
             {
-                var news =await newService.GetById(id);
+                var news =await _newService.GetById(id);
                 if (news == null)
                 {
                     return NotFound();
@@ -68,14 +70,25 @@ namespace OngProject.Controllers
 
        
         [HttpPost]
-        [Authorize(Roles = "Administrador")]
-        public ActionResult<News> Post([FromBody] News news)
+        //[Authorize(Roles = "Administrador")]
+        public async Task<ActionResult> Post([FromForm]CreationNewsDto creationNewsDto)
         {
             try
             {
-                var newNews = newService.Insert(news);
-
-                return Ok(newNews);
+                if(creationNewsDto.CategoryId <= 0)
+                {
+                    return BadRequest("El id de la categoria debe ser mayor a 0");
+                }
+                var category = await _categoryService.GetById(creationNewsDto.CategoryId);
+                if (category == null)
+                {
+                    return NotFound("El id de categoria ingresado no existe");
+                }
+                var newNews = await _newService.Insert(creationNewsDto);
+                ResponseNews response = new ResponseNews();
+                response.Message = "Se ha guardado el registro";
+                response.News = newNews;
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -92,7 +105,7 @@ namespace OngProject.Controllers
         {
             try
             {
-                var editNews = newService.Update(news);
+                var editNews = _newService.Update(news);
 
                 return Ok(editNews);
             }
@@ -104,23 +117,25 @@ namespace OngProject.Controllers
             
         }
 
-       
+
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Administrador")]
-        public ActionResult<bool> Delete(int id)
+        //[Authorize(Roles = "Administrador")]
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                var deleteNews = newService.Delete(id);
-
-                return Ok(true);
+                var deleteCategory = await _newService.Delete(id);
+                if (!deleteCategory)
+                {
+                    return BadRequest("El registro no existe");
+                }
+                return Ok("Se ha eliminado el registro");
             }
             catch (Exception ex)
             {
-
-                return BadRequest(ex.Message);  
+                return BadRequest(ex.Message);
             }
-            
+
         }
 
         [HttpGet("{idNews}/comments")]
@@ -129,7 +144,7 @@ namespace OngProject.Controllers
         {
             try
             {
-                var comments = await newService.FindComment(c => c.News_Id == idNews);
+                var comments = await _newService.FindComment(c => c.News_Id == idNews);
                 if(comments == null)
                 {
                     return NotFound("No hay comentarios");
@@ -140,6 +155,12 @@ namespace OngProject.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        private class ResponseNews
+        {
+            public string Message { get; set; }
+            public object News { get; set; }
         }
     }
 }

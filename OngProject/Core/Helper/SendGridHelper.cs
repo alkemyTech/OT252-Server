@@ -47,5 +47,18 @@ namespace OngProject.Core.Helper
             }
        
         }
+
+        public async Task ContactEmail(string email)
+        {
+            var subject = "Gracias por Contactarnos";
+            var content = "Estamos felices que nos contactaras pronto te enviaremos un correo con mayor información";
+            var apiKey = _config["ApiSendGrid"];
+            var template = GetTemplate(subject, content);
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("alkemygrupo.252@gmail.com", "Grupo 252 C#");
+            var to = new EmailAddress(email, email);
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, "", template);
+            var response = await client.SendEmailAsync(msg);
+        }
     }
 }

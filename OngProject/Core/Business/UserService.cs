@@ -1,112 +1,109 @@
-﻿
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using OngProject.Core.Interfaces;
-using OngProject.Core.Models;
+﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
+using OngProject.Repositories.Interfaces;
 using System;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
+
 using OngProject.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using OngProject.Repositories.Interfaces;
 using OngProject.Core.Models.DTOs;
 using OngProject.Core.Mapper;
 
+
 namespace OngProject.Core.Business
 {
     public class UserService : IUserService
     {
-        private readonly IUnitOfWork unitOfWork;
-        protected readonly ApplicationDbContext context;
-        protected DbSet<Users> entities;
+        private IUnitOfWork _unitOfWork;
+
+        private UserMapper mapper = new UserMapper();
 
 
-        private readonly IConfiguration configuration;
-        public UserService(IUnitOfWork unitOfWork, IConfiguration configuration,ApplicationDbContext context )
+        public UserService(IUnitOfWork unitOfWork)
         {
-            this.unitOfWork = unitOfWork;
-            this.configuration = configuration;
-            this.entities = context.Set<Users>();
-
+            _unitOfWork = unitOfWork;
         }
 
 
-        public UserResponse Login(string emial, string password)
+        public async Task<bool> Delete(int id)
         {
-            if (Existeusuario(emial))
-            {
-                UserResponse response = new UserResponse();
-                Users user = GetByEmail(emial);
-                if (!VerificarPassword(password, user.PasswordHash, user.PasswordSalt)) return null;
 
-                response.Email = user.Email;
-                response.RoleId = user.RoleId;
-                response.UserId = user.Id;
-                return response;
-            }
-            return null;
-        }
-        private bool Existeusuario(string email)
-        {
-            var usuario = unitOfWork.UserRepository.Find(b => b.Email == email);
-            if (usuario is null) return false;
+            var user = await _unitOfWork.UserRepository.GetById(id);
+            if(user == null)
+                return false;
+
+            await _unitOfWork.UserRepository.Delete(user);
+            _unitOfWork.Save();
+
             return true;
+
         }
-        public Users GetByEmail(string email)
+
+        public IEnumerable<UserDTO> Find(Expression<Func<Users, bool>> predicate)
         {
-            return entities.FirstOrDefault(a => a.Email == email);
+            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<UserDTO>> GetAll()
         {
+
             return new UserMapper().ConvertListToDto(await unitOfWork.UserRepository.GetAll());  
         }
 
 
-        private bool VerificarPassword(string pass, byte[] pHash, byte[]pSalt)
+
+            foreach(Users user in users)
+            {
+                usersDto.Add(mapper.ConvertToDto(user));
+            }
+
+            return usersDto;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        public async Task<UserDTO> GetById(int? id)
         {
-            var hMac = new HMACSHA512(pSalt);
-            var hash = hMac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(pass));
-            for (var i = 0; i < hash.Length; i++)
-                if (hash[i] != pHash[i]) return false;
-            return true;
+            try
+            {
+
+                var user = await _unitOfWork.UserRepository.GetById(id);
+
+                UserDTO userDto = mapper.ConvertToDto(user);
+
+                return userDto;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-
-
-        public string GetToken(UserResponse usuario)
-        {
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
-                new Claim(JwtRegisteredClaimNames.NameId, usuario.UserId.ToString()),
-                new Claim(ClaimTypes.Role, usuario.Role.Name)
-            };
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
-            var tokenDescriptor = new SecurityTokenDescriptor()
-            {
-                Expires = DateTime.UtcNow.AddMinutes(120),
-                Subject = new ClaimsIdentity(claims),
-                SigningCredentials = credentials
-
-            };
-            var claimsIdentity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-        }
 
         
+
+        public UserDTO Update(UserDTO user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UserDTO> Insert(UserDTO user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

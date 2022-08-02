@@ -6,6 +6,7 @@ namespace OngProject.Core.Mapper
 {
     public class UserMapper
     {
+
         public IEnumerable<UserDTO> ConvertListToDto(IEnumerable<Users> listUsers)
         {
             List<UserDTO> listDtos = new List<UserDTO>();
@@ -41,6 +42,7 @@ namespace OngProject.Core.Mapper
             users.Photo = UserDto.Photo;
             users.Email = UserDto.Email;
             return users;
+
         }
     }
 }
