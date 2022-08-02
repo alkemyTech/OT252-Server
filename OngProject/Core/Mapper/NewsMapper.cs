@@ -41,5 +41,16 @@ namespace OngProject.Core.Mapper
             news.SoftDelete = false;
             return news;
         }
+
+        public ViewNewsDto ConverToViewDto(News news)
+        {
+            var newsDto = new ViewNewsDto();
+            newsDto.Id = news.Id;
+            newsDto.Name = news.Name;
+            newsDto.Content = news.Content;
+            newsDto.Image = news.Image;
+            newsDto.CategoryId = news.CategoryId;
+            return newsDto;
+        }
     }
 }

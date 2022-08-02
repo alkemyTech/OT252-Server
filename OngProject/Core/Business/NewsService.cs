@@ -60,14 +60,15 @@ namespace OngProject.Core.Business
             return newsDto;
         }
 
-        public async Task<News> Insert(CreationNewsDto newsDto)
+        public async Task<ViewNewsDto> Insert(CreationNewsDto newsDto)
         {
             var imgUrl = await _imageHelper.UploadImage(newsDto.Image);
             var news = _newsMapper.ConvertToNews(newsDto);
             news.Image = imgUrl.ToString();
             await _unitOfWork.NewsRepository.Insert(news);
             _unitOfWork.Save();
-            return news;
+            var viewNewsDto = _newsMapper.ConverToViewDto(news);
+            return viewNewsDto;
         }
 
         public News Update(News news)
