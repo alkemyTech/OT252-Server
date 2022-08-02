@@ -18,5 +18,18 @@ namespace OngProject.Core.Mapper
             }
             return listDtos;
         }
+            public CommentDto ConverToDto(Comment comment)
+            {
+                var commentDto = new CommentDto();
+                commentDto.Body = comment.Body;
+                return commentDto;
+            }
+            public Comment ConverToEntity(CommentDto dto)
+            {
+                var comment = new Comment();
+                comment.Body = dto.Body;
+                return comment;
+            }
+
     }
 }

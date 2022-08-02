@@ -2,6 +2,7 @@
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -18,11 +19,21 @@ namespace OngProject.Core.Business
         }
 
         public async Task<IEnumerable<CommentDto>> GetAll()
-        {
-            mapper = new CommentMapper();
-            var comments = await _unitOfWork.CommentRepository.GetAll();
-            var commentDto = mapper.ConvertListToDto(comments);
-            return commentDto;
+        {   
+           return new CommentMapper().ConvertListToDto(await _unitOfWork.CommentRepository.GetAll());  
         }
+        public async Task<bool> Delete(int id)
+        {
+            try {
+              await _unitOfWork.CommentRepository.Delete(await _unitOfWork.CommentRepository.GetById(id));
+                _unitOfWork.Save();
+                return true;
+            }
+            catch (Exception){
+                return false;
+            }
+                    
+        }
+
     }
 }

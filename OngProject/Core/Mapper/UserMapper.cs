@@ -6,33 +6,43 @@ namespace OngProject.Core.Mapper
 {
     public class UserMapper
     {
-        
-        public UserDTO ConvertToDto (Users user)
-        {
-            UserDTO userDto = new UserDTO()
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                Photo = user.Photo,
-                
-                
-            };
-            
 
-            return userDto;
+        public IEnumerable<UserDTO> ConvertListToDto(IEnumerable<Users> listUsers)
+        {
+            List<UserDTO> listDtos = new List<UserDTO>();
+
+            foreach (Users users in listUsers)
+            {
+                UserDTO UserDto = new UserDTO();
+                UserDto.FirstName = users.FirstName;
+                UserDto.LastName = users.LastName;
+                UserDto.Photo = users.Photo;
+                UserDto.Email = users.Email;
+                listDtos.Add(UserDto);
+            }
+            return listDtos;
         }
 
-        public Users ConvertToMember (UserDTO userDto)
+        public UserDTO ConvertToDto(Users users)
         {
-            Users user = new Users()
-            {
-                FirstName = userDto.FirstName,
-                LastName = userDto.LastName,
-                Email = userDto.Email,
-                Photo = userDto.Photo,
-            };
-            return user;
+            UserDTO UserDto = new UserDTO();
+            UserDto.FirstName = users.FirstName;
+            UserDto.LastName = users.LastName;
+            UserDto.Photo = users.Photo;
+            UserDto.Email = users.Email;
+
+            return UserDto;
+        }
+
+        public Users ConvertToMember(UserDTO UserDto)
+        {
+            Users users = new Users();
+            users.FirstName = UserDto.FirstName;
+            users.LastName = UserDto.LastName;
+            users.Photo = UserDto.Photo;
+            users.Email = UserDto.Email;
+            return users;
+
         }
     }
 }

@@ -10,6 +10,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
+using OngProject.DataAccess;
+using Microsoft.EntityFrameworkCore;
+using OngProject.Repositories.Interfaces;
+using OngProject.Core.Models.DTOs;
+using OngProject.Core.Mapper;
+
+
 namespace OngProject.Core.Business
 {
     public class UserService : IUserService
@@ -46,12 +53,11 @@ namespace OngProject.Core.Business
 
         public async Task<IEnumerable<UserDTO>> GetAll()
         {
-            try
-            {
 
-            var users = await _unitOfWork.UserRepository.GetAll();
+            return new UserMapper().ConvertListToDto(await unitOfWork.UserRepository.GetAll());  
+        }
 
-            List<UserDTO> usersDto = new();
+
 
             foreach(Users user in users)
             {

@@ -25,6 +25,11 @@ namespace OngProject.Entities
         [Required]
         public string Password { get; set; }
 
+        public byte[] PasswordHash { get; set; }
+
+        public byte[] PasswordSalt { get; set; }
+
+
         [MaxLength(255)]
         public string Photo { get; set; }
 
