@@ -22,9 +22,31 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+            
+            Testimony testimony = await _unitOfWork.TestimonialsRepository.GetById(id);
+
+                if (testimony == null)
+                    return false;
+
+            await _unitOfWork.TestimonialsRepository.Delete(testimony);
+
+            _unitOfWork.Save();
+            return true;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception($"Ocurrio un error al eliminar el id {id}: {ex.Message}");
+            }
+            
+
+
         }
 
         public IEnumerable<TestimonyDTO> Find(Expression<Func<Testimony, bool>> predicate)
