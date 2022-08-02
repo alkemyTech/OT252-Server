@@ -12,7 +12,7 @@ namespace OngProject.Core.Mapper
 
         public ContactDTO ToContactDTO(Contact contacto)
         {
-            ContactDTO contactoDTO = new ContactDTO()
+            ContactDTO contactDTO = new ContactDTO()
             {
 
                
@@ -22,21 +22,23 @@ namespace OngProject.Core.Mapper
                 Phone = contacto.Phone
             };
 
-            return contactoDTO;
+            return contactDTO;
         }
 
 
         public Contact ToContact(ContactDTO contactoDTO)
         {
-            Contact contacto = new Contact()
+            Contact contact = new Contact()
             {
                 Name = contactoDTO.Name,
                 Email = contactoDTO.Email,
                 Message = contactoDTO.Message,
-                Phone = contactoDTO.Phone
+                Phone = contactoDTO.Phone,
+                TimeStamps = DateTime.Now,
+                SoftDelete = false
             };
 
-            return contacto;
+            return contact;
         }
 
 
