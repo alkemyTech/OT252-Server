@@ -27,7 +27,16 @@ namespace OngProject.Core.Business
 
         public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+
+            var user = await _unitOfWork.UserRepository.GetById(id);
+            if(user == null)
+                return false;
+
+            await _unitOfWork.UserRepository.Delete(user);
+            _unitOfWork.Save();
+
+            return true;
+
         }
 
         public IEnumerable<UserDTO> Find(Expression<Func<Users, bool>> predicate)
