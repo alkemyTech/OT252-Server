@@ -16,7 +16,7 @@ namespace OngProject.Core.Interfaces
 
         IEnumerable<Activity> Find(Expression<Func<Activity, bool>> predicate);
 
-        ActivityDto Insert(ActivityDto activityDto);
+        Task<ActivityDto> Insert(ActivityDto activityDto);
         Activity Update(Activity activity);
         bool Delete(int id);
     }

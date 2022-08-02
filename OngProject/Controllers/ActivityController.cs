@@ -56,17 +56,15 @@ namespace OngProject.Controllers
 
         [HttpPost("/activities")]
         //[Authorize(Roles = "Administrador")]
-        public ActionResult<ActivityDto> Post([FromBody] ActivityDto activityDto)
+        public async Task<ActionResult> Post([FromBody] ActivityDto activityDto)
         {
             try
             {
-                var newActivityDto = activityService.Insert(activityDto);
-
+                var newActivityDto =await activityService.Insert(activityDto);
                 return Ok(newActivityDto);
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);
             }
 

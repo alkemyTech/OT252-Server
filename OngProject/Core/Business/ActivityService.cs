@@ -43,12 +43,12 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public ActivityDto Insert(ActivityDto activityDto)
+        public async Task<ActivityDto> Insert(ActivityDto activityDto)
         {
             mapper = new ActivityMapper();
             Activity activity = mapper.ConvertToActivity(activityDto);
 
-            _unitOfWork.ActivityRepository.Insert(activity);
+            await _unitOfWork.ActivityRepository.Insert(activity);
             _unitOfWork.Save();
 
             ActivityDto newActivityDto =  mapper.ConvertToDto(activity);
