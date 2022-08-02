@@ -13,29 +13,29 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SlideController : ControllerBase
+    public class UserController : ControllerBase
     {
 
-        private readonly ISlideService slideService;
+        private readonly IUserService userService;
 
-        public SlideController(ISlideService slideService)
+        public UserController(IUserService userService)
         {
-            this.slideService = slideService;
+            this.userService = userService;
         }
 
         [Route("GetAll")]
         [HttpGet]
-        [Authorize]
-        public async Task<ActionResult<IEnumerable<Slide>>> GetAll()
+
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
         {
             try
             {
-                var slideList = await slideService.GetAll();
-                if (slideList == null)
+                var userList = await userService.GetAll();
+                if (userList == null)
                 {
                     return NotFound();
                 }
-                return Ok(slideList);
+                return Ok(userList);
             }
             catch (Exception ex)
             {
@@ -44,37 +44,17 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
-        public async Task<ActionResult<Slide>> Get(int id)
+  
+        public async Task<ActionResult<UserDTO>> Get(int id)
         {
             try
             {
-                var slide = await slideService.GetById(id);
-                if (slide == null)
-                {
-                    return BadRequest();
-                }
-                return Ok(slide);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet]
-        [Route("public/{id}")]
-
-        public async Task<ActionResult<Slide>> GetByOrganization(int id)
-        {
-            try
-            {
-                var slides = await slideService.GetByOrganization(id);
-                if (slides == null)
+                var userDto = await userService.GetById(id);
+                if (userDto == null)
                 {
                     return NotFound();
                 }
-                return Ok(slides);
+                return Ok(userDto);
             }
             catch (Exception ex)
             {
@@ -82,18 +62,20 @@ namespace OngProject.Controllers
             }
         }
 
+
         [HttpPost]
 
-        public async Task <ActionResult<Slide>> Post(SlideDto slide)
+        public async Task <ActionResult<UserDTO>> Post(UserDTO userDTO)
 
         {
             try
             {
-                if (await slideService.Insert(slide))
-                {
-                    return Ok(slide);
-                }
-                return BadRequest("Ya existe un slide con ese orden");                
+                await userService.Insert(userDTO);
+                
+                
+                return Ok(userDTO);
+                
+                             
 
                 
 
@@ -108,13 +90,13 @@ namespace OngProject.Controllers
 
         [HttpPut]
         [Authorize(Roles = "Administrador")]
-        public ActionResult<Slide> Put([FromBody] Slide slide)
+        public ActionResult<UserDTO> Put([FromBody] UserDTO userDTO)
         {
             try
             {
-                var editSlide = slideService.Update(slide);
+                var editUser = userService.Update(userDTO);
 
-                return Ok(editSlide);
+                return Ok(editUser);
             }
             catch (Exception ex)
             {
@@ -129,7 +111,7 @@ namespace OngProject.Controllers
         public async Task<ActionResult<bool>> Delete(int id)
 
         {
-            if (await slideService.Delete(id))
+            if (await userService.Delete(id))
             {
                 return Ok();
             }
