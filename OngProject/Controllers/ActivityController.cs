@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace OngProject.Controllers
 
         private readonly IActivityService activityService;
 
-        public ActivityController(ActivityService activityService)
+        public ActivityController(IActivityService activityService)
         {
             this.activityService = activityService;
         }
@@ -53,19 +54,17 @@ namespace OngProject.Controllers
             }
         }
 
-        [HttpPost]
-        [Authorize(Roles = "Administrador")]
-        public ActionResult<Activity> Post([FromBody] Activity activity)
+        [HttpPost("/activities")]
+        //[Authorize(Roles = "Administrador")]
+        public async Task<ActionResult> Post([FromBody] ActivityDto activityDto)
         {
             try
             {
-                var newActivity = activityService.Insert(activity);
-
-                return Ok(newActivity);
+                var newActivityDto =await activityService.Insert(activityDto);
+                return Ok(newActivityDto);
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);
             }
 

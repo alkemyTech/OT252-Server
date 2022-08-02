@@ -1,4 +1,6 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
@@ -13,6 +15,7 @@ namespace OngProject.Core.Business
     public class ActivityService : IActivityService
     {
         private IUnitOfWork _unitOfWork;
+        private ActivityMapper mapper;
 
         public ActivityService(IUnitOfWork unitOfWork)
         {
@@ -40,9 +43,16 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Activity Insert(Activity activity)
+        public async Task<ActivityDto> Insert(ActivityDto activityDto)
         {
-            throw new NotImplementedException();
+            mapper = new ActivityMapper();
+            Activity activity = mapper.ConvertToActivity(activityDto);
+
+            await _unitOfWork.ActivityRepository.Insert(activity);
+            _unitOfWork.Save();
+
+            ActivityDto newActivityDto =  mapper.ConvertToDto(activity);
+            return newActivityDto;
         }
 
         public Activity Update(Activity activity)
