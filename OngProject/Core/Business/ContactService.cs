@@ -16,11 +16,13 @@ namespace OngProject.Core.Business
 
         private readonly IUnitOfWork _unitOfWork;
         private ContactMapper _contactMapper;
+        private readonly ISendGrid _sendgrid;
 
-        public ContactService(IUnitOfWork unitOfWork)
+        public ContactService(IUnitOfWork unitOfWork, ISendGrid sendGrid)
         {
             _unitOfWork = unitOfWork;
             _contactMapper = new ContactMapper();
+            _sendgrid = sendGrid;
         }
 
         public bool Delete(int id)
@@ -68,6 +70,7 @@ namespace OngProject.Core.Business
             var contact = _contactMapper.ToContact(contactDTO);
             await _unitOfWork.ContactsRepository.Insert(contact);
             _unitOfWork.Save();
+            await _sendgrid.ContactEmail(contact.Email);
             var contactDtoS = _contactMapper.ToContactDTO(contact);
             return contactDtoS;
         }

@@ -8,5 +8,6 @@ namespace OngProject.Core.Interfaces
     public interface ISendGrid
     {
         Task WelcomeEmail(string email);
+        Task ContactEmail(string email);
     }
 }
