@@ -63,12 +63,13 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public async Task<Contact> Insert(ContactDTO contactDTO)
+        public async Task<ContactDTO> Insert(ContactDTO contactDTO)
         {
             var contact = _contactMapper.ToContact(contactDTO);
             await _unitOfWork.ContactsRepository.Insert(contact);
             _unitOfWork.Save();
-            return contact;
+            var contactDtoS = _contactMapper.ToContactDTO(contact);
+            return contactDtoS;
         }
 
         public Contact Update(Contact contact)
