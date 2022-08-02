@@ -23,12 +23,14 @@ namespace OngProject.Core.Business
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
+        private readonly ISendGrid _sendgrid;
         private RegisterMapper mapper;
 
-        public LoginService(IUnitOfWork unitOfWork, IConfiguration configuration)
+        public LoginService(IUnitOfWork unitOfWork, IConfiguration configuration, ISendGrid sendgrid)
         {
             _unitOfWork = unitOfWork;
             _configuration = configuration;
+            _sendgrid = sendgrid;
         }
 
         public async Task<string> GetToken(LoginDto usuario)
@@ -106,6 +108,7 @@ namespace OngProject.Core.Business
             var userlogin = mapper.ConvertToUserLogin(user);
             await _unitOfWork.UserRepository.Insert(user);
             _unitOfWork.Save();
+            await _sendgrid.WelcomeEmail(user.Email);
             var token = await GetToken(userlogin);
             return token;
         }
