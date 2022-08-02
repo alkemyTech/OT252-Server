@@ -1,4 +1,5 @@
 ﻿using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,16 @@ namespace OngProject.Core.Interfaces
     public interface IUserService
     {
 
-        Task<UserResponse> Login(string email, string password);
-        string GetToken(Users usuario);
+        Task<IEnumerable<UserDTO>> GetAll();
+
+        Task<UserDTO> GetById(int? id);
+
+        IEnumerable<UserDTO> Find(Expression<Func<Users, bool>> predicate);
+
+        Task<UserDTO> Insert(UserDTO user);
+        UserDTO Update(UserDTO user);
+        Task<bool> Delete(int id);
+
 
 
     }
