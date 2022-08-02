@@ -15,10 +15,12 @@ namespace OngProject.Core.Business
     {
 
         private readonly IUnitOfWork _unitOfWork;
+        private ContactMapper _contactMapper;
 
         public ContactService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+            _contactMapper = new ContactMapper();
         }
 
         public bool Delete(int id)
@@ -61,9 +63,12 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Contact Insert(Contact contact)
+        public async Task<Contact> Insert(ContactDTO contactDTO)
         {
-            throw new NotImplementedException();
+            var contact = _contactMapper.ToContact(contactDTO);
+            await _unitOfWork.ContactsRepository.Insert(contact);
+            _unitOfWork.Save();
+            return contact;
         }
 
         public Contact Update(Contact contact)
