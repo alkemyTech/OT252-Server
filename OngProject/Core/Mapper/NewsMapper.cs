@@ -1,5 +1,6 @@
 ﻿using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace OngProject.Core.Mapper
@@ -27,6 +28,28 @@ namespace OngProject.Core.Mapper
             newsDto.Name = news.Name;
             newsDto.Content = news.Content;
             newsDto.Image = news.Image;
+            return newsDto;
+        }
+
+        public News ConvertToNews(CreationNewsDto newsDto)
+        {
+            var news = new News();
+            news.Name = newsDto.Name;
+            news.Content = newsDto.Content;
+            news.CategoryId = newsDto.CategoryId;
+            news.TimeStamps = DateTime.Now;
+            news.SoftDelete = false;
+            return news;
+        }
+
+        public ViewNewsDto ConverToViewDto(News news)
+        {
+            var newsDto = new ViewNewsDto();
+            newsDto.Id = news.Id;
+            newsDto.Name = news.Name;
+            newsDto.Content = news.Content;
+            newsDto.Image = news.Image;
+            newsDto.CategoryId = news.CategoryId;
             return newsDto;
         }
     }
