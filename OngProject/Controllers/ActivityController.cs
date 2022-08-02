@@ -18,7 +18,7 @@ namespace OngProject.Controllers
 
         private readonly IActivityService activityService;
 
-        public ActivityController(ActivityService activityService)
+        public ActivityController(IActivityService activityService)
         {
             this.activityService = activityService;
         }
