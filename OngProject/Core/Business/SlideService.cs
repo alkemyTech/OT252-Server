@@ -79,7 +79,7 @@ namespace OngProject.Core.Business
             mapper = new SlideMapper();
 
             var slides = await _unitOfWork.SlideRepository.GetAll();
-            slides = slides.Where(s => s.OrganizationId == id).ToList();
+            slides = slides.Where(s => s.OrganizationId == id).OrderBy(s=>s.Order).ToList();
 
             if (slides == null)
             {
