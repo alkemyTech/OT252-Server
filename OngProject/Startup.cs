@@ -56,17 +56,16 @@ namespace OngProject
 
             services.AddScoped<INewsService, NewsService>();
             services.AddScoped<ILoginService, LoginService>();
-
-
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IContactService, ContactService>();
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<ICommentsService, CommentService>();
+
             services.AddScoped<IActivityService, ActivityService>();
 
+
+            services.AddScoped<IUserService, UserService>();
 
 
 

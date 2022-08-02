@@ -20,7 +20,8 @@ namespace OngProject.Core.Mapper
                 Password = EncryptHelper.GetSHA256(dto.Password),
                 Photo = dto.Photo,
                 RoleId = dto.RoleId,
-                TimeStamps = DateTime.UtcNow
+                TimeStamps = DateTime.UtcNow,
+                SoftDelete = false
                 
 
             };
