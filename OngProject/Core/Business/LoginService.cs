@@ -116,10 +116,7 @@ namespace OngProject.Core.Business
         private async Task<bool> ExistingEmail(String email)
         {
             var user = await _unitOfWork.UserRepository.Find(x => x.Email == email);
-            return ((List<Users>)user).Count!=0;
+            return ((List<Users>)user).Count != 0;
         }
-
-
-
     }
 }
