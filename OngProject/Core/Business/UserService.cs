@@ -10,13 +10,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-using OngProject.DataAccess;
-using Microsoft.EntityFrameworkCore;
-using OngProject.Repositories.Interfaces;
-using OngProject.Core.Models.DTOs;
-using OngProject.Core.Mapper;
-
-
 namespace OngProject.Core.Business
 {
     public class UserService : IUserService
@@ -36,7 +29,7 @@ namespace OngProject.Core.Business
         {
 
             var user = await _unitOfWork.UserRepository.GetById(id);
-            if(user == null)
+            if (user == null)
                 return false;
 
             await _unitOfWork.UserRepository.Delete(user);
@@ -53,18 +46,19 @@ namespace OngProject.Core.Business
 
         public async Task<IEnumerable<UserDTO>> GetAll()
         {
-
-            return new UserMapper().ConvertListToDto(await unitOfWork.UserRepository.GetAll());  
-        }
-
-
-
-            foreach(Users user in users)
+            try
             {
-                usersDto.Add(mapper.ConvertToDto(user));
-            }
 
-            return usersDto;
+                var users = await _unitOfWork.UserRepository.GetAll();
+
+                List<UserDTO> usersDto = new();
+
+                foreach (Users user in users)
+                {
+                    usersDto.Add(mapper.ConvertToDto(user));
+                }
+
+                return usersDto;
 
             }
             catch (Exception)
@@ -94,7 +88,7 @@ namespace OngProject.Core.Business
         }
 
 
-        
+
 
         public UserDTO Update(UserDTO user)
         {

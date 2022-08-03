@@ -11,9 +11,15 @@ namespace OngProject.Core.Interfaces
     public interface IUserService
     {
 
-        UserResponse Login(string email, string password);
-        string GetToken(UserResponse usuario);
         Task<IEnumerable<UserDTO>> GetAll();
+
+        Task<UserDTO> GetById(int? id);
+
+        IEnumerable<UserDTO> Find(Expression<Func<Users, bool>> predicate);
+
+        Task<UserDTO> Insert(UserDTO user);
+        UserDTO Update(UserDTO user);
+        Task<bool> Delete(int id);
 
 
 

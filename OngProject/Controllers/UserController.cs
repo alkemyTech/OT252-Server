@@ -44,7 +44,7 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
-  
+
         public async Task<ActionResult<UserDTO>> Get(int id)
         {
             try
@@ -65,19 +65,19 @@ namespace OngProject.Controllers
 
         [HttpPost]
 
-        public async Task <ActionResult<UserDTO>> Post(UserDTO userDTO)
+        public async Task<ActionResult<UserDTO>> Post(UserDTO userDTO)
 
         {
             try
             {
                 await userService.Insert(userDTO);
-                
-                
-                return Ok(userDTO);
-                
-                             
 
-                
+
+                return Ok(userDTO);
+
+
+
+
 
             }
             catch (Exception ex)
