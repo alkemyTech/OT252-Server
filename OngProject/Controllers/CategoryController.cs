@@ -89,13 +89,16 @@ namespace OngProject.Controllers
         }
 
 
-        [HttpPut]
+        [HttpPut("{id}")]
         [Authorize(Roles = "Administrador")]
-        public ActionResult<Category> Put([FromBody] Category category)
+        public ActionResult<Category> Put(int id,[FromBody] Category category)
         {
             try
             {
-                var editCategory = _categoryService.Update(category);
+                var editCategory = _categoryService.Update(id,category);
+
+                if(editCategory == null)
+                    return NotFound($"No se encontro la categoria co el id {id}");
 
                 return Ok(editCategory);
             }
