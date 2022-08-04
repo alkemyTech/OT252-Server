@@ -108,18 +108,22 @@ namespace OngProject.Controllers
 
         [HttpDelete("{id}")]
 
-        public async Task<ActionResult<bool>> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
 
         {
-            if (await userService.Delete(id))
+            try
             {
-                return Ok();
+                var deleteUsers = await userService.Delete(id);
+                if (!deleteUsers)
+                {
+                    return BadRequest("El registro no existe");
+                }
+                return Ok("Se ha eliminado el registro");
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
-
         }
     }
 }

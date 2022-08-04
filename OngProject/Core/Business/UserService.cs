@@ -32,9 +32,9 @@ namespace OngProject.Core.Business
             if (user == null)
                 return false;
 
-            await _unitOfWork.UserRepository.Delete(user);
+            user.SoftDelete = true;
+            await _unitOfWork.UserRepository.Update(user);
             _unitOfWork.Save();
-
             return true;
 
         }
