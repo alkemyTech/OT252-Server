@@ -19,6 +19,8 @@ using Amazon.S3;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Reflection;
+using System.IO;
 
 namespace OngProject
 {
@@ -35,24 +37,13 @@ namespace OngProject
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        ValidateLifetime = false,
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])
-                        )
-                    };
-                });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "OngProject", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Proyecto ONG", Version = "v1" });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "Jwt Authorization",
@@ -74,11 +65,9 @@ namespace OngProject
             },
             new string []{}
         }
-    }) ;
+    });
             });
 
-
-  
 
             services.AddDbContext<ApplicationDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
@@ -97,17 +86,30 @@ namespace OngProject
 
             services.AddScoped<INewsService, NewsService>();
             services.AddScoped<ILoginService, LoginService>();
+
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IContactService, ContactService>();
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<ICommentsService, CommentService>();
 
-            services.AddScoped<IActivityService, ActivityService>();
-
-
-            services.AddScoped<IUserService, UserService>();
-
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = false,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])
+                        )
+                    };
+                });
 
 
 
@@ -124,6 +126,7 @@ namespace OngProject
                 app.UseSwaggerUI(c => {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "OngProject v1");
                     c.RoutePrefix = "api/docs";
+
                 }
                 );
             }

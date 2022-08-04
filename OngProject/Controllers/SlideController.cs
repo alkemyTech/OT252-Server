@@ -25,7 +25,7 @@ namespace OngProject.Controllers
 
         [Route("GetAll")]
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<IEnumerable<Slide>>> GetAll()
         {
             try
@@ -44,7 +44,17 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        //[Authorize]
+        /// <summary>
+        /// Trae todos los slides
+        /// </summary>
+        /// <remarks>
+        /// Aquí una descripción mas larga si fuera necesario.Trae todos los slides
+        /// </remarks>
+        /// <param name="pais">Objeto a crear a la BD.</param>
+        /// <response code="401">Unauthorized. No se ha indicado o es incorrecto el Token JWT de acceso.</response>              
+        /// <response code="201">Created. Slide insertado correctamente creado en la BD.</response>        
+        /// <response code="400">BadRequest. No se ha creado el slide en la BD. Formato del objeto incorrecto.</response>
         public async Task<ActionResult<Slide>> Get(int id)
         {
             try
@@ -55,26 +65,6 @@ namespace OngProject.Controllers
                     return BadRequest();
                 }
                 return Ok(slide);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet]
-        [Route("public/{id}")]
-
-        public async Task<ActionResult<Slide>> GetByOrganization(int id)
-        {
-            try
-            {
-                var slides = await slideService.GetByOrganization(id);
-                if (slides == null)
-                {
-                    return NotFound();
-                }
-                return Ok(slides);
             }
             catch (Exception ex)
             {
@@ -107,7 +97,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "Administrador")]
+        //[Authorize(Roles = "Administrador")]
         public ActionResult<Slide> Put([FromBody] Slide slide)
         {
             try
