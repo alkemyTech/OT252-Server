@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
+using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
@@ -26,15 +27,14 @@ namespace OngProject.Controllers
 
         [Route("GetAll")]
         [HttpGet]
-        [Authorize]
-        public ActionResult <IEnumerable<News>> GetAll()
+        //[Authorize]
+        public async Task <ActionResult<PageHelper<List<NewsDto>>>> GetAll(int page = 1)
         {
 
             try
             {
-                var newsList = _newService.GetAll();
-
-                return Ok(newsList);
+                var newsList = await _newService.GetAll();
+                return Ok(PageHelper<NewsDto>.Create(newsList, page, 5));
             }
             catch (Exception ex)
             {

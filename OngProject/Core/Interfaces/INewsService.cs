@@ -9,7 +9,7 @@ namespace OngProject.Core.Interfaces
 {
     public interface INewsService
     {
-        IEnumerable<News> GetAll();
+        Task<List<NewsDto>> GetAll();
 
         Task<NewsDto> GetById(int? id);
 

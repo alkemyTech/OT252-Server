@@ -7,7 +7,7 @@ namespace OngProject.Core.Mapper
 {
     public class NewsMapper
     {
-        public IEnumerable<NewsDto> ConvertListToDto(IEnumerable<News> listNews)
+        public List<NewsDto> ConvertListToDto(IEnumerable<News> listNews)
         {
             List<NewsDto> listDtos = new List<NewsDto>();
 
