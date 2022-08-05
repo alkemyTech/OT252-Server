@@ -28,17 +28,18 @@ namespace OngProject.Controllers
         [Route("GetAll")]
         [HttpGet]
         //[Authorize]
-        public async Task <ActionResult<PageHelper<List<NewsDto>>>> GetAll(int page = 1)
+        public async Task <ActionResult<PageHelper<NewsDto>>> GetAll(int page = 1)
         {
 
             try
             {
                 var newsList = await _newService.GetAll();
-                return Ok(PageHelper<NewsDto>.Create(newsList, page, 5));
+                var prueba = PageHelper<NewsDto>.Create(newsList, page, 10);
+                NewsPagesDto pages = new NewsPagesDto(prueba);
+                return Ok(pages);
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);  
             }
             

@@ -17,7 +17,7 @@ namespace OngProject.Core.Helper
         public PageHelper(List<T> items, int count, int pageNumber, int pageSize)
         {
             TotalCount = count;
-            TotalPages = pageNumber;
+            PageSize = pageSize;
             CurrentPage = pageNumber;
             TotalPages = (int)Math.Ceiling(count / (double)PageSize);
             AddRange(items);
