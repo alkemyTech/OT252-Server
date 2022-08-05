@@ -50,23 +50,23 @@ namespace OngProject.Core.Mapper
 
         public Organization UpdateModelWithDto(Organization model, OrganizationDTO dto)
         {
-            model.Name = !ControlString(model.Name)  ? dto.Name : model.Name;
-            model.Address = !ControlString(model.Address) ? dto.Address : model.Address;
-            model.Email = !ControlString(model.Email) ? dto.Email : model.Email;
-            model.Phone = !ControlString(model.Phone) ? dto.Phone : model.Email;
-            model.Image = !ControlString(model.Image) ? dto.Image : model.Image;
-            model.AboutUsText = !ControlString(model.AboutUsText) ? dto.AboutUsText : model.AboutUsText;
-            model.WelcomeText = !ControlString(model.WelcomeText) ? dto.WelcomeText : model.WelcomeText;
-            model.FacebookUrl = !ControlString(model.FacebookUrl) ? dto.FacebookUrl : model.FacebookUrl;
-            model.LinkedinUrl = !ControlString(model.LinkedinUrl) ? dto.LinkedinUrl : model.LinkedinUrl;
-            model.InstagramUrl = !ControlString(model.InstagramUrl) ? dto.InstagramUrl : model.InstagramUrl;
+            model.Name = !ControlString(dto.Name)  ? dto.Name : model.Name;
+            model.Address = !ControlString(dto.Address) ? dto.Address : model.Address;
+            model.Email = !ControlString(dto.Email) ? dto.Email : model.Email;
+            model.Phone = !ControlString(dto.Phone) ? dto.Phone : model.Email;
+            model.Image = !ControlString(dto.Image) ? dto.Image : model.Image;
+            model.AboutUsText = !ControlString(dto.AboutUsText) ? dto.AboutUsText : model.AboutUsText;
+            model.WelcomeText = !ControlString(dto.WelcomeText) ? dto.WelcomeText : model.WelcomeText;
+            model.FacebookUrl = !ControlString(dto.FacebookUrl) ? dto.FacebookUrl : model.FacebookUrl;
+            model.LinkedinUrl = !ControlString(dto.LinkedinUrl) ? dto.LinkedinUrl : model.LinkedinUrl;
+            model.InstagramUrl = !ControlString(dto.InstagramUrl) ? dto.InstagramUrl : model.InstagramUrl;
 
             return model;
         }
 
         private bool ControlString(string text)
         {
-            if (text != ""  || text == "string")
+            if (text == ""  || text == "string")
             {
                 return true;
             }
