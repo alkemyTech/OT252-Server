@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
@@ -70,15 +68,23 @@ namespace OngProject.Controllers
 
         }
 
-        [HttpPut]
-        [Authorize(Roles = "Administrador")]
-        public ActionResult<Activity> Put([FromBody] Activity activity)
+        [HttpPut("/activities/")]
+        //[Authorize(Roles = "Administrador")]
+        public async Task<ActionResult> Put([FromBody] ActivityDto activityDto, int id)
         {
             try
             {
-                var editActivity = activityService.Update(activity);
-
-                return Ok(editActivity);
+                var editActivity = await activityService.GetById(id);
+                if (editActivity != null)
+                {
+                    var updatedActivity = activityService.Update(activityDto);
+                    var retorno = activityService.GetById(id);
+                    return Ok(retorno);
+                }
+                else
+                {
+                    return NotFound("La actividad enviada no existe");
+                }
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
@@ -38,9 +39,16 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Activity GetById(int? id)
+        public async Task<ActivityDto> GetById(int? id)
         {
-            throw new NotImplementedException();
+            var response = await _unitOfWork.ActivityRepository.GetById(id);
+            if(response != null)
+            {
+                ActivityDto activityDto = new ActivityDto();
+                activityDto = mapper.ConvertToDto(response);
+                return activityDto;
+            }
+            return null;
         }
 
         public async Task<ActivityDto> Insert(ActivityDto activityDto)
@@ -55,9 +63,12 @@ namespace OngProject.Core.Business
             return newActivityDto;
         }
 
-        public Activity Update(Activity activity)
+        public async Task Update(ActivityDto activityDto)
         {
-            throw new NotImplementedException();
+            var activity = mapper.ConvertToActivity(activityDto);
+
+            await _unitOfWork.ActivityRepository.Update(activity);
+            _unitOfWork.Save();
         }
     }
 }
