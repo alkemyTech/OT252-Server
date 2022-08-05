@@ -57,7 +57,7 @@ namespace OngProject.Core.Business
 
                 return new List<OrganizationDTO>();
             }
-            
+
         }
 
         public async Task<OrganizationDTO> GetById(int? id)
@@ -65,9 +65,13 @@ namespace OngProject.Core.Business
             try
             {
                 Organization organization = await _unitOfWork.OrganizationRepository.GetById(id);
+                if (organization == null)
+                {
+                    return null;
+                }
 
                 OrganizationDTO organizationDto = mapper.ToOrganizationDTO(organization);
-               
+
                 return organizationDto;
             }
             catch (Exception)
@@ -82,9 +86,21 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Organization Update(Organization organization)
+        public async Task<Organization> Update(OrganizationDTO orgDto, int id)
         {
-            throw new NotImplementedException();
+            var orgToUpdate = await _unitOfWork.OrganizationRepository.GetById(id);
+            if (orgToUpdate != null)
+            {
+                var entityUpdated = mapper.UpdateModelWithDto(orgToUpdate, orgDto);
+                await _unitOfWork.OrganizationRepository.Update(entityUpdated);
+                _unitOfWork.Save();
+                return entityUpdated;
+            }
+            else
+            {
+                return null;
+            }
+
         }
     }
 }
