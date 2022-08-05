@@ -44,9 +44,11 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public IEnumerable<News> GetAll()
+        public async Task<List<NewsDto>> GetAll()
         {
-            throw new NotImplementedException();
+            var listMember = await _unitOfWork.NewsRepository.GetAll();
+            var membersDto = _newsMapper.ConvertListToDto(listMember);
+            return membersDto;
         }
 
         public async Task<NewsDto> GetById(int? id)

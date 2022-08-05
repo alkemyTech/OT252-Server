@@ -16,7 +16,7 @@ namespace OngProject.Core.Interfaces
         Task<IEnumerable<OrganizationDTO>> Find(Expression<Func<Organization, bool>> predicate);
 
         Organization Insert(Organization organization);
-        Organization Update(Organization organization);
+        Task<Organization> Update(OrganizationDTO organization, int id);
         bool Delete(int id);
         
 

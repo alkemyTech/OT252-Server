@@ -20,11 +20,11 @@ namespace OngProject.Controllers
         public OrganizationsController(IOrganizationsService organizationsService)
         {
             _organizationsService = organizationsService;
-        }   
+        }
 
         [Route("public")]
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<IEnumerable<OrganizationDTO>>> GetAll()
         {
 
@@ -37,31 +37,38 @@ namespace OngProject.Controllers
             catch (Exception ex)
             {
 
-                return BadRequest(ex.Message);  
+                return BadRequest(ex.Message);
             }
-            
-            
+
+
         }
 
-        
+
         [HttpGet("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<OrganizationDTO>> Get(int id)
         {
             try
             {
                 var organization = await _organizationsService.GetById(id);
+                if (organization != null)
+                {
+                    return Ok(organization);
 
-                return Ok(organization);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            
+
         }
 
-       
+
         [HttpPost]
         [Authorize(Roles = "Administrador")]
         public ActionResult<News> Post([FromBody] Organization organization)
@@ -77,29 +84,36 @@ namespace OngProject.Controllers
 
                 return BadRequest(ex.Message);
             }
-            
+
         }
 
-     
+
         [HttpPut]
-        [Authorize(Roles = "Administrador")]
-        public ActionResult<Organization> Put([FromBody] Organization organization)
+        [Route("public")]
+        //[Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<OrganizationDTO>> Put([FromBody] OrganizationDTO organization, int id)
         {
             try
             {
-                var editOrganization = _organizationsService.Update(organization);
-
-                return Ok(editOrganization);
+                var org = await _organizationsService.Update(organization, id);
+                if (org != null)
+                {
+                    return Ok(org);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {
 
                 return BadRequest(ex.Message);
             }
-            
+
         }
 
-       
+
         [HttpDelete("{id}")]
         [Authorize(Roles = "Administrador")]
         public ActionResult<bool> Delete(int id)
@@ -113,9 +127,9 @@ namespace OngProject.Controllers
             catch (Exception ex)
             {
 
-                return BadRequest(ex.Message);  
+                return BadRequest(ex.Message);
             }
-            
+
         }
     }
 }

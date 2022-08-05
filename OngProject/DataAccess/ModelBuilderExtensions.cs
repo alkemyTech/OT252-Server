@@ -462,6 +462,123 @@ namespace OngProject.DataAccess
                         TimeStamps = DateTime.Now,
                         SoftDelete = false
 
+                    },
+                    new News
+                    {
+                        Id = 5,
+                        Name = "Donación Supermercado El Juanito",
+                        Content = "El Señor Pascual Perez, dueño del Juanito comenzo a donarnos a partir de hoy 50 Kgs " +
+                        "de pan por dia, podemos reforzar nuestras" +
+                        " raciones que hoy alimentan a 342 familias del barrio de La Cava y barrios aledaños.",
+                        Image = "Agregar ruta de la imagen",
+                        CategoryId = 4,
+                        TimeStamps = DateTime.Now,
+                        SoftDelete = false
+
+                    },
+                    new News
+                    {
+                        Id = 6,
+                        Name = "Donación Supermercado El Juanito",
+                        Content = "El Señor Pascual Perez, dueño del Juanito comenzo a donarnos a partir de hoy 50 Kgs " +
+                        "de pan por dia, podemos reforzar nuestras" +
+                        " raciones que hoy alimentan a 342 familias del barrio de La Cava y barrios aledaños.",
+                        Image = "Agregar ruta de la imagen",
+                        CategoryId = 4,
+                        TimeStamps = DateTime.Now,
+                        SoftDelete = false
+
+                    },
+                    new News
+                    {
+                        Id = 7,
+                        Name = "Donación Supermercado El Juanito",
+                        Content = "El Señor Pascual Perez, dueño del Juanito comenzo a donarnos a partir de hoy 50 Kgs " +
+                        "de pan por dia, podemos reforzar nuestras" +
+                        " raciones que hoy alimentan a 342 familias del barrio de La Cava y barrios aledaños.",
+                        Image = "Agregar ruta de la imagen",
+                        CategoryId = 4,
+                        TimeStamps = DateTime.Now,
+                        SoftDelete = false
+
+                    },
+                    new News
+                    {
+                        Id = 8,
+                        Name = "Donación Supermercado El Juanito",
+                        Content = "El Señor Pascual Perez, dueño del Juanito comenzo a donarnos a partir de hoy 50 Kgs " +
+                        "de pan por dia, podemos reforzar nuestras" +
+                        " raciones que hoy alimentan a 342 familias del barrio de La Cava y barrios aledaños.",
+                        Image = "Agregar ruta de la imagen",
+                        CategoryId = 4,
+                        TimeStamps = DateTime.Now,
+                        SoftDelete = false
+
+                    },
+                    new News
+                    {
+                        Id = 9,
+                        Name = "Donación Supermercado El Juanito",
+                        Content = "El Señor Pascual Perez, dueño del Juanito comenzo a donarnos a partir de hoy 50 Kgs " +
+                        "de pan por dia, podemos reforzar nuestras" +
+                        " raciones que hoy alimentan a 342 familias del barrio de La Cava y barrios aledaños.",
+                        Image = "Agregar ruta de la imagen",
+                        CategoryId = 4,
+                        TimeStamps = DateTime.Now,
+                        SoftDelete = false
+
+                    },
+                    new News
+                    {
+                        Id = 10,
+                        Name = "Donación Supermercado El Juanito",
+                        Content = "El Señor Pascual Perez, dueño del Juanito comenzo a donarnos a partir de hoy 50 Kgs " +
+                        "de pan por dia, podemos reforzar nuestras" +
+                        " raciones que hoy alimentan a 342 familias del barrio de La Cava y barrios aledaños.",
+                        Image = "Agregar ruta de la imagen",
+                        CategoryId = 4,
+                        TimeStamps = DateTime.Now,
+                        SoftDelete = false
+
+                    },
+                    new News
+                    {
+                        Id = 11,
+                        Name = "Donación Supermercado El Juanito",
+                        Content = "El Señor Pascual Perez, dueño del Juanito comenzo a donarnos a partir de hoy 50 Kgs " +
+                        "de pan por dia, podemos reforzar nuestras" +
+                        " raciones que hoy alimentan a 342 familias del barrio de La Cava y barrios aledaños.",
+                        Image = "Agregar ruta de la imagen",
+                        CategoryId = 4,
+                        TimeStamps = DateTime.Now,
+                        SoftDelete = false
+
+                    },
+                    new News
+                    {
+                        Id = 12,
+                        Name = "Donación Supermercado El Juanito",
+                        Content = "El Señor Pascual Perez, dueño del Juanito comenzo a donarnos a partir de hoy 50 Kgs " +
+                        "de pan por dia, podemos reforzar nuestras" +
+                        " raciones que hoy alimentan a 342 familias del barrio de La Cava y barrios aledaños.",
+                        Image = "Agregar ruta de la imagen",
+                        CategoryId = 4,
+                        TimeStamps = DateTime.Now,
+                        SoftDelete = false
+
+                    },
+                    new News
+                    {
+                        Id = 13,
+                        Name = "Donación Supermercado El Juanito",
+                        Content = "El Señor Pascual Perez, dueño del Juanito comenzo a donarnos a partir de hoy 50 Kgs " +
+                        "de pan por dia, podemos reforzar nuestras" +
+                        " raciones que hoy alimentan a 342 familias del barrio de La Cava y barrios aledaños.",
+                        Image = "Agregar ruta de la imagen",
+                        CategoryId = 4,
+                        TimeStamps = DateTime.Now,
+                        SoftDelete = false
+
                     }
 
                 );

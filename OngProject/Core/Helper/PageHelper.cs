@@ -23,7 +23,7 @@ namespace OngProject.Core.Helper
             AddRange(items);
         }
 
-        public static PageHelper<T> Create(IQueryable<T> source, int pageNumber, int pageSize)
+        public static PageHelper<T> Create(IEnumerable<T> source, int pageNumber, int pageSize)
         {
             var count = source.Count();
             var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
