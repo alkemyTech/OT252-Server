@@ -34,7 +34,7 @@ namespace OngProject.Controllers
             try
             {
                 var newsList = await _newService.GetAll();
-                return Ok(PageHelper<NewsDto>.Create(newsList, page, 5));
+                return Ok(PageHelper<NewsDto>.Create(newsList, page, 10));
             }
             catch (Exception ex)
             {
