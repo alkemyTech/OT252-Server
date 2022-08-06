@@ -81,7 +81,7 @@ namespace OngProject.Core.Business
 
             Category category = await _unitOfWork.CategoryRepository.GetById(id);
 
-            if(category ==null)
+            if(category == null)
                 return null;
 
             var imgUrl = await _imageHelper.UploadImage(crearCategoryDto.Image);
@@ -93,7 +93,7 @@ namespace OngProject.Core.Business
             category.Description = crearCategoryDto.Description;
 
             await _unitOfWork.CategoryRepository.Update(category);
-                _unitOfWork.Save();
+            _unitOfWork.Save();
 
             CategoryDto categoryDto = _categoryMapper.ConverToDto(category);
 

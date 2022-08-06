@@ -25,7 +25,6 @@ namespace OngProject.Controllers
 
         [Route("GetAll")]
         [HttpGet]
-        [Authorize]
         public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAll()
         {
             try
@@ -66,7 +65,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult> Post([FromForm] CreationCategoryDto categorydto)
         {
             try
@@ -91,14 +90,14 @@ namespace OngProject.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Administrador")]
-        public ActionResult<Category> Put(int id,[FromBody] Category category)
+        public async Task<ActionResult<CategoryDto>> Put([FromForm] CreationCategoryDto category, int id)
         {
             try
             {
-                var editCategory = _categoryService.Update(id,category);
+                var editCategory = await _categoryService.Update(id,category);
 
                 if(editCategory == null)
-                    return NotFound($"No se encontro la categoria co el id {id}");
+                    return NotFound($"No se encontro la categoria con el id {id}");
 
                 return Ok(editCategory);
             }
@@ -111,7 +110,7 @@ namespace OngProject.Controllers
         }
 
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult> Delete(int id)
         {
             try

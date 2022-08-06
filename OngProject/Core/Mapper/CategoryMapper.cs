@@ -16,6 +16,8 @@ namespace OngProject.Core.Mapper
             {
                 CategoryDto dto = new CategoryDto();
                 dto.Name = category.Name;
+                dto.Description = category.Description;
+                dto.Image = category.Image;
                 categoryDtos.Add(dto);
             }
             return categoryDtos;
@@ -23,8 +25,12 @@ namespace OngProject.Core.Mapper
 
         public CategoryDto ConverToDto(Category category)
         {
-            var categoryDto = new CategoryDto();
-            categoryDto.Name = category.Name;
+            var categoryDto = new CategoryDto()
+            {
+                Name = category.Name,
+                Description = category.Description,
+                Image = category.Image,
+            };
          
             return categoryDto;
         }
