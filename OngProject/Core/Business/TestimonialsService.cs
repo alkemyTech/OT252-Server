@@ -16,10 +16,12 @@ namespace OngProject.Core.Business
         private readonly TestimonyMapper mapper = new();
 
         private IUnitOfWork _unitOfWork;
+        private IImageHelper _imageHelper;
 
-        public TestimonialsService(IUnitOfWork unitOfWork)
+        public TestimonialsService(IUnitOfWork unitOfWork, IImageHelper imageHelper)
         {
             _unitOfWork = unitOfWork;
+            _imageHelper = imageHelper;
         }
 
         public async Task<bool> Delete(int id)
@@ -54,9 +56,18 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TestimonyDTO> GetAll()
+        public async Task<IEnumerable<TestimonyDTO>> GetAll()
         {
-            throw new NotImplementedException();
+            var listTestimony = await _unitOfWork.TestimonialsRepository.GetAll();
+
+            List<TestimonyDTO> listTestimonyDto = new ();
+
+            foreach(Testimony testimony in listTestimony)
+                {
+                listTestimonyDto.Add(mapper.ToTestimonyDTO(testimony));
+            }
+            
+            return listTestimonyDto;
         }
 
         public TestimonyDTO GetById(int? id)
@@ -64,7 +75,7 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public TestimonyDTO Insert(TestimonyDTO testimonyDTO)
+        public async Task<TestimonyDTO> Insert(CreationTestimonyDTO testimonyDTO)
         {
             try
             {
@@ -72,7 +83,9 @@ namespace OngProject.Core.Business
 
             Testimony testimony = mapper.ToTestimony(testimonyDTO);
 
-            _unitOfWork.TestimonialsRepository.Insert(testimony);
+            testimony.Image = await _imageHelper.UploadImage(testimonyDTO.Image);
+
+            await _unitOfWork.TestimonialsRepository.Insert(testimony);
             _unitOfWork.Save();
 
              return mapper.ToTestimonyDTO(testimony);

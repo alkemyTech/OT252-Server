@@ -9,13 +9,13 @@ namespace OngProject.Core.Interfaces
 {
     public interface ITestimonialsService
     {
-        IEnumerable<TestimonyDTO> GetAll();
+        Task<IEnumerable<TestimonyDTO>> GetAll();
 
         TestimonyDTO GetById(int? id);
 
         IEnumerable<TestimonyDTO> Find(Expression<Func<Testimony, bool>> predicate);
 
-        TestimonyDTO Insert(TestimonyDTO testimony);
+        Task<TestimonyDTO> Insert(CreationTestimonyDTO testimony);
         TestimonyDTO Update(TestimonyDTO testimony);
         Task<bool> Delete(int id);
         
