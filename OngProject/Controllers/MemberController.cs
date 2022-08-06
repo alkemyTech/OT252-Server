@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +19,12 @@ namespace OngProject.Controllers
     {
 
         private readonly IMemberService memberService;
+        private readonly IUnitOfWork unitOfWork;   
 
-        public MemberController(IMemberService memberService)
+        public MemberController(IMemberService memberService, IUnitOfWork unitOfWork)
         {
             this.memberService = memberService;
+            this.unitOfWork = unitOfWork;
         }
 
         [Route("/Members")]
@@ -77,21 +81,14 @@ namespace OngProject.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "Administrador")]
-        public ActionResult<Member> Put([FromBody] Member member)
+        //[Authorize(Roles = "Administrador")]
+        public ActionResult<MemberDto> Put([FromBody] MemberDto member)
         {
-            try
-            {
-                var editMember = memberService.Update(member);
 
-                return Ok(editMember);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex.Message);
-            }
-
+            if (unitOfWork.MemberRepository is null) return BadRequest();
+            unitOfWork.MemberRepository.Update(new MemberMapper().ConvertToMember(member));
+            unitOfWork.Save();
+            return NoContent();
         }
 
         [HttpDelete("/members")]

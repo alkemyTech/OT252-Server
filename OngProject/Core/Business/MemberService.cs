@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
@@ -67,9 +68,6 @@ namespace OngProject.Core.Business
             return newMember;
         }
 
-        public Member Update(Member member)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
