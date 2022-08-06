@@ -71,7 +71,7 @@ namespace OngProject.Controllers
 
        
         [HttpPost]
-        //[Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult> Post([FromForm]CreationNewsDto creationNewsDto)
         {
             try
@@ -102,11 +102,14 @@ namespace OngProject.Controllers
      
         [HttpPut]
         [Authorize(Roles = "Administrador")]
-        public ActionResult<News> Put([FromBody] News news)
+        public async Task<ActionResult<ViewNewsDto>> Put([FromForm] CreationNewsDto news, int id)
         {
             try
             {
-                var editNews = _newService.Update(news);
+                var editNews = await _newService.Update(news, id);
+
+                if (editNews == null)
+                    return NotFound($"El id de la news no es correcto, news id {id}");
 
                 return Ok(editNews);
             }
