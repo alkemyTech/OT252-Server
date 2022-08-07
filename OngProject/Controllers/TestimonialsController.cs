@@ -27,18 +27,18 @@ namespace OngProject.Controllers
         [Route("GetAll")]
         [HttpGet]
         //[Authorize]
-        public async Task<ActionResult<TestimonyPageDTO>> GetAll(int page = 1)
+        public async Task<ActionResult<PageHelper<TestimonyDTO>>> GetAll(int page = 1)
         {
 
             try
             {
                 var testimonyList = await _testimonialsService.GetAll();
 
-                var pageHelper = PageHelper<TestimonyDTO>.Create(testimonyList, page, 10);
+                PageHelper<TestimonyDTO> pageHelper = PageHelper<TestimonyDTO>.Create(testimonyList, page, 10);
 
-                TestimonyPageDTO testimonyPages = new TestimonyPageDTO(pageHelper);
+                
 
-                return Ok(testimonyPages);
+                return Ok(pageHelper);
             }
             catch (Exception ex)
             {
