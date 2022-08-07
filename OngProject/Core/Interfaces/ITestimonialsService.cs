@@ -16,9 +16,9 @@ namespace OngProject.Core.Interfaces
         IEnumerable<TestimonyDTO> Find(Expression<Func<Testimony, bool>> predicate);
 
         Task<TestimonyDTO> Insert(CreationTestimonyDTO testimony);
-        TestimonyDTO Update(TestimonyDTO testimony);
+       
         Task<bool> Delete(int id);
-        
-
+        TestimonyDTO putActionTestimony(TestimonyDTO testimony, int id);
+       
     }
 }
