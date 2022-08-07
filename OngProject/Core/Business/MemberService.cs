@@ -68,6 +68,12 @@ namespace OngProject.Core.Business
             return newMember;
         }
 
-        
+        public async Task<MemberDto> putActionMember(MemberDto member, int id)
+        {
+            if (_unitOfWork.MemberRepository.GetById(id) is null) return null;
+            await _unitOfWork.MemberRepository.Update(new MemberMapper().ConvertToMember(member));
+            _unitOfWork.Save();
+            return member;
+        }
     }
 }

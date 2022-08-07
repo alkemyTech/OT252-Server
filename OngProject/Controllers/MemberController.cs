@@ -19,7 +19,7 @@ namespace OngProject.Controllers
     {
 
         private readonly IMemberService memberService;
-        private readonly IUnitOfWork unitOfWork;   
+        private readonly IUnitOfWork unitOfWork;
 
         public MemberController(IMemberService memberService, IUnitOfWork unitOfWork)
         {
@@ -34,12 +34,12 @@ namespace OngProject.Controllers
         {
             try
             {
-                var memberList =await memberService.GetAll();
-                if(memberList == null)
+                var memberList = await memberService.GetAll();
+                if (memberList == null)
                 {
                     return NotFound();
                 }
-                    return Ok(memberList);
+                return Ok(memberList);
             }
             catch (Exception ex)
             {
@@ -80,17 +80,16 @@ namespace OngProject.Controllers
 
         }
 
-        [HttpPut]
-        //[Authorize(Roles = "Administrador")]
-        public ActionResult<MemberDto> Put([FromBody] MemberDto member)
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador")]
+        public ActionResult<MemberDto> Put([FromBody] MemberDto member, int id)
         {
-
-            if (unitOfWork.MemberRepository is null) return BadRequest();
-            unitOfWork.MemberRepository.Update(new MemberMapper().ConvertToMember(member));
-            unitOfWork.Save();
-            return NoContent();
+            return (member) switch
+            {
+                (not null) => Ok(memberService.putActionMember(member,id)),
+                (null)=> NotFound(),
+            };
         }
-
         [HttpDelete("/members")]
         //[Authorize(Roles = "Administrador")]
         public async Task<ActionResult<bool>> Delete(int id)
