@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
@@ -67,9 +68,12 @@ namespace OngProject.Core.Business
             return newMember;
         }
 
-        public Member Update(Member member)
+        public async Task<MemberDto> putActionMember(MemberDto member, int id)
         {
-            throw new NotImplementedException();
+            if (_unitOfWork.MemberRepository.GetById(id) is null) return null;
+            await _unitOfWork.MemberRepository.Update(new MemberMapper().ConvertToMember(member));
+            _unitOfWork.Save();
+            return member;
         }
     }
 }
