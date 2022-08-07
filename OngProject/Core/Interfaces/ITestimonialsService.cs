@@ -18,7 +18,7 @@ namespace OngProject.Core.Interfaces
         Task<TestimonyDTO> Insert(CreationTestimonyDTO testimony);
        
         Task<bool> Delete(int id);
-        TestimonyDTO putActionTestimony(TestimonyDTO testimony, int id);
+        Task<TestimonyDTO> putActionTestimony(TestimonyDTO testimony, int id);
        
     }
 }
