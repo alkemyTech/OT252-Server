@@ -12,12 +12,12 @@ namespace OngProject.Core.Interfaces
     {
         IEnumerable<Activity> GetAll();
 
-        Activity GetById(int? id);
+        Task<ActivityDto> GetById(int? id);
 
         IEnumerable<Activity> Find(Expression<Func<Activity, bool>> predicate);
 
         Task<ActivityDto> Insert(ActivityDto activityDto);
-        Activity Update(Activity activity);
+        Task<ActivityDto> Update(int id,ActivityDto activity);
         bool Delete(int id);
     }
 }

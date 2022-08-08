@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
@@ -38,9 +39,17 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Activity GetById(int? id)
+        public async Task<ActivityDto> GetById(int? id)
         {
-            throw new NotImplementedException();
+            var response = await _unitOfWork.ActivityRepository.GetById(id);
+            if(response != null)
+            {
+                mapper = new ActivityMapper();
+                ActivityDto activityDto = new ActivityDto();
+                activityDto = mapper.ConvertToDto(response);
+                return activityDto;
+            }
+            return null;
         }
 
         public async Task<ActivityDto> Insert(ActivityDto activityDto)
@@ -55,9 +64,32 @@ namespace OngProject.Core.Business
             return newActivityDto;
         }
 
-        public Activity Update(Activity activity)
+        public async Task<ActivityDto> Update(int id,ActivityDto activityDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                mapper = new ActivityMapper();
+                Activity activity = await _unitOfWork.ActivityRepository.GetById(id);
+
+                if(activity == null)
+                {
+                    return null;
+                }
+
+                activity.Name = activityDto.Name;
+                activity.Content = activityDto.Content;
+                activity.Image = activityDto.Image;
+
+                await _unitOfWork.ActivityRepository.Update(activity);
+                _unitOfWork.Save();
+
+                ActivityDto updatedActivityDto = mapper.ConvertToDto(activity);
+                return updatedActivityDto;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
