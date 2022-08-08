@@ -18,6 +18,6 @@ namespace OngProject.Core.Interfaces
 
         MemberDto Insert(MemberDto member);
         Task<bool> Delete(int id);
-        MemberDto putActionMember(MemberDto member, int id);
+        Task<MemberDto> putActionMember(MemberDto member, int id);
     }
 }

@@ -64,12 +64,32 @@ namespace OngProject.Core.Business
             return newActivityDto;
         }
 
-        public async Task Update(ActivityDto activityDto)
+        public async Task<ActivityDto> Update(int id,ActivityDto activityDto)
         {
-            var activity = mapper.ConvertToActivity(activityDto);
+            try
+            {
+                mapper = new ActivityMapper();
+                Activity activity = await _unitOfWork.ActivityRepository.GetById(id);
 
-            await _unitOfWork.ActivityRepository.Update(activity);
-            _unitOfWork.Save();
+                if(activity == null)
+                {
+                    return null;
+                }
+
+                activity.Name = activityDto.Name;
+                activity.Content = activityDto.Content;
+                activity.Image = activityDto.Image;
+
+                await _unitOfWork.ActivityRepository.Update(activity);
+                _unitOfWork.Save();
+
+                ActivityDto updatedActivityDto = mapper.ConvertToDto(activity);
+                return updatedActivityDto;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

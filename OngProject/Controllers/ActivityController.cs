@@ -70,21 +70,17 @@ namespace OngProject.Controllers
 
         [HttpPut("/activities/")]
         //[Authorize(Roles = "Administrador")]
-        public async Task<ActionResult> Put([FromBody] ActivityDto activityDto, int id)
+        public async Task<ActionResult<ActivityDto>> Put([FromBody] ActivityDto activityDto, int id)
         {
             try
             {
-                var editActivity = await activityService.GetById(id);
-                if (editActivity != null)
-                {
-                    var updatedActivity = activityService.Update(activityDto);
-                    var retorno = activityService.GetById(id);
-                    return Ok(retorno);
-                }
-                else
+                var editActivity = await activityService.Update(id,activityDto);
+                if (editActivity == null)
                 {
                     return NotFound("La actividad enviada no existe");
                 }
+
+                return Ok(editActivity);
             }
             catch (Exception ex)
             {
