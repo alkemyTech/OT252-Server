@@ -1,5 +1,7 @@
-﻿using OngProject.Core.Models.DTOs;
+﻿using OngProject.Core.Helper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace OngProject.Core.Mapper
@@ -14,16 +16,14 @@ namespace OngProject.Core.Mapper
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                Photo = user.Photo,
-
-
+                Photo = user.Photo
             };
 
 
             return userDto;
         }
 
-        public Users ConvertToMember(UserDTO userDto)
+        public Users ConvertToUser(UserDTO userDto)
         {
             Users user = new Users()
             {
@@ -34,5 +34,37 @@ namespace OngProject.Core.Mapper
             };
             return user;
         }
+
+        public Users ConvertToUserC(Users user, CreationUserDto userDto)
+        {
+            user = new Users()
+            {
+                Id = user.Id,
+                FirstName = userDto.FirstName,
+                LastName = userDto.LastName,
+                Email = userDto.Email,
+                Password = EncryptHelper.GetSHA256(userDto.Password),
+                RoleId = userDto.RoleId,
+                TimeStamps = DateTime.Now,
+                SoftDelete = false
+            };
+            return user;
+        }
+
+        public ViewUserDto ConvertToViewUser(Users users)
+        {
+            ViewUserDto userDto = new ViewUserDto()
+            {
+                Id = users.Id,
+                FirstName = users.FirstName,
+                LastName = users.LastName,
+                Email = users.Email,
+                Photo = users.Photo,
+                RoleId = users.RoleId
+
+            };
+            return userDto;
+        }
+
     }
 }

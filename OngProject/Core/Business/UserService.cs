@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
@@ -9,21 +10,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using OngProject.Core.Helper;
 
 namespace OngProject.Core.Business
 {
     public class UserService : IUserService
     {
         private IUnitOfWork _unitOfWork;
+        private IImageHelper _imageHelper;
+        private UserMapper _mapper = new UserMapper();
 
-        private UserMapper mapper = new UserMapper();
 
-
-        public UserService(IUnitOfWork unitOfWork)
+        public UserService(IUnitOfWork unitOfWork, IImageHelper imageHelper, IUnitOfWork unitOfWork1, IUnitOfWork unitOfWork2)
         {
             _unitOfWork = unitOfWork;
-        }
+            _imageHelper = imageHelper;
 
+        }
 
         public async Task<bool> Delete(int id)
         {
@@ -39,11 +42,6 @@ namespace OngProject.Core.Business
 
         }
 
-        public IEnumerable<UserDTO> Find(Expression<Func<Users, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IEnumerable<UserDTO>> GetAll()
         {
             try
@@ -55,7 +53,7 @@ namespace OngProject.Core.Business
 
                 foreach (Users user in users)
                 {
-                    usersDto.Add(mapper.ConvertToDto(user));
+                    usersDto.Add(_mapper.ConvertToDto(user));
                 }
 
                 return usersDto;
@@ -74,8 +72,11 @@ namespace OngProject.Core.Business
             {
 
                 var user = await _unitOfWork.UserRepository.GetById(id);
-
-                UserDTO userDto = mapper.ConvertToDto(user);
+                if(user == null)
+                {
+                    return null;
+                }
+                UserDTO userDto = _mapper.ConvertToDto(user);
 
                 return userDto;
 
@@ -87,17 +88,86 @@ namespace OngProject.Core.Business
             }
         }
 
-
-
-
-        public UserDTO Update(UserDTO user)
+        public async Task<ViewUserDto> Update(int id, CreationUserDto userDto)
         {
-            throw new NotImplementedException();
+            var user = await _unitOfWork.UserRepository.GetById(id);
+            var imageUrl = await _imageHelper.UploadImage(userDto.Photo);
+            user.FirstName = userDto.FirstName;
+            user.LastName = userDto.LastName;
+            user.Email = userDto.Email;
+            user.Password = EncryptHelper.GetSHA256(userDto.Password);
+            user.Photo = imageUrl;
+            user.RoleId = userDto.RoleId;
+            _unitOfWork.Save();
+            var userUpdate = _mapper.ConvertToViewUser(user);
+            userUpdate.Password = userDto.Password;
+            return userUpdate;
         }
 
         public Task<UserDTO> Insert(UserDTO user)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Users>> Find(Expression<Func<Users, bool>> predicate)
+        {
+            var user = await _unitOfWork.UserRepository.Find(predicate);
+            if(user == null)
+            {
+                return null;
+            }
+            return user;
+        }
+
+        public async Task<int> CheckUser(string email, int id)
+        {
+            int coincidencia = 0;
+            int respuesta = 0;
+            var users = await _unitOfWork.UserRepository.GetAll();
+            _unitOfWork.Save();
+            foreach (var user in users)
+            {
+                if(user.Id == id)
+                {
+                    coincidencia = 1;
+                    break;
+                }
+            }
+            if(coincidencia == 1)
+            {
+                foreach (var user2 in users)
+                {
+                    if(user2.Id != id && user2.Email == email)
+                    {
+                        respuesta = 2;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                respuesta = 1;
+            }
+            if(coincidencia == 1 && respuesta == 0)
+            {
+                respuesta = 0;
+            }
+            return respuesta;
+        }
+
+        public async Task<int> CheckRole(int idRole)
+        {
+            var role = await _unitOfWork.RoleRepository.GetById(idRole);
+            if(role == null)
+            {
+                return 1;
+            }
+            return 2;
+        }
+
+        public void Dispose()
+        {
+            _unitOfWork.Dispose();
         }
     }
 }

@@ -15,13 +15,17 @@ namespace OngProject.Core.Interfaces
 
         Task<UserDTO> GetById(int? id);
 
-        IEnumerable<UserDTO> Find(Expression<Func<Users, bool>> predicate);
+        Task<IEnumerable<Users>> Find(Expression<Func<Users, bool>> predicate);
 
         Task<UserDTO> Insert(UserDTO user);
-        UserDTO Update(UserDTO user);
+        Task<ViewUserDto> Update(int id, CreationUserDto userDto);
         Task<bool> Delete(int id);
 
+        Task<int> CheckUser(string email, int id);
 
+        Task<int> CheckRole(int idRole);
+
+        void Dispose();
 
     }
 }
