@@ -44,6 +44,7 @@ namespace OngProject.Core.Business
             var response = await _unitOfWork.ActivityRepository.GetById(id);
             if(response != null)
             {
+                mapper = new ActivityMapper();
                 ActivityDto activityDto = new ActivityDto();
                 activityDto = mapper.ConvertToDto(response);
                 return activityDto;
