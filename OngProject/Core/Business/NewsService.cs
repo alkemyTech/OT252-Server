@@ -44,9 +44,11 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public IEnumerable<News> GetAll()
+        public async Task<List<NewsDto>> GetAll()
         {
-            throw new NotImplementedException();
+            var listMember = await _unitOfWork.NewsRepository.GetAll();
+            List<NewsDto> membersDto = (List<NewsDto>) _newsMapper.ConvertListToDto(listMember);
+            return membersDto;
         }
 
         public async Task<NewsDto> GetById(int? id)
@@ -71,8 +73,39 @@ namespace OngProject.Core.Business
             return viewNewsDto;
         }
 
-        public News Update(News news)
+        public async Task<ViewNewsDto> Update(CreationNewsDto news, int id)
         {
+            
+                News editNews = await _unitOfWork.NewsRepository.GetById(id);
+
+                if (editNews == null)
+                    return null;
+
+            Category category = await _unitOfWork.CategoryRepository.GetById(news.CategoryId);
+
+            if (category == null)
+                throw new Exception("El id de la categoria no es correcto");
+
+
+                var imgUrl = await _imageHelper.UploadImage(news.Image);
+
+                editNews.Content = news.Content;
+                editNews.Name = news.Name;
+                editNews.Image = imgUrl.ToString();
+                editNews.CategoryId = news.CategoryId;
+                editNews.Content = news.Content;
+                editNews.TimeStamps = DateTime.Now;
+
+                await _unitOfWork.NewsRepository.Update(editNews);
+            _unitOfWork.Save();
+
+                return _newsMapper.ConverToViewDto(editNews); 
+
+
+            
+
+
+
             throw new NotImplementedException();
         }
 

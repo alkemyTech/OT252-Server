@@ -15,8 +15,8 @@ namespace OngProject.Core.Interfaces
 
         IEnumerable<Category> Find(Expression<Func<Category, bool>> predicate);
 
-        public Task<Category> Insert(CreationCategoryDto categoryDto);
-        Category Update(Category category);
+        public Task<CategoryDto> Insert(CreationCategoryDto categoryDto);
+        Task<CategoryDto> Update(int id, CreationCategoryDto category);
         Task<bool> Delete(int id);
         
 

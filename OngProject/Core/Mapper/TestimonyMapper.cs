@@ -19,6 +19,18 @@ namespace OngProject.Core.Mapper
             return testimony;
         }
 
+        public Testimony ToTestimony(CreationTestimonyDTO testymonyDTO)
+        {
+            Testimony testimony = new Testimony()
+            {
+               
+                Name = testymonyDTO.Name,
+                Content = testymonyDTO.Content,
+                
+            };
+
+            return testimony;
+        }
         public TestimonyDTO ToTestimonyDTO(Testimony testimony)
         {
             TestimonyDTO testimonyDTO = new TestimonyDTO()

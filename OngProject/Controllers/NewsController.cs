@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
+using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
@@ -26,19 +27,19 @@ namespace OngProject.Controllers
 
         [Route("GetAll")]
         [HttpGet]
-        [Authorize]
-        public ActionResult <IEnumerable<News>> GetAll()
+        //[Authorize]
+        public async Task <ActionResult<PageHelper<NewsDto>>> GetAll(int page = 1)
         {
 
             try
             {
-                var newsList = _newService.GetAll();
-
-                return Ok(newsList);
+                var newsList = await _newService.GetAll();
+                var prueba = PageHelper<NewsDto>.Create(newsList, page, 10);
+                NewsPagesDto pages = new NewsPagesDto(prueba);
+                return Ok(pages);
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);  
             }
             
@@ -70,7 +71,7 @@ namespace OngProject.Controllers
 
        
         [HttpPost]
-        //[Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult> Post([FromForm]CreationNewsDto creationNewsDto)
         {
             try
@@ -101,11 +102,14 @@ namespace OngProject.Controllers
      
         [HttpPut]
         [Authorize(Roles = "Administrador")]
-        public ActionResult<News> Put([FromBody] News news)
+        public async Task<ActionResult<ViewNewsDto>> Put([FromForm] CreationNewsDto news, int id)
         {
             try
             {
-                var editNews = _newService.Update(news);
+                var editNews = await _newService.Update(news, id);
+
+                if (editNews == null)
+                    return NotFound($"El id de la news no es correcto, news id {id}");
 
                 return Ok(editNews);
             }

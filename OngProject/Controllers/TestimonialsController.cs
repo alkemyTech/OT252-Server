@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
+using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
@@ -24,15 +26,19 @@ namespace OngProject.Controllers
 
         [Route("GetAll")]
         [HttpGet]
-        [Authorize]
-        public ActionResult <IEnumerable<Testimony>> GetAll()
+        //[Authorize]
+        public async Task<ActionResult<PageHelper<TestimonyDTO>>> GetAll(int page = 1)
         {
 
             try
             {
-                var newsList = _testimonialsService.GetAll();
+                var testimonyList = await _testimonialsService.GetAll();
 
-                return Ok(newsList);
+                PageHelper<TestimonyDTO> pageHelper = PageHelper<TestimonyDTO>.Create(testimonyList, page, 10);
+
+                
+
+                return Ok(pageHelper);
             }
             catch (Exception ex)
             {
@@ -62,13 +68,13 @@ namespace OngProject.Controllers
 
        
         [HttpPost]
-        public ActionResult<TestimonyDTO> Post([FromBody] TestimonyDTO testimony)
+        public async Task<ActionResult<TestimonyDTO>> Post([FromForm] CreationTestimonyDTO testimony)
         {
 
             
             try
             {
-                var newTestimony = _testimonialsService.Insert(testimony);
+                var newTestimony = await _testimonialsService.Insert(testimony);
 
                 return Ok(newTestimony);
             }

@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +19,12 @@ namespace OngProject.Controllers
     {
 
         private readonly IMemberService memberService;
+        private readonly IUnitOfWork unitOfWork;
 
-        public MemberController(IMemberService memberService)
+        public MemberController(IMemberService memberService, IUnitOfWork unitOfWork)
         {
             this.memberService = memberService;
+            this.unitOfWork = unitOfWork;
         }
 
         [Route("/Members")]
@@ -30,12 +34,12 @@ namespace OngProject.Controllers
         {
             try
             {
-                var memberList =await memberService.GetAll();
-                if(memberList == null)
+                var memberList = await memberService.GetAll();
+                if (memberList == null)
                 {
                     return NotFound();
                 }
-                    return Ok(memberList);
+                return Ok(memberList);
             }
             catch (Exception ex)
             {
@@ -76,24 +80,16 @@ namespace OngProject.Controllers
 
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         [Authorize(Roles = "Administrador")]
-        public ActionResult<Member> Put([FromBody] Member member)
+        public ActionResult<MemberDto> Put([FromBody] MemberDto member, int id)
         {
-            try
+            return (member) switch
             {
-                var editMember = memberService.Update(member);
-
-                return Ok(editMember);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex.Message);
-            }
-
+                (not null) => Ok(memberService.putActionMember(member,id)),
+                (null)=> NotFound(),
+            };
         }
-
         [HttpDelete("/members")]
         //[Authorize(Roles = "Administrador")]
         public async Task<ActionResult<bool>> Delete(int id)

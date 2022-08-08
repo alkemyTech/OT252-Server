@@ -9,14 +9,14 @@ namespace OngProject.Core.Interfaces
 {
     public interface INewsService
     {
-        IEnumerable<News> GetAll();
+        Task<List<NewsDto>> GetAll();
 
         Task<NewsDto> GetById(int? id);
 
         IEnumerable<News> Find(Expression<Func<News, bool>> predicate);
 
         public Task<ViewNewsDto> Insert(CreationNewsDto newsDto);
-        News Update(News news);
+        Task<ViewNewsDto> Update(CreationNewsDto news, int id);
         Task<bool> Delete(int id);
 
         Task<IEnumerable<Comment>> FindComment(Expression<Func<Comment, bool>> predicate);
