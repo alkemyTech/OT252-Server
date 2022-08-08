@@ -2,10 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,11 +19,15 @@ namespace OngProject.Controllers
     public class UserController : ControllerBase
     {
 
-        private readonly IUserService userService;
+        private readonly IUserService _userService;
+        private UserMapper _userMapper;
+        private GenericResponse _response;
 
         public UserController(IUserService userService)
         {
-            this.userService = userService;
+            _userService = userService;
+            _userMapper = new UserMapper();
+            _response = new GenericResponse();
         }
 
         [Route("GetAll")]
@@ -30,7 +37,7 @@ namespace OngProject.Controllers
         {
             try
             {
-                var userList = await userService.GetAll();
+                var userList = await _userService.GetAll();
                 if (userList == null)
                 {
                     return NotFound();
@@ -49,7 +56,7 @@ namespace OngProject.Controllers
         {
             try
             {
-                var userDto = await userService.GetById(id);
+                var userDto = await _userService.GetById(id);
                 if (userDto == null)
                 {
                     return NotFound();
@@ -70,7 +77,7 @@ namespace OngProject.Controllers
         {
             try
             {
-                await userService.Insert(userDTO);
+                await _userService.Insert(userDTO);
 
 
                 return Ok(userDTO);
@@ -88,15 +95,29 @@ namespace OngProject.Controllers
 
         }
 
-        [HttpPut]
-        [Authorize(Roles = "Administrador")]
-        public ActionResult<UserDTO> Put([FromBody] UserDTO userDTO)
+        [HttpPatch("{id}")]
+        //[Authorize(Roles = "Administrador")]
+        public async Task<ActionResult> Patch([Required]int id, [FromForm]CreationUserDto userDto)
         {
             try
             {
-                var editUser = userService.Update(userDTO);
-
-                return Ok(editUser);
+                var respuesta = await _userService.CheckUser(userDto.Email, id);
+                if(respuesta == 1)
+                {
+                    return NotFound("El usuario no esta registrado");
+                }else if (respuesta == 2)
+                {
+                    return BadRequest("El email ya esta registrado");
+                }
+                var respuesta2 = await _userService.CheckRole(userDto.RoleId);
+                if(respuesta2 == 1)
+                {
+                    return NotFound("El rol no esta registrado");
+                }
+                var userUpdate = await _userService.Update(id, userDto);
+                _response.Message = "Se ha modificado la información del usuario";
+                _response.User = userUpdate;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
@@ -113,7 +134,7 @@ namespace OngProject.Controllers
         {
             try
             {
-                var deleteUsers = await userService.Delete(id);
+                var deleteUsers = await _userService.Delete(id);
                 if (!deleteUsers)
                 {
                     return BadRequest("El registro no existe");
@@ -124,6 +145,16 @@ namespace OngProject.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        private async Task<bool> CheckUserId(int id)
+        {
+            var user = await _userService.GetById(id);
+            if (user == null)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
