@@ -143,9 +143,24 @@ namespace OngProject.Core.Business
 
         }
 
-        public Slide Update(Slide slide)
+        public async Task<SlideDto> Update(int id,SlideDto slideDto)
         {
-            throw new NotImplementedException();
+            mapper = new SlideMapper();
+            Slide slide = await _unitOfWork.SlideRepository.GetById(id);
+            if(slide == null)
+            {
+                return null;
+            }
+
+            slide.ImageUrl=slideDto.UrlImage;
+            slide.Text=slideDto.Text;
+            slide.Order=slideDto.Order;
+
+            await _unitOfWork.SlideRepository.Update(slide);
+            _unitOfWork.Save();
+
+            SlideDto retornoDto = mapper.ConverToDto(slide);
+            return retornoDto;
         }
 
         public async Task<bool> GetOrder(SlideDto dto)
