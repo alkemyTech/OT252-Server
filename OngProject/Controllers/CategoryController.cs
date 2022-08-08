@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
+using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
@@ -25,20 +26,15 @@ namespace OngProject.Controllers
 
         [Route("GetAll")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAll(int page = 1)
         {
             try
             {
-                var categoryList = await _categoryService.GetAll();
-                if(categoryList == null)
-                {
-                    return NotFound("No hay registros");
-                }
-                return Ok(categoryList);
+                PageHelper<CategoryDto> pageHelper = PageHelper<CategoryDto>.Create(await _categoryService.GetAll(), page, 10);
+                return Ok(pageHelper);
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);  
             }
         }
