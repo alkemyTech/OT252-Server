@@ -34,7 +34,7 @@ namespace OngProject.Controllers
             try
             {
                 var newsList = await _newService.GetAll();
-                var prueba = PageHelper<NewsDto>.Create(newsList, page, 10);
+                var prueba = PageHelper<NewsDto>.Create(newsList, page, 2);
                 NewsPagesDto pages = new NewsPagesDto(prueba);
                 return Ok(pages);
             }

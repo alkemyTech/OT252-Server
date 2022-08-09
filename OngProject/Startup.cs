@@ -114,13 +114,12 @@ namespace OngProject
             services.AddScoped<ILoginService, LoginService>();
 
 
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IContactService, ContactService>();
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<ICommentsService, CommentService>();
+            services.AddScoped<IUserService, UserService>();
 
 
             services.AddAuthentication(option =>
