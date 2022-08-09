@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NSwag.Annotations;
 using OngProject.Core.Business;
 using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
@@ -11,6 +13,11 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
+    /// <summary>
+    /// Controlador para el mantenimiento de las novedades de la ONG
+    /// </summary>
+    [OpenApiTag("Novedades",
+                Description = "Web API para el mantenimiento de las Novedades de la ONG.")]
     [Route("api/[controller]")]
     [ApiController]
     public class NewsController : ControllerBase
@@ -19,21 +26,41 @@ namespace OngProject.Controllers
         private readonly INewsService _newService;
         private readonly ICategoryService _categoryService;
 
+        /// <summary>
+        /// Constructor del controlador recibe INewsService y ICategoryService como dependencia
+        /// </summary>
         public NewsController(INewsService newService, ICategoryService categoryService)
         {
             _newService = newService;
             _categoryService = categoryService;
-        }   
+        }
 
+
+        /// GET: api/News/GetAll
+        /// <summary>
+        /// Obtiene todas las novedades de la ONG.
+        /// </summary>
+        /// <remarks>
+        /// Esta api devuelve un List News con todas las actividades registradas por la ONG.
+        /// </remarks>           
+        /// <response code="200">OK. Devuelve el listado de las novedades.</response>        
+        /// <response code="400">BadRequest. Un error al buscar los datos solicitados.</response>
+        /// <response code="404">NotFound. No se encontraron novedades.</response> 
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Route("GetAll")]
         [HttpGet]
-        //[Authorize]
         public async Task <ActionResult<PageHelper<NewsDto>>> GetAll(int page = 1)
         {
 
             try
             {
                 var newsList = await _newService.GetAll();
+                
+                if (newsList == null)
+                    return NotFound("No se encontraron novedades.");
+
                 var prueba = PageHelper<NewsDto>.Create(newsList, page, 10);
                 NewsPagesDto pages = new NewsPagesDto(prueba);
                 return Ok(pages);
@@ -46,8 +73,21 @@ namespace OngProject.Controllers
             
         }
 
-        
 
+        /// GET: api/News/{id}
+        /// <summary>
+        /// Obtiene la novedad de la ONG con el id enviado.
+        /// </summary>
+        /// <remarks>
+        /// Esta api devuelve una novedad con el id enviado de todas las novedades registradas por la ONG.
+        /// </remarks>
+        /// <param name="id">Id (int) de la novedad.</param>              
+        /// <response code="200">OK. Devuelve la novedad con el id enviado.</response> 
+        /// <response code="400">BadRequest. Un error al buscar los datos solicitados.</response>   
+        /// <response code="404">NotFound. No se encontro la novedad con la id enviada.</response> 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("/news")]
         public async Task<ActionResult<NewsDto>> Get(int id)
         {
@@ -69,7 +109,20 @@ namespace OngProject.Controllers
             
         }
 
-       
+        // POST: api/News
+        /// <summary>
+        /// Almacena una nueva novedad en la base de datos.
+        /// </summary>
+        /// <remarks>
+        /// Esta api recibe una nueva novedad enviada en el formulario, y la inserta en la base de datos.
+        /// </remarks>
+        /// <param name="creationNewsDto"> DTO de novedad.</param>
+        /// <response code="400">BadRequest. Un error al insertar los datos solicitados.</response>   
+        /// <response code="401">Unauthorized. No se ha indicado, es incorrecto el Token JWT de acceso o no tiene rol de administrador.</response>              
+        /// <response code="200">OK. Devuelve la novedad registrada.</response> 
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         [Authorize(Roles = "Administrador")]
         public async Task<ActionResult> Post([FromForm]CreationNewsDto creationNewsDto)
@@ -99,7 +152,23 @@ namespace OngProject.Controllers
             
         }
 
-     
+        // PUT: api/News
+        /// <summary>
+        /// Actualiza una novedad registrada en la base de datos.
+        /// </summary>
+        /// <remarks>
+        /// Esta api recibe una novedad enviada en el formulario, ya registrada en la base de datos y la actualiza.
+        /// </remarks>
+        /// <param name="news"> DTO de novedades.</param>
+        /// <param name="id"> id de la novedad.</param>
+        /// <response code="400">BadRequest. Un error al actualizar los datos solicitados.</response>   
+        /// <response code="401">Unauthorized. No se ha indicado, es incorrecto el Token JWT de acceso o no tiene rol de administrador.</response>              
+        /// <response code="404">NotFound. No se encontro la novedad con la id enviada para actualizar.</response> 
+        /// <response code="200">OK. Devuelve la novedad actualizada.</response> 
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut]
         [Authorize(Roles = "Administrador")]
         public async Task<ActionResult<ViewNewsDto>> Put([FromForm] CreationNewsDto news, int id)
@@ -121,9 +190,24 @@ namespace OngProject.Controllers
             
         }
 
-
+        // DELETE: api/News
+        /// <summary>
+        /// Elimina una novedad con borrado suave.
+        /// </summary>
+        /// <remarks>
+        /// Esta api recibe id de la novedad a borrar, y se actualiza el campo softDelete a true en la tabla
+        /// </remarks>
+        /// <param name="id"> Id (int) de la novedad.</param>
+        /// <response code="400">BadRequest. Un error al borrar los datos solicitados.</response>   
+        /// <response code="401">Unauthorized. No se ha indicado, es incorrecto el Token JWT de acceso o no tiene rol de administrador.</response>              
+        /// <response code="404">NotFound. No se encontro la novedad con la id enviada para eliminar.</response> 
+        /// <response code="200">OK. Devuelve la novedad actualizada.</response>
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult> Delete(int id)
         {
             try
@@ -142,8 +226,22 @@ namespace OngProject.Controllers
 
         }
 
+
+        /// GET: api/{idNews}/comments
+        /// <summary>
+        /// Obtiene los comentarios de una novedad dada.
+        /// </summary>
+        /// <remarks>
+        /// Esta api busca todos los comentarios de una novedad.
+        /// </remarks>
+        /// <param name="idNews">Id (int) de la novedad.</param>              
+        /// <response code="200">OK. Devuelve los comentarios con el id de la novedad enviado.</response> 
+        /// <response code="400">BadRequest. Un error al buscar los datos solicitados.</response>   
+        /// <response code="404">NotFound. No se encontraron comentarios con la id enviada.</response> 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("{idNews}/comments")]
-        
         public async Task<ActionResult<IEnumerable<Comment>>> GetComments(int idNews)
         {
             try
