@@ -100,9 +100,16 @@ namespace OngProject.Core.Business
 
         public async Task<TestimonyDTO> putActionTestimony(TestimonyDTO testimony, int id)
         {
+            try
+            {
             if (_unitOfWork.TestimonialsRepository.GetById(id) is null) return null;
             await _unitOfWork.TestimonialsRepository.Update(new TestimonyMapper().ToTestimony(testimony));
             _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+                var x = ex.Message;
+            }
             return testimony;
         }
     }
