@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NSwag.Annotations;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
@@ -13,6 +14,11 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
+    /// <summary>
+    /// Controlador para el mantenimiento de las actividades de la ONG
+    /// </summary>
+    [SwaggerTag("Member",
+                Description = "Web API para miembros de la ONG.")]
     [Route("api/[controller]")]
     [ApiController]
     public class MemberController : ControllerBase
@@ -27,6 +33,14 @@ namespace OngProject.Controllers
             this.unitOfWork = unitOfWork;
         }
 
+
+        /// GET: api/Members/GetAll
+        /// <summary>
+        /// Obtiene todas los miembros de la ONG.
+        /// </summary>
+        /// <remarks>
+        /// Retorna un listado con todos los miembros de la ONG.
+        /// </remarks>
         [Route("/Members")]
         [HttpGet]
         [Authorize]
@@ -47,6 +61,13 @@ namespace OngProject.Controllers
             }
         }
 
+        /// GET: api/Members/:id
+        /// <summary>
+        /// Obtiene un miembro de la ONG con el id pasado por parámetro.
+        /// </summary>
+        /// <remarks>
+        /// Retorna un miembro.
+        /// </remarks>
         [HttpGet("{id}")]
         [Authorize]
         public ActionResult<Member> Get(int id)
@@ -62,6 +83,15 @@ namespace OngProject.Controllers
             }
         }
 
+
+        /// POST: api/members/
+        /// <summary>
+        /// Agrega un nuevo miembro a la ONG.
+        /// </summary>
+        /// <remarks>
+        /// Retorna el miembro agregado recientemente.
+        /// CAMPO REQUERIDO: el campo nombre es necesario completar 
+        /// </remarks>
         [HttpPost("/Members")]
         //[Authorize(Roles = "Administrador")]
         public ActionResult<MemberDto> Post([FromBody] MemberDto member)
@@ -80,6 +110,15 @@ namespace OngProject.Controllers
 
         }
 
+
+
+        /// PUT: api/members/:id
+        /// <summary>
+        /// Actualiza datos de un miembro de la ONG pasando el id del mismo.
+        /// </summary>
+        /// <remarks>
+        /// Retorna el miembro con los datos modificados.
+        /// </remarks>
         [HttpPut("{id}")]
         [Authorize(Roles = "Administrador")]
         public ActionResult<MemberDto> Put([FromBody] MemberDto member, int id)
@@ -90,6 +129,14 @@ namespace OngProject.Controllers
                 (null)=> NotFound(),
             };
         }
+
+        /// DELETE: api/members/:id
+        /// <summary>
+        /// Elimina un miembro de la ONG pasando el id del mismo.
+        /// </summary>
+        /// <remarks>
+        /// Retorna verdadero o falso según se elimina correctamente o no.
+        /// </remarks>
         [HttpDelete("/members")]
         //[Authorize(Roles = "Administrador")]
         public async Task<ActionResult<bool>> Delete(int id)
