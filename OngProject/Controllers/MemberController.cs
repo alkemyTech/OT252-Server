@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using OngProject.Core.Business;
+using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
@@ -43,8 +44,8 @@ namespace OngProject.Controllers
         /// </remarks>
         [Route("/Members")]
         [HttpGet]
-        [Authorize]
-        public async Task<ActionResult<IEnumerable<Member>>> GetAll()
+        //[Authorize]
+        public async Task<ActionResult<PageHelper<MemberDto>>> GetAll(int page = 1)
         {
             try
             {
@@ -53,7 +54,8 @@ namespace OngProject.Controllers
                 {
                     return NotFound();
                 }
-                return Ok(memberList);
+                PageHelper<MemberDto> members = PageHelper<MemberDto>.Create(memberList, page, 10);
+                return Ok(members);
             }
             catch (Exception ex)
             {
