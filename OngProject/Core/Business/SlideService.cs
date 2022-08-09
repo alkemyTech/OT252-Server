@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
@@ -60,7 +61,8 @@ namespace OngProject.Core.Business
         /// <param name="pais">Objeto a crear a la BD.</param>
         /// <response code="401">Unauthorized. No se ha indicado o es incorrecto el Token JWT de acceso.</response>              
         /// <response code="201">Created. Objeto correctamente creado en la BD.</response>        
-        /// <response code="400">BadRequest. No se ha creado el objeto en la BD. Formato del objeto incorrecto.</response>
+     /// <response code="400">BadRequest. No se ha creado el objeto en la BD. Formato del objeto incorrecto.</response>
+
         public async Task<IEnumerable<SlideDto>> GetAll()
         {
             mapper = new SlideMapper();

@@ -97,10 +97,11 @@ namespace OngProject
             services.AddDbContext<ApplicationDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+          
 
 
 
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
             services.AddScoped<ISendGrid, SendGridHelper>();
@@ -121,21 +122,25 @@ namespace OngProject
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<ICommentsService, CommentService>();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+
+            services.AddAuthentication(option =>
+            {
+                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        ValidateLifetime = false,
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = false,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(
                             Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])
                         )
-                    };
-                });
-
+                };
+            });
 
 
 
@@ -164,8 +169,8 @@ namespace OngProject
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

@@ -25,7 +25,7 @@ namespace OngProject.Controllers
 
         [Route("GetAll")]
         [HttpGet]
-        //[Authorize]
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult<IEnumerable<Slide>>> GetAll()
         {
             try
