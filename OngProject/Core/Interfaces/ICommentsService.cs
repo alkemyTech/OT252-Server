@@ -7,5 +7,7 @@ namespace OngProject.Core.Interfaces
     public interface ICommentsService
     {
         Task<IEnumerable<CommentDto>> GetAll();
+
+        Task<CommentDto> Update(int id, CommentDto commentDto);
     }
 }

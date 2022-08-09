@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 using System;
@@ -52,9 +53,22 @@ namespace OngProject.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}")]
-        public void PutComments(int id, Comment comment)
+        [HttpPut("/comments/")]
+        public async Task<ActionResult<CommentDto>> Put(int id, CommentDto commentDto)
         {
+            try
+            {
+                var commentUpdated = await commentService.Update(id, commentDto);
+                if(commentUpdated == null)
+                {
+                    return NotFound("El comentario no existe");
+                }
+                return Ok(commentUpdated);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
