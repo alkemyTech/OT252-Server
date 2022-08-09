@@ -108,7 +108,7 @@ namespace OngProject.Core.Business
             var userlogin = mapper.ConvertToUserLogin(user);
             await _unitOfWork.UserRepository.Insert(user);
             _unitOfWork.Save();
-            //await _sendgrid.WelcomeEmail(user.Email);
+            await _sendgrid.WelcomeEmail(user.Email);
             var token = await GetToken(userlogin);
             return token;
         }
