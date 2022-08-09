@@ -18,7 +18,7 @@ namespace OngProject.Core.Interfaces
         IEnumerable<Slide> Find(Expression<Func<Slide, bool>> predicate);
 
         Task<bool> Insert(SlideDto slide);
-        Slide Update(Slide slide);
+        Task<SlideDto> Update(int id,SlideDto slide);
         Task<bool> Delete(int id);
     }
 }

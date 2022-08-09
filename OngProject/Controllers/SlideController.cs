@@ -96,14 +96,17 @@ namespace OngProject.Controllers
 
         }
 
-        [HttpPut]
+        [HttpPut("/slides/")]
         //[Authorize(Roles = "Administrador")]
-        public ActionResult<Slide> Put([FromBody] Slide slide)
+        public async Task<ActionResult<SlideDto>> Put([FromBody] SlideDto slideDto, int id)
         {
             try
             {
-                var editSlide = slideService.Update(slide);
-
+                var editSlide = await slideService.Update(id, slideDto);
+                if(editSlide == null)
+                {
+                    return NotFound("El slide enviado no existe");
+                }
                 return Ok(editSlide);
             }
             catch (Exception ex)
