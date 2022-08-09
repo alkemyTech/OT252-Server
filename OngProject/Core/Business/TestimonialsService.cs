@@ -98,9 +98,12 @@ namespace OngProject.Core.Business
 
         }
 
-        public TestimonyDTO Update(TestimonyDTO testimony)
+        public async Task<TestimonyDTO> putActionTestimony(TestimonyDTO testimony, int id)
         {
-            throw new NotImplementedException();
+            if (_unitOfWork.TestimonialsRepository.GetById(id) is null) return null;
+            await _unitOfWork.TestimonialsRepository.Update(new TestimonyMapper().ToTestimony(testimony));
+            _unitOfWork.Save();
+            return testimony;
         }
     }
 }

@@ -87,21 +87,14 @@ namespace OngProject.Controllers
         }
 
      
-        [HttpPut]
-        public ActionResult<TestimonyDTO> Put([FromBody] TestimonyDTO testimony)
+        [HttpPut("{id}")]
+        public ActionResult<TestimonyDTO> Put([FromBody] TestimonyDTO testimony, int id)
         {
-            try
+            return (testimony) switch
             {
-                var editTestimony = _testimonialsService.Update(testimony);
-
-                return Ok(editTestimony);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex.Message);
-            }
-            
+                (not null) => Ok(_testimonialsService.putActionTestimony(testimony, id)),
+                (null) => NoContent(), 
+            };
         }
 
        
