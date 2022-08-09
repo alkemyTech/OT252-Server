@@ -36,7 +36,7 @@ namespace OngProject.Controllers
         /// Obtiene todas las actividades de la ONG.
         /// </summary>
         /// <remarks>
-        /// Esta api devuelve un List<Activity> con todas las actividades registradas por la ONG.
+        /// Esta api devuelve un List Activity con todas las actividades registradas por la ONG.
         /// </remarks>
         /// <response code="401">Unauthorized. No se ha indicado o es incorrecto el Token JWT de acceso.</response>              
         /// <response code="200">OK. Devuelve el listado de actividades.</response>        

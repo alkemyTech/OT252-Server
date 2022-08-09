@@ -21,6 +21,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Reflection;
 using System.IO;
+using NSwag;
+using NSwag.Generation.Processors.Security;
+using OpenApiSecurityScheme = NSwag.OpenApiSecurityScheme;
 
 namespace OngProject
 {
@@ -38,34 +41,56 @@ namespace OngProject
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+            //        services.AddSwaggerGen(c =>
+            //        {
+            //            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Proyecto ONG", Version = "v1" });
+            //            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            //            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            //            c.IncludeXmlComments(xmlPath);
+            //            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            //            {
+            //                Description = "Jwt Authorization",
+            //                Name = "Authorization",
+            //                In = ParameterLocation.Header,
+            //                Type = SecuritySchemeType.ApiKey,
+            //                Scheme = "Bearer"
+            //            });
+            //            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            //{
+            //    {
+            //        new OpenApiSecurityScheme
+            //        {
+            //            Reference = new OpenApiReference
+            //            {
+            //                Type = ReferenceType.SecurityScheme,
+            //                Id = "Bearer"
+            //            }
+            //        },
+            //        new string []{}
+            //    }
+            //});
+            //        });
+
+            // REGISTRAMOS SWAGGER COMO SERVICIO
+            services.AddOpenApiDocument(document =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Proyecto ONG", Version = "v1" });
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Description = "Jwt Authorization",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
-                });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string []{}
-        }
-    });
+                document.Title = "ONG Project Web API";
+                document.Description = "Backend de la ONG para la aceleración de Alkemy.";
+
+                // CONFIGURAMOS LA SEGURIDAD JWT PARA SWAGGER,
+                // PERMITE AÑADIR EL TOKEN JWT A LA CABECERA.
+                document.AddSecurity("JWT", Enumerable.Empty<string>(),
+                    new OpenApiSecurityScheme
+                    {
+                        Type = OpenApiSecuritySchemeType.ApiKey,
+                        Name = "Authorization",
+                        In = OpenApiSecurityApiKeyLocation.Header,
+                        Description = "Copia y pega el Token en el campo 'Value:' así: Bearer {Token JWT}."
+                    }
+                );
+
+                document.OperationProcessors.Add(
+                    new AspNetCoreOperationSecurityScopeProcessor("JWT"));
             });
 
 
@@ -122,13 +147,17 @@ namespace OngProject
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "OngProject v1");
-                    c.RoutePrefix = "api/docs";
-
-                }
+                //app.UseSwagger();
+                app.UseOpenApi();
+                app.UseSwaggerUi3(options =>
+                options.Path = "/api/docs"
                 );
+
+                //app.UseSwaggerUI(c => {
+                //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "OngProject v1");
+                //    c.RoutePrefix = "api/docs";
+                //}
+                //);
             }
 
             app.UseHttpsRedirection();
