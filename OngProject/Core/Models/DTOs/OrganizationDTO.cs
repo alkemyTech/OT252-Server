@@ -1,7 +1,11 @@
-﻿namespace OngProject.Core.Models.DTOs
+﻿using System.Collections.Generic;
+
+namespace OngProject.Core.Models.DTOs
 {
     public class OrganizationDTO
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
         public string Image { get; set; }
@@ -21,6 +25,8 @@
         public string InstagramUrl { get; set; }
 
         public string LinkedinUrl { get; set; }
+        
+        public List<SlideDto> Slides { get; set; }
 
     }
 }

@@ -6,6 +6,7 @@ using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace OngProject.Core.Business
     public class OrganizationsService : IOrganizationsService
     {
         private readonly OrganizationMapper mapper = new OrganizationMapper();
+        private readonly SlideMapper slideMapper = new SlideMapper();
         private IUnitOfWork _unitOfWork;
 
 
@@ -43,11 +45,18 @@ namespace OngProject.Core.Business
                 if (lista == null)
                     return new List<OrganizationDTO>();
 
+                List<Slide> slides = (List<Slide>)await _unitOfWork.SlideRepository.GetAll();
+
+                
                 List<OrganizationDTO> listaDto = new List<OrganizationDTO>();
 
                 foreach (Organization organization in lista)
                 {
-                    listaDto.Add(mapper.ToOrganizationDTO(organization));
+                    var organizationDto = mapper.ToOrganizationDTO(organization);
+                    var slidesDto = slideMapper.ConvertListToDto(slides.Where(s => s.OrganizationId.Equals(organization.Id)).OrderBy(s => s.Order).ToList());
+                    organizationDto.Slides = (List<SlideDto>)slidesDto;
+
+                    listaDto.Add(organizationDto);
                 }
 
                 return listaDto;
@@ -71,6 +80,12 @@ namespace OngProject.Core.Business
                 }
 
                 OrganizationDTO organizationDto = mapper.ToOrganizationDTO(organization);
+
+                List<Slide> slides = (List<Slide>)await _unitOfWork.SlideRepository.GetAll();
+
+                List<SlideDto> slidesDto = (List<SlideDto>)slideMapper.ConvertListToDto(slides.Where(s => s.OrganizationId.Equals(organization.Id)).OrderBy(s => s.Order).ToList());
+
+                organizationDto.Slides = slidesDto;
 
                 return organizationDto;
             }

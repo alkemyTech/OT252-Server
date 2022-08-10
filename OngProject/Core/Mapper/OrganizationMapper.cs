@@ -14,6 +14,7 @@ namespace OngProject.Core.Mapper
         {
             var organizationDto = new OrganizationDTO()
             {
+                Id = organization.Id,
                 Name = organization.Name,
                 Address = organization.Address,
                 Email = organization.Email,
@@ -33,6 +34,7 @@ namespace OngProject.Core.Mapper
         {
             var organization = new Organization()
             {
+                Id=organizationDto.Id,
                 Name = organizationDto.Name,
                 Address = organizationDto.Address,
                 Email = organizationDto.Email,
