@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NSwag.Annotations;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
@@ -14,6 +16,11 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
+    /// <summary>
+    /// Controlador para el mantenimiento de las actividades de la ONG
+    /// </summary>
+    [SwaggerTag("User",
+                Description = "Web API para usuarios de la ONG.")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -30,9 +37,26 @@ namespace OngProject.Controllers
             _response = new GenericResponse();
         }
 
+        /// GET: api/user/getall
+        /// <summary>
+        /// Obtiene todas los usuarios de la ONG.
+        /// </summary>
+        /// <remarks>
+        /// Retorna un listado con todos los usuarios de la ONG.
+        /// </remarks>
+        /// <response code="401">Unauthorized. El usuario no se ha autentificado o no tiene perfil de administrador.</response>
+        /// <response code="200">Ok. Devuelve el listado de los usuarios registrados.</response>
+        /// <response code="400">BadRequest. Devuelve el error ocurrido en caso de que la operación no se realize.</response>
+        /// <response code="404">NotFound. Devuelve el mensaje "No hay registros" en caso de que no hayan usuarios registrados.</response>
+        /// <response code="500">InternalServerError. Devuelve el error que impide que la operación se realize.</response>
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Route("GetAll")]
         [HttpGet]
-
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
         {
             try
@@ -40,7 +64,7 @@ namespace OngProject.Controllers
                 var userList = await _userService.GetAll();
                 if (userList == null)
                 {
-                    return NotFound();
+                    return NotFound("No hay registros");
                 }
                 return Ok(userList);
             }
@@ -50,8 +74,25 @@ namespace OngProject.Controllers
             }
         }
 
+        /// GET: api/user/:id
+        /// <summary>
+        /// Obtiene un usuario de la ONG con el id pasado por parámetro.
+        /// </summary>
+        /// <remarks>
+        /// Retorna un usuario.
+        /// </remarks>
+        /// <response code="401">Unauthorized. El usuario no se ha autentificado o no tiene perfil de administrador.</response>
+        /// <response code="200">Ok. Devuelve la información del usuario.</response>
+        /// <response code="400">BadRequest. Devuelve el error ocurrido en caso de que la operación no se realice.</response>
+        /// <response code="404">NotFound. Devuelve el mensaje "Usuario no encontrado" en caso de que el id no corresponda a un usuario registrado.</response>
+        /// <response code="500">InternalServerError. Devuelve el error que impide que la operación se realize.</response>
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("{id}")]
-
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult<UserDTO>> Get(int id)
         {
             try
@@ -59,7 +100,7 @@ namespace OngProject.Controllers
                 var userDto = await _userService.GetById(id);
                 if (userDto == null)
                 {
-                    return NotFound();
+                    return NotFound("Usuario no encontrado");
                 }
                 return Ok(userDto);
             }
@@ -69,8 +110,8 @@ namespace OngProject.Controllers
             }
         }
 
-
-        [HttpPost]
+        //EndPoint no implementado
+        /*[HttpPost]
 
         public async Task<ActionResult<UserDTO>> Post(UserDTO userDTO)
 
@@ -93,11 +134,28 @@ namespace OngProject.Controllers
                 return BadRequest(ex.Message);
             }
 
-        }
+        }*/
 
+        /// PATCH: api/user/:id
+        /// <summary>
+        /// Actualiza datos de un usuario de la ONG pasando el id del mismo.
+        /// </summary>
+        /// <remarks>
+        /// Retorna el usuario con los datos modificados.
+        /// </remarks>
+        /// <response code="401">Unauthorized. El usuario no se ha autentificado o no tiene perfil de administrador.</response>
+        /// <response code="200">Ok. Devuelve un mensaje de éxito de la operación y la información del usuario modificado.</response>
+        /// <response code="400">BadRequest. Devuelve el error ocurrido en caso de que la operación no se realice.</response>
+        /// <response code="404">NotFound. Devuelve un mensaje de registro no esta registrado si el id del usuario o el id del role entregados no corresponden a un registro.</response>
+        /// <response code="500">InternalServerError. Devuelve el error que impide que la operación se realize.</response>
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPatch("{id}")]
-        //[Authorize(Roles = "Administrador")]
-        public async Task<ActionResult> Patch([Required]int id, [FromForm]CreationUserDto userDto)
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<GenericResponse>> Patch([Required]int id, [FromForm]CreationUserDto userDto)
         {
             try
             {
@@ -127,9 +185,26 @@ namespace OngProject.Controllers
 
         }
 
+        /// DELETE: api/user/:id
+        /// <summary>
+        /// Elimina un usuario de la ONG pasando el id del mismo.
+        /// </summary>
+        /// <remarks>
+        /// Retorna un mensaje de "Se ha eliminado el registro" en caso de éxito al eliminar.
+        /// </remarks>
+        /// <response code="401">Unauthorized. El usuario no se ha autentificado o no tiene perfil de administrador.</response>
+        /// <response code="200">Ok. Retorna un mensaje de "Se ha eliminado el registro" en caso de eliminar e usuario.</response>
+        /// <response code="400">BadRequest. Devuelve el error ocurrido en caso de que la operación no se realice.</response>
+        /// <response code="404">NotFound. Devuelve el mensaje "El usuario no existe" en caso de que el id no corresponda a un usuario registrado.</response>
+        /// <response code="500">InternalServerError. Devuelve el error que impide que la operación se realize.</response>
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpDelete("{id}")]
-
-        public async Task<ActionResult> Delete(int id)
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<string>> Delete(int id)
 
         {
             try
@@ -137,7 +212,7 @@ namespace OngProject.Controllers
                 var deleteUsers = await _userService.Delete(id);
                 if (!deleteUsers)
                 {
-                    return BadRequest("El registro no existe");
+                    return NotFound("El usuario no existe");
                 }
                 return Ok("Se ha eliminado el registro");
             }
@@ -145,16 +220,6 @@ namespace OngProject.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
-
-        private async Task<bool> CheckUserId(int id)
-        {
-            var user = await _userService.GetById(id);
-            if (user == null)
-            {
-                return false;
-            }
-            return true;
         }
     }
 }
