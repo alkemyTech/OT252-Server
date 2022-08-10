@@ -45,7 +45,7 @@ namespace OngProject.Controllers
         [Route("/Members")]
         [HttpGet]
         //[Authorize]
-        public async Task<ActionResult<PageHelper<MemberDto>>> GetAll(int page = 1)
+        public async Task<ActionResult<PageListDto<MemberDto>>> GetAll(int page = 1)
         {
             try
             {
@@ -55,7 +55,8 @@ namespace OngProject.Controllers
                     return NotFound();
                 }
                 PageHelper<MemberDto> members = PageHelper<MemberDto>.Create(memberList, page, 10);
-                return Ok(members);
+                PageListDto<MemberDto> pageList = new PageListDto<MemberDto>(members, "Members"); 
+                return Ok(pageList);
             }
             catch (Exception ex)
             {
