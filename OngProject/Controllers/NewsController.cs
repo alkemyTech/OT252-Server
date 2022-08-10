@@ -57,11 +57,13 @@ namespace OngProject.Controllers
             try
             {
                 var newsList = await _newService.GetAll();
+
                 
                 if (newsList == null)
                     return NotFound("No se encontraron novedades.");
 
                 var prueba = PageHelper<NewsDto>.Create(newsList, page, 10);
+
                 NewsPagesDto pages = new NewsPagesDto(prueba);
                 return Ok(pages);
             }

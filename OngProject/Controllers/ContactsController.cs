@@ -55,7 +55,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult> Post([FromBody] ContactDTO contactDTO)
         {
             try
