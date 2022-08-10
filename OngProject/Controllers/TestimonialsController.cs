@@ -49,11 +49,11 @@ namespace OngProject.Controllers
             {
                 var testimonyList = await _testimonialsService.GetAll();
 
-                PageHelper<TestimonyDTO> pageHelper = PageHelper<TestimonyDTO>.Create(testimonyList, page, 10);
+                var helper = PageHelper<TestimonyDTO>.Create(testimonyList, page, 10);
 
-                
+                PageListDto<TestimonyDTO> pageList = new PageListDto<TestimonyDTO>(helper, "Testimonials");
 
-                return Ok(pageHelper);
+                return Ok(pageList);
             }
             catch (Exception ex)
             {
