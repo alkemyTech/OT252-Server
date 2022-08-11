@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace OngProject.Core.Models.DTOs
@@ -14,8 +15,8 @@ namespace OngProject.Core.Models.DTOs
         public string Email { get; set; }
         [Required]
         public string Password { get; set; }
-       
-        public string Photo { get; set; }
+        [Required]
+        public IFormFile Photo { get; set; }
         [Required]
         public int RoleId { get; set; }
     }

@@ -25,12 +25,14 @@ namespace OngProject.Core.Business
         private readonly IConfiguration _configuration;
         private readonly ISendGrid _sendgrid;
         private RegisterMapper mapper;
+        private IImageHelper _imageHelper;
 
-        public LoginService(IUnitOfWork unitOfWork, IConfiguration configuration, ISendGrid sendgrid)
+        public LoginService(IUnitOfWork unitOfWork, IConfiguration configuration, ISendGrid sendgrid, IImageHelper imageHelper)
         {
             _unitOfWork = unitOfWork;
             _configuration = configuration;
             _sendgrid = sendgrid;
+            _imageHelper = imageHelper;
         }
 
         public async Task<string> GetToken(LoginDto usuario)
@@ -95,7 +97,7 @@ namespace OngProject.Core.Business
             return true;
         }
 
-        public async Task<string> Register(RegisterDTO registerUser)
+        public async Task<Users> Register(RegisterDTO registerUser)
         {
             mapper = new RegisterMapper();
 
@@ -104,13 +106,15 @@ namespace OngProject.Core.Business
                 return null;
             }
             registerUser.Password = EncryptHelper.GetSHA256(registerUser.Password);
+            var urlFoto = await _imageHelper.UploadImage(registerUser.Photo);
             var user = mapper.ConvertToUser(registerUser);
-            var userlogin = mapper.ConvertToUserLogin(user);
+            user.Photo = urlFoto;
+            //var userlogin = mapper.ConvertToUserLogin(user);
             await _unitOfWork.UserRepository.Insert(user);
             _unitOfWork.Save();
             await _sendgrid.WelcomeEmail(user.Email);
-            var token = await GetToken(userlogin);
-            return token;
+            //var token = await GetToken(userlogin);
+            return user;
         }
 
         private async Task<bool> ExistingEmail(String email)

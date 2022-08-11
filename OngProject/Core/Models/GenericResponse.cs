@@ -8,6 +8,6 @@ namespace OngProject.Core.Models
     public class GenericResponse
     {
         public string Message { get; set; }
-        public object User { get; set; }
+        public object Entity { get; set; }
     }
 }

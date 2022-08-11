@@ -18,7 +18,6 @@ namespace OngProject.Core.Mapper
                 LastName = dto.LastName,
                 Email = dto.Email,
                 Password = EncryptHelper.GetSHA256(dto.Password),
-                Photo = dto.Photo,
                 RoleId = dto.RoleId,
                 TimeStamps = DateTime.UtcNow,
                 SoftDelete = false
@@ -38,6 +37,19 @@ namespace OngProject.Core.Mapper
 
             };
             return login;
+        }
+
+        public ViewRegisterDto ConvertViewRegister(Users users)
+        {
+            var view = new ViewRegisterDto
+            {
+                Id = users.Id,
+                Name = users.FirstName + " " + users.LastName,
+                Email = users.Email,
+                Photo = users.Photo,
+                RoleId = users.RoleId
+            };
+            return view;
         }
     }
 }

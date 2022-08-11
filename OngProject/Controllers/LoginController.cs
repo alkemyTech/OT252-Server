@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
-
+using OngProject.Core.Mapper;
 using OngProject.Core.Models;
 
 using OngProject.Core.Models.DTOs;
@@ -28,10 +28,14 @@ namespace OngProject.Controllers
 
 
         private readonly ILoginService _loginService;
+        private RegisterMapper _mapper;
+        private GenericResponse _response;
 
         public LoginController(ILoginService loginService)
         {
             _loginService = loginService;
+            _mapper = new RegisterMapper();
+            _response = new GenericResponse();
         }
         /// <summary>
         /// Endpoind para Logeo
@@ -47,16 +51,22 @@ namespace OngProject.Controllers
         /// Endpoind para Registrar
         /// </summary>
         [HttpPost("Register")]
-        public async Task<ActionResult> RegisterAsync(RegisterDTO registerDTO)
+        public async Task<ActionResult<GenericResponse>> RegisterAsync([FromForm]RegisterDTO registerDTO)
         {
             try
             {
-                var token = await _loginService.Register(registerDTO);
-                if (token == null)
+                var user = await _loginService.Register(registerDTO);
+                if (user == null)
                 {
                     return BadRequest("Ya hay un Usuario registrado con el Email ingresado.");
                 }
-                return Ok(token);
+                var userlogin = _mapper.ConvertToUserLogin(user);
+                var token = await _loginService.GetToken(userlogin);
+                var viewRegister = _mapper.ConvertViewRegister(user);
+                viewRegister.Token = token;
+                _response.Message = "Se ha registrado al usuario";
+                _response.Entity = viewRegister;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
