@@ -21,7 +21,7 @@ namespace OngProject.Core.Business
         private UserMapper _mapper = new UserMapper();
 
 
-        public UserService(IUnitOfWork unitOfWork, IImageHelper imageHelper, IUnitOfWork unitOfWork1, IUnitOfWork unitOfWork2)
+        public UserService(IUnitOfWork unitOfWork, IImageHelper imageHelper)
         {
             _unitOfWork = unitOfWork;
             _imageHelper = imageHelper;

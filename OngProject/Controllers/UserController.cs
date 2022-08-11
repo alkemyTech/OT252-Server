@@ -174,7 +174,7 @@ namespace OngProject.Controllers
                 }
                 var userUpdate = await _userService.Update(id, userDto);
                 _response.Message = "Se ha modificado la información del usuario";
-                _response.User = userUpdate;
+                _response.Entity = userUpdate;
                 return Ok(_response);
             }
             catch (Exception ex)
