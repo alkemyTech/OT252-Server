@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using OngProject.Core.Business;
+using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
@@ -51,20 +52,15 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Route("GetAll")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAll(int page = 1)
         {
             try
             {
-                var categoryList = await _categoryService.GetAll();
-                if(categoryList == null)
-                {
-                    return NotFound("No hay registros");
-                }
-                return Ok(categoryList);
+                PageHelper<CategoryDto> pageHelper = PageHelper<CategoryDto>.Create(await _categoryService.GetAll(), page, 10);
+                return Ok(pageHelper);
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);  
             }
         }
