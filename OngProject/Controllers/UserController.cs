@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace OngProject.Controllers
 {
     /// <summary>
-    /// Controlador para el mantenimiento de las actividades de la ONG
+    /// Controlador para el mantenimiento de los usuarios de la ONG
     /// </summary>
     [SwaggerTag("User",
                 Description = "Web API para usuarios de la ONG.")]
@@ -46,9 +46,9 @@ namespace OngProject.Controllers
         /// </remarks>
         /// <response code="401">Unauthorized. El usuario no se ha autentificado o no tiene perfil de administrador.</response>
         /// <response code="200">Ok. Devuelve el listado de los usuarios registrados.</response>
-        /// <response code="400">BadRequest. Devuelve el error ocurrido en caso de que la operación no se realize.</response>
+        /// <response code="400">BadRequest. Devuelve el error ocurrido en caso de que la operación no se realice.</response>
         /// <response code="404">NotFound. Devuelve el mensaje "No hay registros" en caso de que no hayan usuarios registrados.</response>
-        /// <response code="500">InternalServerError. Devuelve el error que impide que la operación se realize.</response>
+        /// <response code="500">InternalServerError. Devuelve el error que impide que la operación se realice.</response>
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -85,7 +85,7 @@ namespace OngProject.Controllers
         /// <response code="200">Ok. Devuelve la información del usuario.</response>
         /// <response code="400">BadRequest. Devuelve el error ocurrido en caso de que la operación no se realice.</response>
         /// <response code="404">NotFound. Devuelve el mensaje "Usuario no encontrado" en caso de que el id no corresponda a un usuario registrado.</response>
-        /// <response code="500">InternalServerError. Devuelve el error que impide que la operación se realize.</response>
+        /// <response code="500">InternalServerError. Devuelve el error que impide que la operación se realice.</response>
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -147,7 +147,7 @@ namespace OngProject.Controllers
         /// <response code="200">Ok. Devuelve un mensaje de éxito de la operación y la información del usuario modificado.</response>
         /// <response code="400">BadRequest. Devuelve el error ocurrido en caso de que la operación no se realice.</response>
         /// <response code="404">NotFound. Devuelve un mensaje de registro no esta registrado si el id del usuario o el id del role entregados no corresponden a un registro.</response>
-        /// <response code="500">InternalServerError. Devuelve el error que impide que la operación se realize.</response>
+        /// <response code="500">InternalServerError. Devuelve el error que impide que la operación se realice.</response>
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -193,10 +193,10 @@ namespace OngProject.Controllers
         /// Retorna un mensaje de "Se ha eliminado el registro" en caso de éxito al eliminar.
         /// </remarks>
         /// <response code="401">Unauthorized. El usuario no se ha autentificado o no tiene perfil de administrador.</response>
-        /// <response code="200">Ok. Retorna un mensaje de "Se ha eliminado el registro" en caso de eliminar e usuario.</response>
+        /// <response code="200">Ok. Retorna un mensaje de "Se ha eliminado el registro" en caso de eliminar el usuario.</response>
         /// <response code="400">BadRequest. Devuelve el error ocurrido en caso de que la operación no se realice.</response>
         /// <response code="404">NotFound. Devuelve el mensaje "El usuario no existe" en caso de que el id no corresponda a un usuario registrado.</response>
-        /// <response code="500">InternalServerError. Devuelve el error que impide que la operación se realize.</response>
+        /// <response code="500">InternalServerError. Devuelve el error que impide que la operación se realice.</response>
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
