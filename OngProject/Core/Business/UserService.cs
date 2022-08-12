@@ -91,12 +91,12 @@ namespace OngProject.Core.Business
         public async Task<ViewUserDto> Update(int id, CreationUserDto userDto)
         {
             var user = await _unitOfWork.UserRepository.GetById(id);
-            var imageUrl = await _imageHelper.UploadImage(userDto.Photo);
+            //var imageUrl = await _imageHelper.UploadImage(userDto.Photo);
             user.FirstName = userDto.FirstName;
             user.LastName = userDto.LastName;
             user.Email = userDto.Email;
             user.Password = EncryptHelper.GetSHA256(userDto.Password);
-            user.Photo = imageUrl;
+            //user.Photo = imageUrl;
             user.RoleId = userDto.RoleId;
             _unitOfWork.Save();
             var userUpdate = _mapper.ConvertToViewUser(user);

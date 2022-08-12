@@ -24,6 +24,7 @@ using System.IO;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using OpenApiSecurityScheme = NSwag.OpenApiSecurityScheme;
+using OngProject.Middleware;
 
 namespace OngProject
 {
@@ -97,11 +98,11 @@ namespace OngProject
             services.AddDbContext<ApplicationDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-          
 
 
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IActivityService, ActivityService>();
 
 
             services.AddScoped<ISendGrid, SendGridHelper>();
@@ -170,6 +171,8 @@ namespace OngProject
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<OwnershipMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

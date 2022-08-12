@@ -106,13 +106,13 @@ namespace OngProject.Core.Business
                 return null;
             }
             registerUser.Password = EncryptHelper.GetSHA256(registerUser.Password);
-            var urlFoto = await _imageHelper.UploadImage(registerUser.Photo);
+            //var urlFoto = await _imageHelper.UploadImage(registerUser.Photo);
             var user = mapper.ConvertToUser(registerUser);
-            user.Photo = urlFoto;
+            //user.Photo = urlFoto;
             //var userlogin = mapper.ConvertToUserLogin(user);
             await _unitOfWork.UserRepository.Insert(user);
             _unitOfWork.Save();
-            await _sendgrid.WelcomeEmail(user.Email);
+            //await _sendgrid.WelcomeEmail(user.Email);
             //var token = await GetToken(userlogin);
             return user;
         }

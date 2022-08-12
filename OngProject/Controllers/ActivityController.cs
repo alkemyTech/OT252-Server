@@ -46,7 +46,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("GetAll")]
         [HttpGet]
-        [Authorize(Roles = "Administrador")]
+        //[Authorize(Roles = "Administrador")]
         public ActionResult<IEnumerable<Activity>> GetAll()
         {
             try
