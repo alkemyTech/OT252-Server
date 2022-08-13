@@ -47,7 +47,7 @@ namespace OngProject.Core.Business
         public async Task<List<NewsDto>> GetAll()
         {
             var listMember = await _unitOfWork.NewsRepository.GetAll();
-            List<NewsDto> membersDto = (List<NewsDto>) _newsMapper.ConvertListToDto(listMember);
+            List<NewsDto> membersDto = (List<NewsDto>)_newsMapper.ConvertListToDto(listMember);
             return membersDto;
         }
 

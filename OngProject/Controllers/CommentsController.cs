@@ -58,12 +58,12 @@ namespace OngProject.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public ActionResult<bool> Delete(int id)
         {
-            if (unitOfWork.CommentRepository.GetById(id) is null) return NotFound();
-           // unitOfWork.CommentRepository.Delete(id);
-            unitOfWork.Save();
-            return NoContent();
+
+            var response = commentService.Delete(id);
+            if (response.Result) return Ok(true);
+            return NotFound($"No se pudo eliminar no se encontro el comentario id: {id}");
 
         }
     }

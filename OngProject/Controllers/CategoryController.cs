@@ -26,12 +26,15 @@ namespace OngProject.Controllers
 
         [Route("GetAll")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAll(int page = 1)
+        public async Task<ActionResult<PageListDto<CategoryDto>>> GetAll(int page = 1)
         {
             try
+                
             {
-                PageHelper<CategoryDto> pageHelper = PageHelper<CategoryDto>.Create(await _categoryService.GetAll(), page, 10);
-                return Ok(pageHelper);
+                var CategoryList = await _categoryService.GetAll();
+                PageHelper<CategoryDto> pageHelper = PageHelper<CategoryDto>.Create(CategoryList, page, 10);
+                PageListDto<CategoryDto> pages = new PageListDto<CategoryDto>(pageHelper, "Category");
+                return Ok(pages);
             }
             catch (Exception ex)
             {

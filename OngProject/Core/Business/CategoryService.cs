@@ -46,7 +46,7 @@ namespace OngProject.Core.Business
         public async Task<IEnumerable<CategoryDto>> GetAll()
         {
             var categories = await _unitOfWork.CategoryRepository.GetAll();
-            var categoriesDto = _categoryMapper.categoryListDto(categories);
+            List<CategoryDto> categoriesDto = (List<CategoryDto>)_categoryMapper.categoryListDto(categories);
             return categoriesDto;
         }
 
