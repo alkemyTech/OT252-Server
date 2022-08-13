@@ -8,5 +8,6 @@ namespace OngProject.Core.Interfaces
     {
         Task<IEnumerable<CommentDto>> GetAll();
         Task<bool> Delete(int id);
+        Task<CommentDto> Insert(CommentDto commentDto);
     }
 }

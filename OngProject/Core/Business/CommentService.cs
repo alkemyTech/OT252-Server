@@ -34,6 +34,12 @@ namespace OngProject.Core.Business
             }
                     
         }
+        public async Task<CommentDto> Insert(CommentDto commentDto)
+        {
+            await _unitOfWork.CommentRepository.Insert(new CommentMapper().ConverToEntity(commentDto));
+            _unitOfWork.Save();
+            return commentDto;
+        }
 
     }
 }

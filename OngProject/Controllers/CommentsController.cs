@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 using System;
@@ -44,12 +45,12 @@ namespace OngProject.Controllers
         
 
         [HttpPost]
-        public ActionResult<Comment> Post(Comment comment)
+        public ActionResult<CommentDto> Post(CommentDto comment)
         {
-            if (unitOfWork.CommentRepository is null) return BadRequest();
-            unitOfWork.CommentRepository.Insert(comment);
-            unitOfWork.Save();
-            return NoContent();
+            
+           if(commentService.Insert(comment)is not null)
+            return Ok("Comentario Agregado");
+            return NotFound("No se pudo agregar comentario");
         }
 
         [HttpPut("{id}")]
@@ -62,7 +63,7 @@ namespace OngProject.Controllers
         {
 
             var response = commentService.Delete(id);
-            if (response.Result) return Ok(true);
+            if (response.Result) return Ok("Comentario Eliminado");
             return NotFound($"No se pudo eliminar no se encontro el comentario id: {id}");
 
         }
