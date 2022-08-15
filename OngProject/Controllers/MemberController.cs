@@ -26,13 +26,14 @@ namespace OngProject.Controllers
     {
 
         private readonly IMemberService memberService;
-        private readonly IUnitOfWork unitOfWork;
+       // private readonly IUnitOfWork unitOfWork;
 
-        public MemberController(IMemberService memberService, IUnitOfWork unitOfWork)
+        public MemberController(IMemberService memberService/* IUnitOfWork unitOfWork*/)
         {
             this.memberService = memberService;
-            this.unitOfWork = unitOfWork;
+           // this.unitOfWork = unitOfWork;
         }
+       
 
 
         /// GET: api/Members/GetAll
