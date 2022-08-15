@@ -45,7 +45,12 @@ namespace OngProject.Controllers
         {
             try
             {
-                var contact = _contactService.GetById(id);
+                var contact = await _contactService.GetById(id);
+                
+                if(contact == null)
+                    return NotFound($"No se encontro el contacto con el id: {id}");
+                
+                
                 return Ok(contact);
             }
             catch (Exception ex)
@@ -76,7 +81,7 @@ namespace OngProject.Controllers
 
         [HttpPut]
         [Authorize(Roles = "Administrador")]
-        public ActionResult<Contact> Put([FromBody] Contact contact)
+        public async Task<ActionResult<Contact>> Put([FromBody] Contact contact)
         {
             try
             {
@@ -94,7 +99,7 @@ namespace OngProject.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "Administrador")]
-        public ActionResult<bool> Delete(int id)
+        public async Task<ActionResult<bool>> Delete(int id)
         {
             try
             {

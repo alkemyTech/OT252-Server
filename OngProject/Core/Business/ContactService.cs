@@ -60,9 +60,15 @@ namespace OngProject.Core.Business
             }
         }
 
-        public Task<ContactDTO> GetById(int? id)
+        public async Task<ContactDTO> GetById(int? id)
         {
-            throw new NotImplementedException();
+            var contact = await _unitOfWork.ContactsRepository.GetById(id);
+            if (contact == null)
+            {
+                return null;
+            }
+            var contactDto = _contactMapper.ToContactDTO(contact);
+            return contactDto;
         }
 
         public async Task<ContactDTO> Insert(ContactDTO contactDTO)
