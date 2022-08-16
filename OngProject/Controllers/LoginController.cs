@@ -74,6 +74,14 @@ namespace OngProject.Controllers
             }
         }
 
+        [HttpGet("me")]
+        public async Task<ActionResult> Get()
+        {
+            var response = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "")?.Value;
+            return Ok();
+        }
+
+
 
     }
 }
