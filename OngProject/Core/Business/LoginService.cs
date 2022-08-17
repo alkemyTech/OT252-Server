@@ -24,7 +24,7 @@ namespace OngProject.Core.Business
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
         private readonly ISendGrid _sendgrid;
-        private RegisterMapper mapper;
+        private RegisterMapper _mapper;
         private IImageHelper _imageHelper;
 
         public LoginService(IUnitOfWork unitOfWork, IConfiguration configuration, ISendGrid sendgrid, IImageHelper imageHelper)
@@ -33,6 +33,7 @@ namespace OngProject.Core.Business
             _configuration = configuration;
             _sendgrid = sendgrid;
             _imageHelper = imageHelper;
+            _mapper = new RegisterMapper();
         }
 
         public async Task<string> GetToken(LoginDto usuario)
@@ -68,21 +69,24 @@ namespace OngProject.Core.Business
             return rol;
         }
 
-        public async Task<UserResponse> Login(string email, string password)
+        public async Task<LoginDto> Login(string email, string password)
         {
-            //if (await Existeusuario(email))
-            //{
-            //    UserResponse response = new UserResponse();
-            //    var users = await _unitOfWork.UserRepository.Find(u => u.Email == user.Email);
-            //    var us = users.FirstOrDefault();
-            //    if (!VerificarPassword(user.Password, password)) return null;
-
-            //    response.Email = user.Email;
-            //    response.RoleId = user.RoleId;
-            //    response.RoleName = user.Role.Name;
-            //    response.UserId = user.Id;
-            //    return response;
-            //}
+            
+            if (await Existeusuario(email))
+            {
+                LoginDto response = new LoginDto();
+                Users user = new Users();   
+                var users = await _unitOfWork.UserRepository.Find(u => u.Email == email);
+                var us = users.FirstOrDefault();
+                if (!VerificarPassword(us.Password, password)) return null;
+                var userlogin = _mapper.ConvertToUserLogin(us);
+                var token = await GetToken(userlogin);
+                response.Email = user.Email;
+                response.RoleId = user.RoleId;
+                response.Token = token;
+                
+                return response;
+            }
             return null;
         }
 
@@ -99,7 +103,7 @@ namespace OngProject.Core.Business
 
         public async Task<Users> Register(RegisterDTO registerUser)
         {
-            mapper = new RegisterMapper();
+            
 
             if (await ExistingEmail(registerUser.Email))
             {
@@ -107,7 +111,7 @@ namespace OngProject.Core.Business
             }
             registerUser.Password = EncryptHelper.GetSHA256(registerUser.Password);
             var urlFoto = await _imageHelper.UploadImage(registerUser.Photo);
-            var user = mapper.ConvertToUser(registerUser);
+            var user = _mapper.ConvertToUser(registerUser);
             user.Photo = urlFoto;
             //var userlogin = mapper.ConvertToUserLogin(user);
             await _unitOfWork.UserRepository.Insert(user);
