@@ -24,6 +24,7 @@ using System.IO;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using OpenApiSecurityScheme = NSwag.OpenApiSecurityScheme;
+using OngProject.Middleware;
 
 namespace OngProject
 {
@@ -170,6 +171,7 @@ namespace OngProject
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware<RoleAutorizationMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
