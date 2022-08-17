@@ -154,7 +154,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPatch("{id}")]
-        [Authorize(Roles = "Administrador")]
+        [Authorize]
         public async Task<ActionResult<GenericResponse>> Patch([Required]int id, [FromForm]CreationUserDto userDto)
         {
             try
@@ -203,7 +203,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Administrador")]
+        [Authorize]
         public async Task<ActionResult<string>> Delete(int id)
 
         {

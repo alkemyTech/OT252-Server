@@ -171,8 +171,8 @@ namespace OngProject
 
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseMiddleware<OwnershipMiddleware>();
+
 
             app.UseEndpoints(endpoints =>
             {

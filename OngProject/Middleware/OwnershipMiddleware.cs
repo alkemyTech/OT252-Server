@@ -21,7 +21,7 @@ namespace OngProject.Middleware
         public async Task Invoke(HttpContext httpContext)
         {
             var method = httpContext.Request.Method;
-            var actualPath = httpContext.Request.Path.Value;
+            var actualPath = httpContext.Request.Path.Value;  //  /api/{controller}/{id}
             var path = "/api/User/";
             if (actualPath.Contains(path))
             {
@@ -29,10 +29,10 @@ namespace OngProject.Middleware
                 {
                     var role = httpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
                     var claimId = httpContext.User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
-                    var idquery = actualPath.Remove(0, path.Length);
+                    var idquery = actualPath.Remove(0, path.Length);   // Dejo solo el id de la direccion de la request
                     if (idquery != claimId && role != "Administrador")
                     {
-                        httpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
+                        httpContext.Response.StatusCode = StatusCodes.Status403Forbidden;   
                         return;
                     }
                 }
