@@ -81,11 +81,15 @@ namespace OngProject.Controllers
 
         [HttpPut]
         [Authorize(Roles = "Administrador")]
-        public async Task<ActionResult<Contact>> Put([FromBody] Contact contact)
+        public async Task<ActionResult<ContactDTO>> Put([FromBody] ContactDTO contactDTO,int id)
         {
             try
             {
-                var editContact = _contactService.Update(contact);
+                var editContact = await _contactService.Update(contactDTO,id);
+                
+                
+                if (editContact == null)
+                    return NotFound($"No se puede encontrar el contacto con el Id: {id}");
 
                 return Ok(editContact);
             }
@@ -104,8 +108,11 @@ namespace OngProject.Controllers
             try
             {
                 var deleteContact = _contactService.Delete(id);
+                if (deleteContact.Result)
+                    return Ok(deleteContact);
+                else
+                    return NotFound($"No se encontro el id {id} para eliminar");
 
-                return Ok(true);
             }
             catch (Exception ex)
             {

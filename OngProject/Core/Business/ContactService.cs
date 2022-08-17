@@ -25,9 +25,24 @@ namespace OngProject.Core.Business
             _sendgrid = sendGrid;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var contact = await _unitOfWork.ContactsRepository.GetById(id);
+                if (contact == null)
+                {
+                    return false;
+                }
+                await _unitOfWork.ContactsRepository.Delete(contact);
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception($"Error al borrar usuario: {ex}");
+            }
+            
         }
 
         public IEnumerable<ContactDTO> Find(Expression<Func<Contact, bool>> predicate)
@@ -81,9 +96,24 @@ namespace OngProject.Core.Business
             return contactDtoS;
         }
 
-        public Contact Update(Contact contact)
+        public async Task<ContactDTO> Update(ContactDTO contactDTO, int id)
         {
-            throw new NotImplementedException();
+            var contact = await _unitOfWork.ContactsRepository.GetById(id);
+            if (contact == null)
+            {
+                return null;
+            }
+
+            contact.Email = contactDTO.Email;
+            contact.Phone = contactDTO.Phone;
+            contact.Message = contactDTO.Message;
+            contact.Name = contactDTO.Name;
+
+            await _unitOfWork.ContactsRepository.Update(contact);
+            _unitOfWork.Save();
+
+            var contactDto = _contactMapper.ToContactDTO(contact);
+            return contactDto;
         }
 
        
