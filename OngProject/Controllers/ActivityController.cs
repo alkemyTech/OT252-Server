@@ -103,7 +103,7 @@ namespace OngProject.Controllers
         /// <response code="401">Unauthorized. No se ha indicado, es incorrecto el Token JWT de acceso o no tiene rol de administrador.</response>              
         /// <response code="200">OK. Devuelve la actividad registrada.</response> 
         [HttpPost("/activities")]
-        //[Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult> Post([FromForm] CreationActivityDto creatrionActivityDto)
         {
             try
