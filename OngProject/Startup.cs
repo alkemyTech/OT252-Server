@@ -121,7 +121,7 @@ namespace OngProject
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<ICommentsService, CommentService>();
             services.AddScoped<IUserService, UserService>();
-
+            services.AddScoped<IActivityService, ActivityService>();
 
             services.AddAuthentication(option =>
             {

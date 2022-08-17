@@ -1,5 +1,6 @@
 ﻿using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace OngProject.Core.Mapper
@@ -39,6 +40,16 @@ namespace OngProject.Core.Mapper
             activity.Content = activityDto.Content;
             activity.Image = activityDto.Image;
 
+            return activity;
+        }
+
+        public Activity ConvertToActivity(CreationActivityDto creationActivityDto)
+        {
+            var activity = new Activity();
+            activity.Name = creationActivityDto.Name;
+            activity.Content = creationActivityDto.Content;
+            activity.TimeStamps = DateTime.Now;
+            activity.SoftDelete = false;
             return activity;
         }
     }

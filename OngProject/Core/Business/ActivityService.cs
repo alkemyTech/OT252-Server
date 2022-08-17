@@ -16,11 +16,13 @@ namespace OngProject.Core.Business
     public class ActivityService : IActivityService
     {
         private IUnitOfWork _unitOfWork;
+        private IImageHelper _imageHelper;
         private ActivityMapper mapper;
 
-        public ActivityService(IUnitOfWork unitOfWork)
+        public ActivityService(IUnitOfWork unitOfWork,IImageHelper imageHelper)
         {
             _unitOfWork = unitOfWork;
+            this._imageHelper = imageHelper;
         }
 
 
@@ -52,11 +54,12 @@ namespace OngProject.Core.Business
             return null;
         }
 
-        public async Task<ActivityDto> Insert(ActivityDto activityDto)
+        public async Task<ActivityDto> Insert(CreationActivityDto creationActivityDto)
         {
             mapper = new ActivityMapper();
-            Activity activity = mapper.ConvertToActivity(activityDto);
-
+            var imgUrl = await _imageHelper.UploadImage(creationActivityDto.Image);
+            Activity activity = mapper.ConvertToActivity(creationActivityDto);
+            activity.Image = imgUrl.ToString();
             await _unitOfWork.ActivityRepository.Insert(activity);
             _unitOfWork.Save();
 

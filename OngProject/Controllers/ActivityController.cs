@@ -14,7 +14,7 @@ namespace OngProject.Controllers
     /// <summary>
     /// Controlador para el mantenimiento de las actividades de la ONG
     /// </summary>
-    [SwaggerTag("Activity",
+    [OpenApiTag("Activity",
                 Description = "Web API para el mantenimiento de actividades de la ONG.")]
     [Route("api/[controller]")]
     [ApiController]
@@ -103,12 +103,12 @@ namespace OngProject.Controllers
         /// <response code="401">Unauthorized. No se ha indicado, es incorrecto el Token JWT de acceso o no tiene rol de administrador.</response>              
         /// <response code="200">OK. Devuelve la actividad registrada.</response> 
         [HttpPost("/activities")]
-        //[Authorize(Roles = "Administrador")]
-        public async Task<ActionResult> Post([FromBody] ActivityDto activityDto)
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult> Post([FromForm] CreationActivityDto creatrionActivityDto)
         {
             try
             {
-                var newActivityDto =await activityService.Insert(activityDto);
+                var newActivityDto =await activityService.Insert(creatrionActivityDto);
                 return Ok(newActivityDto);
             }
             catch (Exception ex)
