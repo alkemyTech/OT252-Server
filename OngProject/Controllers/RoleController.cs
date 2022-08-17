@@ -10,6 +10,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [Authorize(Roles = "Administrador")]
     public class RoleController : ControllerBase
     {
@@ -22,6 +23,7 @@ namespace OngProject.Controllers
 
         [Route("GetAll")]
         [HttpGet]
+
         public ActionResult<IEnumerable<Role>> GetAll()
         {
 

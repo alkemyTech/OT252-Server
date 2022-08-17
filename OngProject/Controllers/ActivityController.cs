@@ -43,6 +43,7 @@ namespace OngProject.Controllers
         /// <response code="400">BadRequest. Un error al buscar los datos solicitados.</response>  
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("GetAll")]
         [HttpGet]
@@ -75,6 +76,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("{id}")]
         [Authorize]
@@ -103,6 +105,7 @@ namespace OngProject.Controllers
         /// <response code="401">Unauthorized. No se ha indicado, es incorrecto el Token JWT de acceso o no tiene rol de administrador.</response>              
         /// <response code="200">OK. Devuelve la actividad registrada.</response> 
         [HttpPost("/activities")]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [Authorize(Roles = "Administrador")]
         public async Task<ActionResult> Post([FromForm] CreationActivityDto creatrionActivityDto)
         {
@@ -132,6 +135,7 @@ namespace OngProject.Controllers
         /// <response code="404">NotFound. No se encontro la actividad con la id enviada para actualizar.</response> 
         /// <response code="200">OK. Devuelve la actividad actualizada.</response> 
         [HttpPut("/activities/")]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         //[Authorize(Roles = "Administrador")]
         public async Task<ActionResult<ActivityDto>> Put([FromBody] ActivityDto activityDto, int id)
         {
@@ -168,6 +172,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id}")]
         [Authorize(Roles = "Administrador")]

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
@@ -70,6 +71,7 @@ namespace OngProject.Controllers
 
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [Authorize(Roles = "Administrador")]
         public ActionResult<News> Post([FromBody] Organization organization)
         {
@@ -90,7 +92,8 @@ namespace OngProject.Controllers
 
         [HttpPut]
         [Route("public")]
-        //[Authorize(Roles = "Administrador")]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult<OrganizationDTO>> Put([FromBody] OrganizationDTO organization, int id)
         {
             try
@@ -115,6 +118,7 @@ namespace OngProject.Controllers
 
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [Authorize(Roles = "Administrador")]
         public ActionResult<bool> Delete(int id)
         {
