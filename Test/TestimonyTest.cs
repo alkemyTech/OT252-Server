@@ -31,7 +31,7 @@ namespace Test
         }
 
         [Fact]
-        public void Get_Test()
+        public void Get_Testimony()
         {
             var controler = new TestimonialsController(_context);
 
@@ -40,31 +40,13 @@ namespace Test
         }
 
 
-
         [Fact]
-        public void Delete_Test()
+        public void Delete_Testimony()
         {
             var controler = new TestimonialsController(_context);
             var result = controler.Delete(1);
             Xunit.Assert.NotNull(result);
-        }        [Fact]
-        public void Get_Test()
-        {
-            var controler = new TestimonialsController(_context);
-
-            var test = controler.Get(1);
-            Xunit.Assert.NotNull(test);
-        }
-
-
-
-        [Fact]
-        public void Delete_Test()
-        {
-            var controler = new TestimonialsController(_context);
-            var result = controler.Delete(1);
-            Xunit.Assert.NotNull(result);
-        }
+        }      
     }
 }
 
