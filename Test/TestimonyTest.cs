@@ -30,43 +30,41 @@ namespace Test
             Xunit.Assert.NotNull(result);
         }
 
+        [Fact]
+        public void Get_Test()
+        {
+            var controler = new TestimonialsController(_context);
 
-        //[Fact]
-        //public void Put_Testimony()
-        //{
-        //    TestClass member = new MemberDto()
-        //    {
-        //        Name = "Test",
-        //        FacebookUrl = "TestFacebook.com",
-        //        InstagramUrl = "TestInstagram.com",
-        //        LinkedinUrl = "TestLinkedin.com",
-        //        Image = "TestImage",
-        //    };
-
-        //    var controler = new MemberController(_context);
-        //    var result = controler.Put(member, 1);
-        //    Xunit.Assert.NotNull(result);
-        //}
-
-
-        //[Fact]
-        //public void Get_Test()
-        //{
-        //    var controler = new TestimonialsController(_context);
-
-        //    var test = controler.Get(1);
-        //    Xunit.Assert.NotNull(test);
-        //}
+            var test = controler.Get(1);
+            Xunit.Assert.NotNull(test);
+        }
 
 
 
-        //[Fact]
-        //public void Delete_Test()
-        //{
-        //    var controler = new TestimonialsController(_context);
-        //    var result = controler.Delete(1);
-        //    Xunit.Assert.NotNull(result);
-        //}
+        [Fact]
+        public void Delete_Test()
+        {
+            var controler = new TestimonialsController(_context);
+            var result = controler.Delete(1);
+            Xunit.Assert.NotNull(result);
+        }        [Fact]
+        public void Get_Test()
+        {
+            var controler = new TestimonialsController(_context);
+
+            var test = controler.Get(1);
+            Xunit.Assert.NotNull(test);
+        }
+
+
+
+        [Fact]
+        public void Delete_Test()
+        {
+            var controler = new TestimonialsController(_context);
+            var result = controler.Delete(1);
+            Xunit.Assert.NotNull(result);
+        }
     }
 }
 
