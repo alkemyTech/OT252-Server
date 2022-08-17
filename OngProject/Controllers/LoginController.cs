@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using OngProject.Core.Business;
@@ -12,6 +13,7 @@ using OngProject.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
@@ -30,12 +32,14 @@ namespace OngProject.Controllers
         private readonly ILoginService _loginService;
         private RegisterMapper _mapper;
         private GenericResponse _response;
+        private readonly IUserService _userService;
 
-        public LoginController(ILoginService loginService)
+        public LoginController(ILoginService loginService, IUserService userService)
         {
             _loginService = loginService;
             _mapper = new RegisterMapper();
             _response = new GenericResponse();
+            _userService = userService;
         }
         /// <summary>
         /// Endpoind para Logeo
@@ -73,6 +77,18 @@ namespace OngProject.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("me")]
+        [Authorize]
+        public async Task<ActionResult<UserDTO>> Get()
+        {
+            var id = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "Id").Value);
+
+            UserDTO usuario = new UserDTO();
+            usuario =await _userService.GetById(id);
+            return Ok(usuario);
+        }
+
 
 
     }
