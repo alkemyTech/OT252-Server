@@ -8,7 +8,7 @@ namespace OngProject.Core.Interfaces
     public interface ILoginService
     {
         Task<Users> Register(RegisterDTO registerUser);
-        Task<UserResponse> Login(string email, string password);
+        Task<LoginDto> Login(string email, string password);
         Task<string> GetToken(LoginDto usuario);
 
     }

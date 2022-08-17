@@ -47,7 +47,7 @@ namespace Test
 
             var controler = new MemberController(_context);
             var result = controler.Put(member,1);
-            Xunit.Assert.NotNull(result);
+            Xunit.Assert.IsType<ObjectResult>(result);
 
         }
         [Fact]

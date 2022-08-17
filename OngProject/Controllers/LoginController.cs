@@ -41,9 +41,9 @@ namespace OngProject.Controllers
         /// Endpoind para Logeo
         /// </summary>
         [HttpPost]
-        public ActionResult Login(string email, string password)
+        public async Task<ActionResult<LoginDto>> Login(string email, string password)
         {
-            var response = _loginService.Login(email, password);
+            var response = await _loginService.Login(email, password);
             if (response is null) return Unauthorized();
             return Ok(response);
         }
