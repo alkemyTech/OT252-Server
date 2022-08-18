@@ -4,7 +4,7 @@ using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
 using Xunit;
 
-namespace Test
+namespace Test_Ong.Controllers
 {
     public class TestimonyTest
     {
@@ -20,14 +20,14 @@ namespace Test
                 Content = "Contenido test post",
             };
 
-            
+
             var controller = new TestimonialsController(_context);
 
             //Act
             var result = controller.Post(testimony);
 
             //Assert
-            Xunit.Assert.NotNull(result);
+            Assert.NotNull(result);
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace Test
             var controler = new TestimonialsController(_context);
 
             var test = controler.Get(1);
-            Xunit.Assert.NotNull(test);
+            Assert.NotNull(test);
         }
 
 
@@ -45,8 +45,8 @@ namespace Test
         {
             var controler = new TestimonialsController(_context);
             var result = controler.Delete(1);
-            Xunit.Assert.NotNull(result);
-        }      
+            Assert.NotNull(result);
+        }
     }
 }
 
