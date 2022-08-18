@@ -16,8 +16,8 @@ namespace OngProject.Core.Interfaces
         IEnumerable<ContactDTO> Find(Expression<Func<Contact, bool>> predicate);
 
         public Task<ContactDTO> Insert(ContactDTO contactDto);
-        Contact Update(Contact contact);
-        bool Delete(int id);
+        public Task<ContactDTO> Update(ContactDTO contactDto, int id);
+        Task<bool> Delete(int id);
         
 
     }
