@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using OngProject.Core.Business;
@@ -26,13 +27,14 @@ namespace OngProject.Controllers
     {
 
         private readonly IMemberService memberService;
-        private readonly IUnitOfWork unitOfWork;
+       // private readonly IUnitOfWork unitOfWork;
 
-        public MemberController(IMemberService memberService, IUnitOfWork unitOfWork)
+        public MemberController(IMemberService memberService/* IUnitOfWork unitOfWork*/)
         {
             this.memberService = memberService;
-            this.unitOfWork = unitOfWork;
+           // this.unitOfWork = unitOfWork;
         }
+       
 
 
         /// GET: api/Members/GetAll
@@ -123,6 +125,7 @@ namespace OngProject.Controllers
         /// Retorna el miembro con los datos modificados.
         /// </remarks>
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [Authorize(Roles = "Administrador")]
         public ActionResult<MemberDto> Put([FromBody] MemberDto member, int id)
         {

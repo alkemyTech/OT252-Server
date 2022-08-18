@@ -125,6 +125,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpPost]
         [Authorize(Roles = "Administrador")]
         public async Task<ActionResult> Post([FromForm]CreationNewsDto creationNewsDto)
@@ -171,6 +172,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpPut]
         [Authorize(Roles = "Administrador")]
         public async Task<ActionResult<ViewNewsDto>> Put([FromForm] CreationNewsDto news, int id)
@@ -207,6 +209,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id}")]
         [Authorize(Roles = "Administrador")]
@@ -242,6 +245,7 @@ namespace OngProject.Controllers
         /// <response code="404">NotFound. No se encontraron comentarios con la id enviada.</response> 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("{idNews}/comments")]
         public async Task<ActionResult<IEnumerable<Comment>>> GetComments(int idNews)

@@ -23,6 +23,8 @@ namespace OngProject.Controllers
                 Description = "Web API para usuarios de la ONG.")]
     [Route("api/[controller]")]
     [ApiController]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+   
     public class UserController : ControllerBase
     {
 

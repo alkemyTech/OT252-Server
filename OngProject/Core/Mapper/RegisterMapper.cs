@@ -17,7 +17,7 @@ namespace OngProject.Core.Mapper
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 Email = dto.Email,
-                Password = EncryptHelper.GetSHA256(dto.Password),
+                Password = dto.Password,
                 RoleId = dto.RoleId,
                 TimeStamps = DateTime.UtcNow,
                 SoftDelete = false
@@ -32,7 +32,7 @@ namespace OngProject.Core.Mapper
             var login = new LoginDto
             {
                 Email = user.Email,
-                Password = user.Password,
+                Token = user.Password,
                 RoleId = user.RoleId
 
             };

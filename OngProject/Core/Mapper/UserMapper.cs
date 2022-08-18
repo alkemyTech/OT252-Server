@@ -43,7 +43,7 @@ namespace OngProject.Core.Mapper
                 FirstName = userDto.FirstName,
                 LastName = userDto.LastName,
                 Email = userDto.Email,
-                Password = EncryptHelper.GetSHA256(userDto.Password),
+                Password = userDto.Password,
                 RoleId = userDto.RoleId,
                 TimeStamps = DateTime.Now,
                 SoftDelete = false
