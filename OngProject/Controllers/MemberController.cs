@@ -124,6 +124,7 @@ namespace OngProject.Controllers
         /// Retorna el miembro con los datos modificados.
         /// </remarks>
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [Authorize(Roles = "Administrador")]
         public ActionResult<MemberDto> Put([FromBody] MemberDto member, int id)
         {

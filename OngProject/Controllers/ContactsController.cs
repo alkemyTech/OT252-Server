@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
@@ -25,6 +26,7 @@ namespace OngProject.Controllers
 
        
         [HttpGet]
+        
         [Authorize]
         public async Task<ActionResult<IEnumerable<ContactDTO>>> GetAll()
         {
@@ -40,6 +42,7 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
+      
         [Authorize]
         public async Task<ActionResult<Contact>> Get(int id)
         {
@@ -55,6 +58,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [Authorize(Roles = "Administrador")]
         public async Task<ActionResult> Post([FromBody] ContactDTO contactDTO)
         {
@@ -75,6 +79,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [Authorize(Roles = "Administrador")]
         public ActionResult<Contact> Put([FromBody] Contact contact)
         {
@@ -92,7 +97,9 @@ namespace OngProject.Controllers
 
         }
 
+
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [Authorize(Roles = "Administrador")]
         public ActionResult<bool> Delete(int id)
         {
