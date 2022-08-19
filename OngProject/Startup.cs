@@ -79,17 +79,17 @@ namespace OngProject
                 services.AddOpenApiDocument(document =>
                 {
                     document.Title = "ONG Project Web API";
-                    document.Description = "Backend de la ONG para la aceleración de Alkemy.";
+                    document.Description = "Backend de la ONG para la aceleraciÃ³n de Alkemy.";
 
                     // CONFIGURAMOS LA SEGURIDAD JWT PARA SWAGGER,
-                    // PERMITE AÑADIR EL TOKEN JWT A LA CABECERA.
+                    // PERMITE AÃ‘ADIR EL TOKEN JWT A LA CABECERA.
                     document.AddSecurity("JWT", Enumerable.Empty<string>(),
                         new OpenApiSecurityScheme
                         {
                             Type = OpenApiSecuritySchemeType.ApiKey,
                             Name = "Authorization",
                             In = OpenApiSecurityApiKeyLocation.Header,
-                            Description = "Copia y pega el Token en el campo 'Value:' así: Bearer {Token JWT}."
+                            Description = "Copia y pega el Token en el campo 'Value:' asÃ­: Bearer {Token JWT}."
                         }
                     );
 
@@ -177,7 +177,12 @@ namespace OngProject
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<OwnershipMiddleware>();
+
+
             app.UseMiddleware<RoleAutorizationMiddleware>();
+
 
             app.UseEndpoints(endpoints =>
             {
