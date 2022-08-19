@@ -98,7 +98,7 @@ namespace OngProject.Controllers
                 var news =await _newService.GetById(id);
                 if (news == null)
                 {
-                    return NotFound();
+                    return NotFound(news);
                 }
                 
 
