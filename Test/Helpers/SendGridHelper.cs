@@ -12,7 +12,7 @@ namespace TestONGProject.Helpers
 {
     internal class SendGridTestHelper:ISendGrid
     {
-        private string apiSendGrid = "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";
+        private string apiSendGrid = "";
 
         public async Task WelcomeEmail(string email)
         {
