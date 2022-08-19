@@ -30,7 +30,7 @@ namespace Test_Ong.Controller
         {
             ISendGrid _sendGrid = new SendGridTestHelper();
 
-         
+
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(databaseName: "MemoryDBTest").Options;
             _context = new ApplicationDbContext(options);
@@ -44,7 +44,7 @@ namespace Test_Ong.Controller
             if (!(listContacts.Count > 0))
             {
                 List<Contact> list = new()
-            {
+                {
                     new Contact
                     {
                         Id = 1,
@@ -65,17 +65,17 @@ namespace Test_Ong.Controller
                         TimeStamps = DateTime.Now,
                         SoftDelete = false
                     },
-                 new Contact
-                 {
-                     Id = 3,
-                     Name = "Juan Perez",
-                     Phone = 115433764,
-                     Email = "juan.perez@correo.com",
-                     Message = "Este es otro mensaje",
-                     TimeStamps = DateTime.Now,
-                     SoftDelete = false
-                 }
-                 };
+                    new Contact
+                    {
+                        Id = 3,
+                        Name = "Juan Perez",
+                        Phone = 115433764,
+                        Email = "juan.perez@correo.com",
+                        Message = "Este es otro mensaje",
+                        TimeStamps = DateTime.Now,
+                        SoftDelete = false
+                    }
+                };
 
                 _context.AddRange(list);
                 _context.SaveChanges();

@@ -28,7 +28,7 @@ namespace OngProject.Core.Helper
                 BucketName = S3Data.BucketName,
                 Key = file.FileName,
                 InputStream = file.OpenReadStream(),
-                ContentType = file.ContentType,
+                //ContentType = file.ContentType,
                 CannedACL = S3CannedACL.PublicRead
             };
             PutObjectResponse response = await client.PutObjectAsync(request);
