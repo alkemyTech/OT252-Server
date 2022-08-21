@@ -38,7 +38,7 @@ namespace OngProject.Core.Business
 
         }
 
-        public async Task<CommentDto> Update(int id, CommentDto commentDto)
+        public async Task<ViewCommentDto> Update(int id, CommentDto commentDto)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace OngProject.Core.Business
                 await _unitOfWork.CommentRepository.Update(comment);
                 _unitOfWork.Save();
 
-                CommentDto commentUpdated = mapper.ConverToDto(comment);
+                var commentUpdated = mapper.ConverToViewDto(comment);
 
                 return commentUpdated;
             }

@@ -7,7 +7,9 @@ namespace OngProject.Core.Models
 {
     public class GenericResponse
     {
-        public string Message { get; set; }
+        public bool IsSucces { get; set; } = true;
+        public string DisplayMessage { get; set; }
         public object Entity { get; set; }
+        public List<string> ErrorMessages { get; set; }
     }
 }

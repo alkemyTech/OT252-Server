@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NSwag.Annotations;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
@@ -15,19 +17,21 @@ namespace OngProject.Controllers
     /// <summary>
     /// Controlador para el mantenimiento de los contactos registrados de la ONG
     /// </summary>
+    [SwaggerTag("Contacts", Description = "Web API para los miembros de la ONG")]
     [Route("api/[controller]")]
     [ApiController]
     public class ContactsController : ControllerBase
     {
 
         private readonly IContactService _contactService;
-
+        private GenericResponse _response;
         /// <summary>
         /// Constructor del controlador ContactsController
         /// </summary>
         public ContactsController(IContactService contactService)
         {
-           _contactService = contactService;
+            _contactService = contactService;
+            _response = new GenericResponse();
         }
 
         /// <summary>
@@ -47,11 +51,15 @@ namespace OngProject.Controllers
             try
             {
                 var contactsList = await _contactService.GetAll();
-                return Ok(contactsList);
+                _response.DisplayMessage = "Lista de contactos";
+                _response.Entity = contactsList;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
         }
 
@@ -71,21 +79,26 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<ActionResult<Contact>> Get(int id)
+        public async Task<ActionResult<GenericResponse>> Get(int id)
         {
             try
             {
                 var contact = await _contactService.GetById(id);
-                
                 if(contact == null)
-                    return NotFound($"No se encontro el contacto con el id: {id}");
-                
-                
-                return Ok(contact);
+                {
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = $"No se encontro el contacto con el id: {id}";
+                    return NotFound(_response);
+                }
+                _response.DisplayMessage = "Información del contacto";
+                _response.Entity = contact;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
         }
 
@@ -108,15 +121,15 @@ namespace OngProject.Controllers
             try
             {
                 var newContact = await _contactService.Insert(contactDTO);
-                ResponseContact response = new ResponseContact();
-                response.Message = "Se ha guardado el registro";
-                response.Contact = newContact;
-                return Ok(response);
+                _response.DisplayMessage = "Se ha guardado el registro";
+                _response.Entity = newContact;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
 
         }
@@ -144,17 +157,21 @@ namespace OngProject.Controllers
             try
             {
                 var editContact = await _contactService.Update(contactDTO,id);
-                
-                
                 if (editContact == null)
-                    return NotFound($"No se puede encontrar el contacto con el Id: {id}");
-
-                return Ok(editContact);
+                {
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = $"No se puede encontrar el contacto con el Id: {id}";
+                    return NotFound(_response);
+                }
+                _response.DisplayMessage = "Se ha actualizado el contacto";
+                _response.Entity = editContact;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
 
         }
@@ -182,23 +199,24 @@ namespace OngProject.Controllers
             {
                 var deleteContact = _contactService.Delete(id);
                 if (deleteContact.Result)
-                    return Ok(deleteContact);
+                {
+                    _response.DisplayMessage = "Se ha eliminado el contacto";
+                    return Ok(_response);
+                }
                 else
-                    return NotFound($"No se encontro el id {id} para eliminar");
-
+                {
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = $"No se encontro el id {id} para eliminar";
+                    return NotFound(_response);
+                }
             }
             catch (Exception ex)
             {
-
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
 
-        }
-
-        private class ResponseContact
-        {
-            public string Message { get; set; }
-            public object Contact { get; set; }
         }
     }
 }

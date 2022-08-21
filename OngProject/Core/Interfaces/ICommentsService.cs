@@ -8,6 +8,6 @@ namespace OngProject.Core.Interfaces
     {
         Task<IEnumerable<CommentDto>> GetAll();
 
-        Task<CommentDto> Update(int id, CommentDto commentDto);
+        Task<ViewCommentDto> Update(int id, CommentDto commentDto);
     }
 }

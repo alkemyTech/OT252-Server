@@ -4,6 +4,7 @@ namespace OngProject.Core.Models.DTOs
 {
     public class ActivityDto
     {
+        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
 

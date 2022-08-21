@@ -44,14 +44,14 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public async Task<List<NewsDto>> GetAll()
+        public async Task<List<ViewNewsDto>> GetAll()
         {
             var listNews = await _unitOfWork.NewsRepository.GetAll();
 
             if (listNews == null)
                 return null;
 
-            List<NewsDto> newsDto = (List<NewsDto>) _newsMapper.ConvertListToDto(listNews);
+            List<ViewNewsDto> newsDto = (List<ViewNewsDto>) _newsMapper.ConvertListToViewDto(listNews);
             return newsDto;
         }
 
@@ -101,16 +101,9 @@ namespace OngProject.Core.Business
                 editNews.TimeStamps = DateTime.Now;
 
                 await _unitOfWork.NewsRepository.Update(editNews);
-            _unitOfWork.Save();
+                _unitOfWork.Save();
 
-                return _newsMapper.ConverToViewDto(editNews); 
-
-
-            
-
-
-
-            throw new NotImplementedException();
+                return _newsMapper.ConverToViewDto(editNews);
         }
 
         public async Task<IEnumerable<Comment>> FindComment(Expression<Func<Comment, bool>> predicate)

@@ -9,14 +9,14 @@ namespace OngProject.Core.Interfaces
 {
     public interface IContactService
     {
-        Task<IEnumerable<ContactDTO>> GetAll();
+        Task<IEnumerable<ViewContactDTO>> GetAll();
 
-        Task<ContactDTO> GetById(int? id);
+        Task<ViewContactDTO> GetById(int? id);
 
-        IEnumerable<ContactDTO> Find(Expression<Func<Contact, bool>> predicate);
+        IEnumerable<ViewContactDTO> Find(Expression<Func<Contact, bool>> predicate);
 
-        public Task<ContactDTO> Insert(ContactDTO contactDto);
-        public Task<ContactDTO> Update(ContactDTO contactDto, int id);
+        public Task<ViewContactDTO> Insert(ContactDTO contactDto);
+        public Task<ViewContactDTO> Update(ContactDTO contactDto, int id);
         Task<bool> Delete(int id);
         
 

@@ -23,9 +23,40 @@ namespace OngProject.Core.Mapper
             return listDtos;
         }
 
+        public IEnumerable<ViewMemberDto> ConvertListToViewDto(IEnumerable<Member> listMembers)
+        {
+            List<ViewMemberDto> listDtos = new List<ViewMemberDto>();
+
+            foreach (Member member in listMembers)
+            {
+                ViewMemberDto memberDto = new ViewMemberDto();
+                memberDto.Id = member.Id;
+                memberDto.Name = member.Name;
+                memberDto.FacebookUrl = member.FacebookUrl;
+                memberDto.InstagramUrl = member.InstragramUrl;
+                memberDto.LinkedinUrl = member.LinkedinUrl;
+                memberDto.Image = member.Image;
+                listDtos.Add(memberDto);
+            }
+            return listDtos;
+        }
+
         public MemberDto ConvertToDto (Member member)
         {
             MemberDto memberDto = new MemberDto();
+            memberDto.Name = member.Name;
+            memberDto.FacebookUrl = member.FacebookUrl;
+            memberDto.InstagramUrl = member.InstragramUrl;
+            memberDto.LinkedinUrl = member.LinkedinUrl;
+            memberDto.Image = member.Image;
+
+            return memberDto;
+        }
+
+        public ViewMemberDto ConvertToViewDto(Member member)
+        {
+            ViewMemberDto memberDto = new ViewMemberDto();
+            memberDto.Id = member.Id;
             memberDto.Name = member.Name;
             memberDto.FacebookUrl = member.FacebookUrl;
             memberDto.InstagramUrl = member.InstragramUrl;

@@ -25,6 +25,21 @@ namespace OngProject.Core.Mapper
             return contactDTO;
         }
 
+        public ViewContactDTO ToViewContactDTO(Contact contacto)
+        {
+            ViewContactDTO contactDTO = new ViewContactDTO()
+            {
+
+                Id = contacto.Id,
+                Name = contacto.Name,
+                Email = contacto.Email,
+                Message = contacto.Message,
+                Phone = contacto.Phone
+            };
+
+            return contactDTO;
+        }
+
 
         public Contact ToContact(ContactDTO contactoDTO)
         {

@@ -15,6 +15,7 @@ namespace OngProject.Core.Mapper
             foreach (Category category in categories)
             {
                 CategoryDto dto = new CategoryDto();
+                dto.Id = category.Id;
                 dto.Name = category.Name;
                 dto.Description = category.Description;
                 dto.Image = category.Image;

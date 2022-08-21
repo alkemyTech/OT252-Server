@@ -47,8 +47,7 @@ namespace OngProject.Core.Business
             if(response != null)
             {
                 mapper = new ActivityMapper();
-                ActivityDto activityDto = new ActivityDto();
-                activityDto = mapper.ConvertToDto(response);
+                var activityDto = mapper.ConvertToDto(response);
                 return activityDto;
             }
             return null;

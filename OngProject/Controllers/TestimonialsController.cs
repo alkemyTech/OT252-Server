@@ -4,6 +4,7 @@ using NSwag.Annotations;
 using OngProject.Core.Business;
 using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
@@ -25,10 +26,12 @@ namespace OngProject.Controllers
     {
 
         private readonly ITestimonialsService _testimonialsService;
+        private readonly GenericResponse _response;
 
         public TestimonialsController(ITestimonialsService testimonialsService)
         {
             _testimonialsService = testimonialsService;
+            _response = new GenericResponse();
         }
 
 
@@ -57,13 +60,15 @@ namespace OngProject.Controllers
             }
             catch (Exception ex)
             {
-
-                return BadRequest(ex.Message);  
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
             
             
         }
 
+        /*
         /// GET: api/Tetimonials/:id
         /// <summary>
         /// Devuelve un testimonio con el id introducido.
@@ -83,6 +88,7 @@ namespace OngProject.Controllers
             }
             
         }
+        */
 
         /// POST: api/Tetimonials/
         /// <summary>
@@ -95,22 +101,23 @@ namespace OngProject.Controllers
         [HttpPost]
         public async Task<ActionResult<TestimonyDTO>> Post([FromForm] CreationTestimonyDTO testimony)
         {
-
-            
             try
             {
                 var newTestimony = await _testimonialsService.Insert(testimony);
-
-                return Ok(newTestimony);
+                _response.DisplayMessage = "Se ha registrado el testimonio";
+                _response.Entity = newTestimony;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
             
         }
 
+        
         /// PUT: api/Tetimonials/
         /// <summary>
         /// Actualiza el testimonio que se envía.
@@ -124,16 +131,19 @@ namespace OngProject.Controllers
             try
             {
                 var editTestimony = _testimonialsService.Update(testimony);
-
-                return Ok(editTestimony);
+                _response.DisplayMessage = "Se ha actualizado el testimonio";
+                _response.Entity = editTestimony;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
             
         }
+        
 
         /// Delete: api/Tetimonials/id
         /// <summary>
@@ -151,14 +161,22 @@ namespace OngProject.Controllers
                 var deleteTestimony = _testimonialsService.Delete(id);
 
                 if (deleteTestimony.Result)
-                    return Ok(true);
+                {
+                    _response.DisplayMessage = "Se ha eliminado el testimonio";
+                    return Ok(_response);
+                }
                 else
-                    return NotFound($"No se pudo eliminar no se encontro testimonio id: {id}");
+                {
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = $"No se pudo eliminar no se encontro testimonio id: {id}";
+                    return NotFound(_response);
+                }
             }
             catch (Exception ex)
             {
-
-                return BadRequest(ex.Message);  
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
             
         }

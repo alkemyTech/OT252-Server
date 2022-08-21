@@ -6,6 +6,7 @@ using OngProject.Core.Business;
 using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
@@ -27,11 +28,13 @@ namespace OngProject.Controllers
     {
 
         private readonly IMemberService memberService;
+        private readonly GenericResponse _response;
        // private readonly IUnitOfWork unitOfWork;
 
         public MemberController(IMemberService memberService/* IUnitOfWork unitOfWork*/)
         {
             this.memberService = memberService;
+            _response = new GenericResponse();
            // this.unitOfWork = unitOfWork;
         }
        
@@ -47,25 +50,30 @@ namespace OngProject.Controllers
         [Route("/Members")]
         [HttpGet]
         //[Authorize]
-        public async Task<ActionResult<PageListDto<MemberDto>>> GetAll(int page = 1)
+        public async Task<ActionResult<PageListDto<ViewMemberDto>>> GetAll(int page = 1)
         {
             try
             {
                 var memberList = await memberService.GetAll();
                 if (memberList == null)
                 {
-                    return NotFound();
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = "No hay registros";
+                    return NotFound(_response);
                 }
-                PageHelper<MemberDto> members = PageHelper<MemberDto>.Create(memberList, page, 10);
-                PageListDto<MemberDto> pageList = new PageListDto<MemberDto>(members, "Members"); 
+                PageHelper<ViewMemberDto> members = PageHelper<ViewMemberDto>.Create(memberList, page, 10);
+                PageListDto<ViewMemberDto> pageList = new PageListDto<ViewMemberDto>(members, "Members"); 
                 return Ok(pageList);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
         }
 
+        /*
         /// GET: api/Members/:id
         /// <summary>
         /// Obtiene un miembro de la ONG con el id pasado por parámetro.
@@ -87,7 +95,7 @@ namespace OngProject.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        */
 
         /// POST: api/members/
         /// <summary>
@@ -104,13 +112,15 @@ namespace OngProject.Controllers
             try
             {
                 var newMember = memberService.Insert(member);
-
-                return Ok(newMember);
+                _response.DisplayMessage = "Se ha registrado al miembro";
+                _response.Entity = newMember;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
 
         }
@@ -152,14 +162,18 @@ namespace OngProject.Controllers
                 var deleteMember =await memberService.Delete(id);
                 if (deleteMember)
                 {
-                    return Ok();
+                    _response.DisplayMessage = "Se ha eliminado al miembro";
+                    return Ok(_response);
                 }
-                return NotFound();
+                _response.IsSucces = false;
+                _response.DisplayMessage = "Miembro no existe";
+                return NotFound(_response);
             }
             catch (Exception ex)
             {
-
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
 
         }

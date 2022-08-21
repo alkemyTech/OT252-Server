@@ -22,6 +22,22 @@ namespace OngProject.Core.Mapper
             return listDtos;
         }
 
+        public List<ViewNewsDto> ConvertListToViewDto(IEnumerable<News> listNews)
+        {
+            List<ViewNewsDto> listDtos = new List<ViewNewsDto>();
+
+            foreach (News news in listNews)
+            {
+                ViewNewsDto newsDto = new ViewNewsDto();
+                newsDto.Id = news.Id;
+                newsDto.Name = news.Name;
+                newsDto.Content = news.Content;
+                newsDto.Image = news.Image;
+                listDtos.Add(newsDto);
+            }
+            return listDtos;
+        }
+
         public NewsDto ConverToDto(News news)
         {
             var newsDto = new NewsDto();

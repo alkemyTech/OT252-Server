@@ -5,6 +5,7 @@ using NSwag.Annotations;
 using OngProject.Core.Business;
 using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
@@ -25,6 +26,7 @@ namespace OngProject.Controllers
 
         private readonly INewsService _newService;
         private readonly ICategoryService _categoryService;
+        private readonly GenericResponse _response;
 
         /// <summary>
         /// Constructor del controlador recibe INewsService y ICategoryService como dependencia
@@ -33,6 +35,7 @@ namespace OngProject.Controllers
         {
             _newService = newService;
             _categoryService = categoryService;
+            _response = new GenericResponse();
         }
 
 
@@ -51,7 +54,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Route("GetAll")]
         [HttpGet]
-        public async Task <ActionResult<PageHelper<NewsDto>>> GetAll(int page = 1)
+        public async Task <ActionResult<PageHelper<ViewNewsDto>>> GetAll(int page = 1)
         {
 
             try
@@ -62,14 +65,16 @@ namespace OngProject.Controllers
                 if (newsList == null)
                     return NotFound("No se encontraron novedades.");
 
-                var prueba = PageHelper<NewsDto>.Create(newsList, page, 10);
+                var prueba = PageHelper<ViewNewsDto>.Create(newsList, page, 10);
 
                 NewsPagesDto pages = new NewsPagesDto(prueba);
                 return Ok(pages);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);  
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
             
             
@@ -98,15 +103,19 @@ namespace OngProject.Controllers
                 var news =await _newService.GetById(id);
                 if (news == null)
                 {
-                    return NotFound(news);
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = "Novedad no existe";
+                    return NotFound(_response);
                 }
-                
-
-                return Ok(news);
+                _response.DisplayMessage = "Información de la novedad";
+                _response.Entity = news;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
             
         }
@@ -134,23 +143,27 @@ namespace OngProject.Controllers
             {
                 if(creationNewsDto.CategoryId <= 0)
                 {
-                    return BadRequest("El id de la categoria debe ser mayor a 0");
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = "El id de la categoria debe ser mayor a 0";
+                    return BadRequest(_response);
                 }
                 var category = await _categoryService.GetById(creationNewsDto.CategoryId);
                 if (category == null)
                 {
-                    return NotFound("El id de categoria ingresado no existe");
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = "El id de categoria ingresado no existe";
+                    return NotFound(_response);
                 }
                 var newNews = await _newService.Insert(creationNewsDto);
-                ResponseNews response = new ResponseNews();
-                response.Message = "Se ha guardado el registro";
-                response.News = newNews;
-                return Ok(response);
+                _response.DisplayMessage = "Se ha guardado el registro";
+                _response.Entity = newNews;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
             
         }
@@ -180,16 +193,22 @@ namespace OngProject.Controllers
             try
             {
                 var editNews = await _newService.Update(news, id);
-
                 if (editNews == null)
-                    return NotFound($"El id de la news no es correcto, news id {id}");
-
-                return Ok(editNews);
+                {
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = $"El id de la news no es correcto, news id {id}";
+                    return NotFound(_response);
+                }
+                _response.DisplayMessage = "Se ha actualizado la novedad";
+                _response.Entity = editNews;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
 
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
             
         }
@@ -220,13 +239,18 @@ namespace OngProject.Controllers
                 var deleteCategory = await _newService.Delete(id);
                 if (!deleteCategory)
                 {
-                    return BadRequest("El registro no existe");
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = "El registro no existe";
+                    return BadRequest(_response);
                 }
-                return Ok("Se ha eliminado el registro");
+                _response.DisplayMessage = "Se ha eliminado el registro";
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
 
         }
@@ -255,20 +279,20 @@ namespace OngProject.Controllers
                 var comments = await _newService.FindComment(c => c.News_Id == idNews);
                 if(comments == null)
                 {
-                    return NotFound("No hay comentarios");
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = "No hay comentarios";
+                    return NotFound(_response);
                 }
-                return Ok(comments);
+                _response.DisplayMessage = "Información del comentario";
+                _response.Entity = comments;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
-        }
-
-        private class ResponseNews
-        {
-            public string Message { get; set; }
-            public object News { get; set; }
         }
     }
 }

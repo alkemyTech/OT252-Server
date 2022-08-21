@@ -5,11 +5,15 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Models.DTOs
 {
-    public class CategoryDto
+    public class ViewContactDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public string Image { get; set; }
+
+        public int Phone { get; set; }
+
+        public string Email { get; set; }
+
+        public string Message { get; set; }
     }
 }

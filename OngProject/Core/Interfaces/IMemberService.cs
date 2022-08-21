@@ -10,14 +10,14 @@ namespace OngProject.Core.Interfaces
 {
     public interface IMemberService
     {
-        Task<IEnumerable<MemberDto>> GetAll();
+        Task<IEnumerable<ViewMemberDto>> GetAll();
 
-        Task<MemberDto> GetById(int? id);
+        Task<ViewMemberDto> GetById(int? id);
 
         IEnumerable<Member> Find(Expression<Func<Member, bool>> predicate);
 
-        MemberDto Insert(MemberDto member);
+        ViewMemberDto Insert(MemberDto member);
         Task<bool> Delete(int id);
-        Task<MemberDto> putActionMember(MemberDto member, int id);
+        Task<ViewMemberDto> putActionMember(MemberDto member, int id);
     }
 }

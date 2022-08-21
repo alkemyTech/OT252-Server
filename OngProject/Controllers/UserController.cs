@@ -66,13 +66,19 @@ namespace OngProject.Controllers
                 var userList = await _userService.GetAll();
                 if (userList == null)
                 {
-                    return NotFound("No hay registros");
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = "No hay registros";
+                    return NotFound(_response);
                 }
-                return Ok(userList);
+                _response.DisplayMessage = "Listado de usuarios";
+                _response.Entity = userList;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
         }
 
@@ -102,13 +108,19 @@ namespace OngProject.Controllers
                 var userDto = await _userService.GetById(id);
                 if (userDto == null)
                 {
-                    return NotFound("Usuario no encontrado");
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = "Usuario no encontrado";
+                    return NotFound(_response);
                 }
-                return Ok(userDto);
+                _response.DisplayMessage = "Información del usuario";
+                _response.Entity = userDto;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
         }
 
@@ -164,25 +176,33 @@ namespace OngProject.Controllers
                 var respuesta = await _userService.CheckUser(userDto.Email, id);
                 if(respuesta == 1)
                 {
-                    return NotFound("El usuario no esta registrado");
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = "El usuario no esta registrado";
+                    return NotFound(_response);
                 }else if (respuesta == 2)
                 {
-                    return BadRequest("El email ya esta registrado");
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = "El email ya esta registrado";
+                    return BadRequest(_response);
                 }
                 var respuesta2 = await _userService.CheckRole(userDto.RoleId);
                 if(respuesta2 == 1)
                 {
-                    return NotFound("El rol no esta registrado");
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = "El rol no esta registrado";
+                    return NotFound(_response);
                 }
                 var userUpdate = await _userService.Update(id, userDto);
-                _response.Message = "Se ha modificado la información del usuario";
+                _response.DisplayMessage = "Se ha modificado la información del usuario";
                 _response.Entity = userUpdate;
                 return Ok(_response);
             }
             catch (Exception ex)
             {
 
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
 
         }
@@ -214,13 +234,18 @@ namespace OngProject.Controllers
                 var deleteUsers = await _userService.Delete(id);
                 if (!deleteUsers)
                 {
-                    return NotFound("El usuario no existe");
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = "El usuario no existe";
+                    return NotFound(_response);
                 }
-                return Ok("Se ha eliminado el registro");
+                _response.DisplayMessage = "Se ha eliminado el registro";
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
         }
     }

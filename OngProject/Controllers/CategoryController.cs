@@ -48,7 +48,6 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Route("GetAll")]
         [HttpGet]
@@ -59,14 +58,19 @@ namespace OngProject.Controllers
                 var categoryList = await _categoryService.GetAll();
                 if(categoryList == null)
                 {
-                    return NotFound("No hay registros");
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = "No hay registros";
+                    return NotFound(_response);
                 }
-                return Ok(categoryList);
+                _response.DisplayMessage = "Listado de categorías";
+                _response.Entity = categoryList;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-
-                return BadRequest(ex.Message);  
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);  
             }
         }
 
@@ -81,34 +85,39 @@ namespace OngProject.Controllers
         /// <response code="401">Unauthorized. El usuario no se ha autentificado o no tiene perfil de administrador.</response>
         /// <response code="200">Ok. Devuelve la información de la categoría.</response>
         /// <response code="400">BadRequest. Devuelve el error ocurrido en caso de que la operación no se realice.</response>
-        /// <response code="404">NotFound. Devuelve el error 404 en caso de que el id no corresponda a una categoría registrada.</response>
+        /// <response code="404">NotFound. Devuelve un mensaje de error en caso de que el id no corresponda a una categoría registrada.</response>
         /// <response code="500">InternalServerError. Devuelve el error que impide que la operación se realice.</response>
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("/categories")]
-        public async Task<ActionResult<CategoryDto>> Get(int id)
+        public async Task<ActionResult<GenericResponse>> Get(int id)
         {
             try
             {
                 var category =await _categoryService.GetById(id);
                 if (category == null)
                 {
-                    return NotFound();
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = "Categoría no existe";
+                    return NotFound(_response);
                 }
-                return Ok(category);
+                _response.DisplayMessage = "Información de la categoría";
+                _response.Entity = category;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
             
         }
 
-        /// POST: api/categories/:id
+        /// POST: api/categories/post
         /// <summary>
         /// Registra una categoría de novedades de la ONG.
         /// </summary>
@@ -134,32 +143,36 @@ namespace OngProject.Controllers
             {
                 if (!Regex.IsMatch(categorydto.Name, "^[a-zA-Z][a-zA-Z0-9 ]*$"))
                 {
-                    return BadRequest("El nombre debe empezar con una letra, tener caracteres alfanúmericos, y puede tener espacios ");
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = "El nombre debe empezar con una letra, tener caracteres alfanúmericos, y puede tener espacios ";
+                    return BadRequest(_response);
                 }
                 var newCategory = await _categoryService.Insert(categorydto);
-                _response.Message = "Se ha guardado el registro";
+                _response.DisplayMessage = "Se ha guardado el registro";
                 _response.Entity = newCategory;
                 return Ok(_response);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
 
         }
 
-        /// PUT: api/categories/:id
+        /// PUT: api/categories/update/:id
         /// <summary>
-        /// Actualiza de la categoría de novedades de la ONG pasando el id de la misma.
+        /// Actualiza la información de la categoría de novedades de la ONG pasando el id de la misma.
         /// </summary>
         /// <remarks>
         /// Para actualizar la categoría se deben ingresar ingresar el id de la categoría y los siguientes datos requeridos *
         /// Nombre, Descripción y su Imagen.
         /// </remarks>
         /// <response code="401">Unauthorized. El usuario no se ha autentificado o no tiene perfil de administrador.</response>
-        /// <response code="200">Ok. Devuelve un mensaje de éxito de la operación y la información del usuario modificado.</response>
+        /// <response code="200">Ok. Devuelve un mensaje de éxito de la operación y la información de la categoria modificada.</response>
         /// <response code="400">BadRequest. Devuelve el error ocurrido en caso de que la operación no se realice.</response>
-        /// <response code="404">NotFound. Devuelve un mensaje de registro no esta registrado si el id de la categoría corresponden a un registro.</response>
+        /// <response code="404">NotFound. Devuelve un mensaje de registro no esta registrado si el id de la categoría no corresponde a un registro.</response>
         /// <response code="500">InternalServerError. Devuelve el error que impide que la operación se realice.</response>
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -175,20 +188,28 @@ namespace OngProject.Controllers
             {
                 var editCategory = await _categoryService.Update(id,category);
 
-                if(editCategory == null)
-                    return NotFound($"No se encontro la categoria con el id {id}");
+                if (editCategory == null)
+                {
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = $"No se encontro la categoria con el id {id}";
+                    return NotFound(_response);
+                }
 
-                return Ok(editCategory);
+                _response.DisplayMessage = "Se ha modificado la información";
+                _response.Entity = editCategory;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
 
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
             
         }
 
-        /// DELETE: api/categories/:id
+        /// DELETE: api/categories/delete/:id
         /// <summary>
         /// Elimina una categoría de novedades de la ONG pasando el id de la misma.
         /// </summary>
@@ -215,13 +236,18 @@ namespace OngProject.Controllers
                 var deleteCategory = await _categoryService.Delete(id);
                 if (!deleteCategory)
                 {
-                    return NotFound("El registro no existe");
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = "El registro no existe";
+                    return NotFound(_response);
                 }
-                return Ok("Se ha eliminado el registro");
+                _response.DisplayMessage = "Se ha eliminado el registro";
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);  
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
             
         }

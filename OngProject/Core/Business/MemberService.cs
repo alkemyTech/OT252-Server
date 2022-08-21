@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
 {
-    public class MemberService : IMemberService
+    public class MemberService : IMemberService 
     {
         private IUnitOfWork _unitOfWork;
 
@@ -42,20 +42,20 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<MemberDto>> GetAll()
+        public async Task<IEnumerable<ViewMemberDto>> GetAll()
         {
             memberMapper = new MemberMapper();
             var listMember =await _unitOfWork.MemberRepository.GetAll();
-            var membersDto = memberMapper.ConvertListToDto(listMember);
+            var membersDto = memberMapper.ConvertListToViewDto(listMember);
             return membersDto;
         }
 
-        public Task<MemberDto> GetById(int? id)
+        public Task<ViewMemberDto> GetById(int? id)
         {
             throw new NotImplementedException();
         }
 
-        public MemberDto Insert(MemberDto memberDto)
+        public ViewMemberDto Insert(MemberDto memberDto)
         {
             memberMapper = new MemberMapper();
             Member member = memberMapper.ConvertToMember(memberDto);
@@ -63,17 +63,18 @@ namespace OngProject.Core.Business
             _unitOfWork.MemberRepository.Insert(member);
             _unitOfWork.Save();
 
-            MemberDto newMember = memberMapper.ConvertToDto(member);
+            ViewMemberDto newMember = memberMapper.ConvertToViewDto(member);
 
             return newMember;
         }
 
-        public async Task<MemberDto> putActionMember(MemberDto member, int id)
+        public async Task<ViewMemberDto> putActionMember(MemberDto member, int id)
         {
             if (_unitOfWork.MemberRepository.GetById(id) is null) return null;
             await _unitOfWork.MemberRepository.Update(new MemberMapper().ConvertToMember(member));
             _unitOfWork.Save();
-            return member;
+            ViewMemberDto newMember = memberMapper.ConvertToViewDto(new MemberMapper().ConvertToMember(member));
+            return newMember;
         }
     }
 }

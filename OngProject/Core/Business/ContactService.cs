@@ -45,12 +45,12 @@ namespace OngProject.Core.Business
             
         }
 
-        public IEnumerable<ContactDTO> Find(Expression<Func<Contact, bool>> predicate)
+        public IEnumerable<ViewContactDTO> Find(Expression<Func<Contact, bool>> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<ContactDTO>> GetAll()
+        public async Task<IEnumerable<ViewContactDTO>> GetAll()
         {
             try
             {
@@ -58,12 +58,12 @@ namespace OngProject.Core.Business
 
                 List<Contact> contacts = (List<Contact>)await _unitOfWork.ContactsRepository.GetAll();
                                
-                List<ContactDTO> contactsDTO = new List<ContactDTO>();
+                List<ViewContactDTO> contactsDTO = new List<ViewContactDTO>();
                 
 
                 foreach (Contact contact in contacts)
                 {
-                    contactsDTO.Add(mapper.ToContactDTO(contact));
+                    contactsDTO.Add(mapper.ToViewContactDTO(contact));
                 };
                 
                 return contactsDTO;
@@ -71,32 +71,32 @@ namespace OngProject.Core.Business
             catch (Exception)
             {
 
-                return new List<ContactDTO>();
+                return new List<ViewContactDTO>();
             }
         }
 
-        public async Task<ContactDTO> GetById(int? id)
+        public async Task<ViewContactDTO> GetById(int? id)
         {
             var contact = await _unitOfWork.ContactsRepository.GetById(id);
             if (contact == null)
             {
                 return null;
             }
-            var contactDto = _contactMapper.ToContactDTO(contact);
+            var contactDto = _contactMapper.ToViewContactDTO(contact);
             return contactDto;
         }
 
-        public async Task<ContactDTO> Insert(ContactDTO contactDTO)
+        public async Task<ViewContactDTO> Insert(ContactDTO contactDTO)
         {
             var contact = _contactMapper.ToContact(contactDTO);
             await _unitOfWork.ContactsRepository.Insert(contact);
             _unitOfWork.Save();
             await _sendgrid.ContactEmail(contact.Email);
-            var contactDtoS = _contactMapper.ToContactDTO(contact);
+            var contactDtoS = _contactMapper.ToViewContactDTO(contact);
             return contactDtoS;
         }
 
-        public async Task<ContactDTO> Update(ContactDTO contactDTO, int id)
+        public async Task<ViewContactDTO> Update(ContactDTO contactDTO, int id)
         {
             var contact = await _unitOfWork.ContactsRepository.GetById(id);
             if (contact == null)
@@ -112,7 +112,7 @@ namespace OngProject.Core.Business
             await _unitOfWork.ContactsRepository.Update(contact);
             _unitOfWork.Save();
 
-            var contactDto = _contactMapper.ToContactDTO(contact);
+            var contactDto = _contactMapper.ToViewContactDTO(contact);
             return contactDto;
         }
 

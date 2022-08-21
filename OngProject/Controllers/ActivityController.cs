@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
@@ -22,15 +23,17 @@ namespace OngProject.Controllers
     {
 
         private readonly IActivityService activityService;
-
+        private GenericResponse _response;
         /// <summary>
         /// Constructor del controlador recibe IActivityService como dependencia
         /// </summary>
         public ActivityController(IActivityService activityService)
         {
             this.activityService = activityService;
+            _response = new GenericResponse();
         }
 
+        /*
         /// GET: api/Activity/GetAll
         /// <summary>
         /// Obtiene todas las actividades de la ONG.
@@ -60,6 +63,7 @@ namespace OngProject.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        */
 
         /// GET: api/Activity/{id}
         /// <summary>
@@ -80,16 +84,20 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("{id}")]
         [Authorize]
-        public ActionResult<Activity> Get(int id)
+        public ActionResult<GenericResponse> Get(int id)
         {
             try
             {
                 var activity = activityService.GetById(id);
-                return Ok(activity);
+                _response.DisplayMessage = "Información de las actividades";
+                _response.Entity = activity;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
         }
 
@@ -112,11 +120,15 @@ namespace OngProject.Controllers
             try
             {
                 var newActivityDto =await activityService.Insert(creatrionActivityDto);
-                return Ok(newActivityDto);
+                _response.DisplayMessage = "Se ha registrado la actividad";
+                _response.Entity = newActivityDto;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
 
         }
@@ -144,19 +156,24 @@ namespace OngProject.Controllers
                 var editActivity = await activityService.Update(id,activityDto);
                 if (editActivity == null)
                 {
-                    return NotFound("La actividad enviada no existe");
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = "La actividad enviada no existe";
+                    return NotFound(_response);
                 }
-
-                return Ok(editActivity);
+                _response.DisplayMessage = "Se ha modificado la actividad";
+                _response.Entity = editActivity;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
-
-                return BadRequest(ex.Message);
+                _response.IsSucces = false;
+                _response.ErrorMessages = new List<string> { "Ha ocurrido un error", ex.ToString() };
+                return BadRequest(_response);
             }
 
         }
 
+        /*
         /// DELETE: api/Activity
         /// <summary>
         /// Elimina una actividad con borrado suave.
@@ -190,6 +207,6 @@ namespace OngProject.Controllers
                 return BadRequest(ex.Message);
             }
 
-        }
+        }*/
     }
 }

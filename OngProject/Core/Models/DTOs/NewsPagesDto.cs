@@ -12,9 +12,9 @@ namespace OngProject.Core.Models.DTOs
         public string NextPage { get; set; }
         public string PreviousPage { get; set; }
         public int TotalElements { get; set; }
-        public List<NewsDto> news { get; set; }
+        public List<ViewNewsDto> news { get; set; }
 
-        public NewsPagesDto(PageHelper<NewsDto> helper)
+        public NewsPagesDto(PageHelper<ViewNewsDto> helper)
         {
             ActualPage = helper.CurrentPage;
             NextPage = helper.IsPrevious ? $"api/News/GetAll?page={ActualPage + 1}" : null;
