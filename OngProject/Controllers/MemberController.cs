@@ -106,12 +106,12 @@ namespace OngProject.Controllers
         /// CAMPO REQUERIDO: el campo nombre es necesario completar 
         /// </remarks>
         [HttpPost("/Members")]
-        //[Authorize(Roles = "Administrador")]
-        public ActionResult<MemberDto> Post([FromBody] MemberDto member)
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<GenericResponse>> Post([FromForm] CreationMemberDto member)
         {
             try
             {
-                var newMember = memberService.Insert(member);
+                var newMember = await memberService.Insert(member);
                 _response.DisplayMessage = "Se ha registrado al miembro";
                 _response.Entity = newMember;
                 return Ok(_response);
@@ -136,12 +136,12 @@ namespace OngProject.Controllers
         /// </remarks>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [Authorize(Roles = "Administrador")]
-        public ActionResult<MemberDto> Put([FromBody] MemberDto member, int id)
+        //[Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<ViewMemberDto>> Put(int id, [FromForm] CreationMemberDto member)
         {
             return (member) switch
             {
-                (not null) => Ok(memberService.putActionMember(member,id)),
+                (not null) => Ok(await memberService.putActionMember(id, member)),
                 (null)=> NotFound(),
             };
         }
@@ -155,7 +155,7 @@ namespace OngProject.Controllers
         /// </remarks>
         [HttpDelete("/members")]
         //[Authorize(Roles = "Administrador")]
-        public async Task<ActionResult<bool>> Delete(int id)
+        public async Task<ActionResult<GenericResponse>> Delete(int id)
         {
             try
             {

@@ -26,7 +26,6 @@ namespace OngProject.Core.Mapper
         public ActivityDto ConvertToDto(Activity activity)
         {
             ActivityDto activityDto = new ActivityDto();
-            activityDto.Id = activity.Id;
             activityDto.Name = activity.Name;
             activityDto.Content = activity.Content;
             activityDto.Image = activity.Image;

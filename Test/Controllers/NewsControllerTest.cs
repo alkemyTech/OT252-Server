@@ -174,7 +174,7 @@ namespace Test_Ong.Controllers
 
         }
 
-        [Fact]
+        /*[Fact]
         public async Task Post_ShouldInsertNew_News()
         {
             //Arrange
@@ -194,7 +194,7 @@ namespace Test_Ong.Controllers
             //Assert
 
             Assert.Equal(200, result.StatusCode);
-        }
+        }*/
 
         [Theory]
         [InlineData(200, 2)]

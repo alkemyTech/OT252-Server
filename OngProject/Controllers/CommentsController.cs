@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
+using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
@@ -53,19 +54,22 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Route("/comments")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Comment>>> Get()
+        public async Task<ActionResult<PageHelper<CommentDto>>> Get(int page = 1)
         {
             try
             {
-                if (await commentService.GetAll() is null)
+                var commentList = await commentService.GetAll();
+                if (commentList is null)
                 {
                     _response.IsSucces = false;
                     _response.DisplayMessage = "No hay registros";
                     return NotFound(_response);
                 }
-                _response.DisplayMessage = "Listado de comentarios";
-                _response.Entity = await commentService.GetAll();
-                return Ok(_response);
+                var helper = PageHelper<CommentDto>.Create(commentList, page, 10);
+
+                PageListDto<CommentDto> pageList = new PageListDto<CommentDto>(helper, "Comments");
+
+                return Ok(pageList);
             }
             catch (Exception ex)
             {

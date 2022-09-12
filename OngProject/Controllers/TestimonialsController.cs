@@ -125,7 +125,7 @@ namespace OngProject.Controllers
         /// <remarks>
         /// Devuelve el testimonio actualizado.
         /// </remarks>
-        [HttpPut]
+        /*[HttpPut]
         public ActionResult<TestimonyDTO> Put([FromBody] TestimonyDTO testimony)
         {
             try
@@ -142,7 +142,7 @@ namespace OngProject.Controllers
                 return BadRequest(_response);
             }
             
-        }
+        }*/
         
 
         /// Delete: api/Tetimonials/id

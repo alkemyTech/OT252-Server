@@ -16,13 +16,15 @@ namespace OngProject.Core.Business
     public class MemberService : IMemberService 
     {
         private IUnitOfWork _unitOfWork;
-
+        private IImageHelper _imageHelper;
         private MemberMapper memberMapper;
 
 
-        public MemberService(IUnitOfWork unitOfWork)
+        public MemberService(IUnitOfWork unitOfWork, IImageHelper imageHelper)
         {
             _unitOfWork = unitOfWork;
+            _imageHelper = imageHelper;
+            memberMapper = new MemberMapper();
         }
 
 
@@ -34,6 +36,7 @@ namespace OngProject.Core.Business
                 return false;
             }
             await _unitOfWork.MemberRepository.Delete(deleteMember);
+            _unitOfWork.Save();
             return true;
         }
 
@@ -55,12 +58,13 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public ViewMemberDto Insert(MemberDto memberDto)
+        public async Task<ViewMemberDto> Insert(CreationMemberDto memberDto)
         {
-            memberMapper = new MemberMapper();
-            Member member = memberMapper.ConvertToMember(memberDto);
-
-            _unitOfWork.MemberRepository.Insert(member);
+            var imgUrl = await _imageHelper.UploadImage(memberDto.Image);
+            
+            Member member = memberMapper.ConvertToCreation(memberDto);
+            member.Image = imgUrl;
+            await _unitOfWork.MemberRepository.Insert(member);
             _unitOfWork.Save();
 
             ViewMemberDto newMember = memberMapper.ConvertToViewDto(member);
@@ -68,13 +72,24 @@ namespace OngProject.Core.Business
             return newMember;
         }
 
-        public async Task<ViewMemberDto> putActionMember(MemberDto member, int id)
+        public async Task<ViewMemberDto> putActionMember(int id, CreationMemberDto member)
         {
-            if (_unitOfWork.MemberRepository.GetById(id) is null) return null;
-            await _unitOfWork.MemberRepository.Update(new MemberMapper().ConvertToMember(member));
+            var newMember = await _unitOfWork.MemberRepository.GetById(id);
+            if (newMember == null)
+                return null;
+            var imgUrl = await _imageHelper.UploadImage(member.Image);
+
+            if (imgUrl != null)
+                newMember.Image = imgUrl.ToString();
+            newMember.Name = member.Name;
+            newMember.FacebookUrl = member.FacebookUrl;
+            newMember.InstragramUrl = member.InstagramUrl;
+            newMember.LinkedinUrl = member.LinkedinUrl;
+            
+            await _unitOfWork.MemberRepository.Update(newMember);
             _unitOfWork.Save();
-            ViewMemberDto newMember = memberMapper.ConvertToViewDto(new MemberMapper().ConvertToMember(member));
-            return newMember;
+            var viewMember = memberMapper.ConvertToViewDto(newMember);
+            return viewMember;
         }
     }
 }

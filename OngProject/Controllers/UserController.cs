@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using OngProject.Core.Business;
+using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models;
@@ -59,20 +60,17 @@ namespace OngProject.Controllers
         [Route("GetAll")]
         [HttpGet]
         [Authorize(Roles = "Administrador")]
-        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
+        public async Task<ActionResult<PageHelper<ViewUserDto>>> GetAll(int page = 1)
         {
             try
             {
                 var userList = await _userService.GetAll();
-                if (userList == null)
-                {
-                    _response.IsSucces = false;
-                    _response.DisplayMessage = "No hay registros";
-                    return NotFound(_response);
-                }
-                _response.DisplayMessage = "Listado de usuarios";
-                _response.Entity = userList;
-                return Ok(_response);
+
+                var helper = PageHelper<ViewUserDto>.Create(userList, page, 10);
+
+                PageListDto<ViewUserDto> pageList = new PageListDto<ViewUserDto>(helper, "Users");
+
+                return Ok(pageList);
             }
             catch (Exception ex)
             {

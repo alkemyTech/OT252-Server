@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using OngProject.Core.Business;
+using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
@@ -46,14 +47,16 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<ContactDTO>>> GetAll()
+        public async Task<ActionResult<PageHelper<ViewContactDTO>>> GetAll(int page = 1)
         {
             try
             {
                 var contactsList = await _contactService.GetAll();
-                _response.DisplayMessage = "Lista de contactos";
-                _response.Entity = contactsList;
-                return Ok(_response);
+                var helper = PageHelper<ViewContactDTO>.Create(contactsList, page, 10);
+
+                PageListDto<ViewContactDTO> pageList = new PageListDto<ViewContactDTO>(helper, "Contacts");
+
+                return Ok(pageList);
             }
             catch (Exception ex)
             {
@@ -116,7 +119,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         [Authorize(Roles = "Administrador")]
-        public async Task<ActionResult> Post([FromBody] ContactDTO contactDTO)
+        public async Task<ActionResult<GenericResponse>> Post([FromBody] ContactDTO contactDTO)
         {
             try
             {
@@ -152,7 +155,7 @@ namespace OngProject.Controllers
 
         [HttpPut]
         [Authorize(Roles = "Administrador")]
-        public async Task<ActionResult<ContactDTO>> Put([FromBody] ContactDTO contactDTO,int id)
+        public async Task<ActionResult<GenericResponse>> Put([FromBody] ContactDTO contactDTO,int id)
         {
             try
             {
@@ -193,7 +196,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
         [Authorize(Roles = "Administrador")]
-        public async Task<ActionResult<bool>> Delete(int id)
+        public async Task<ActionResult<GenericResponse>> Delete(int id)
         {
             try
             {

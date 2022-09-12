@@ -15,7 +15,7 @@ namespace OngProject.Controllers
     /// <summary>
     /// Controlador para el mantenimiento de las actividades de la ONG
     /// </summary>
-    [OpenApiTag("Activity",
+    [SwaggerTag("Activity",
                 Description = "Web API para el mantenimiento de actividades de la ONG.")]
     [Route("api/[controller]")]
     [ApiController]
@@ -72,7 +72,6 @@ namespace OngProject.Controllers
         /// <remarks>
         /// Esta api busca todas las actividades registradas por la ONG.
         /// </remarks>
-        /// <param name="id">Id (int) de la actividad.</param>
         /// <response code="401">Unauthorized. No se ha indicado o es incorrecto el Token JWT de acceso.</response>              
         /// <response code="200">OK. Devuelve la actividad con el id enviado.</response> 
         /// <response code="400">BadRequest. Un error al buscar los datos solicitados.</response>   
@@ -80,15 +79,20 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("{id}")]
-        [Authorize]
-        public ActionResult<GenericResponse> Get(int id)
+        public async Task<ActionResult<GenericResponse>> Get(int id)
         {
             try
             {
-                var activity = activityService.GetById(id);
+                var activity = await activityService.GetById(id);
+                if (activity == null)
+                {
+                    _response.IsSucces = false;
+                    _response.DisplayMessage = "Actividad no existe";
+                    return NotFound(_response);
+                }
                 _response.DisplayMessage = "Información de las actividades";
                 _response.Entity = activity;
                 return Ok(_response);
@@ -115,7 +119,7 @@ namespace OngProject.Controllers
         [HttpPost("/activities")]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [Authorize(Roles = "Administrador")]
-        public async Task<ActionResult> Post([FromForm] CreationActivityDto creatrionActivityDto)
+        public async Task<ActionResult<GenericResponse>> Post([FromForm] CreationActivityDto creatrionActivityDto)
         {
             try
             {
@@ -146,14 +150,14 @@ namespace OngProject.Controllers
         /// <response code="401">Unauthorized. No se ha indicado, es incorrecto el Token JWT de acceso o no tiene rol de administrador.</response>              
         /// <response code="404">NotFound. No se encontro la actividad con la id enviada para actualizar.</response> 
         /// <response code="200">OK. Devuelve la actividad actualizada.</response> 
-        [HttpPut("/activities/")]
+        [HttpPut("/activities/{id}")]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         //[Authorize(Roles = "Administrador")]
-        public async Task<ActionResult<ActivityDto>> Put([FromBody] ActivityDto activityDto, int id)
+        public async Task<ActionResult<GenericResponse>> Put(int id, [FromForm] CreationActivityDto creatrionActivityDto)
         {
             try
             {
-                var editActivity = await activityService.Update(id,activityDto);
+                var editActivity = await activityService.Update(id, creatrionActivityDto);
                 if (editActivity == null)
                 {
                     _response.IsSucces = false;

@@ -66,11 +66,12 @@ namespace OngProject.Core.Business
             return newActivityDto;
         }
 
-        public async Task<ActivityDto> Update(int id,ActivityDto activityDto)
+        public async Task<ActivityDto> Update(int id, CreationActivityDto creationActivityDto)
         {
             try
             {
                 mapper = new ActivityMapper();
+                var imgUrl = await _imageHelper.UploadImage(creationActivityDto.Image);
                 Activity activity = await _unitOfWork.ActivityRepository.GetById(id);
 
                 if(activity == null)
@@ -78,9 +79,9 @@ namespace OngProject.Core.Business
                     return null;
                 }
 
-                activity.Name = activityDto.Name;
-                activity.Content = activityDto.Content;
-                activity.Image = activityDto.Image;
+                activity.Name = creationActivityDto.Name;
+                activity.Content = creationActivityDto.Content;
+                activity.Image = imgUrl;
 
                 await _unitOfWork.ActivityRepository.Update(activity);
                 _unitOfWork.Save();

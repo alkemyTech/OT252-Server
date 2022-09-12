@@ -96,7 +96,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("/news")]
-        public async Task<ActionResult<NewsDto>> Get(int id)
+        public async Task<ActionResult<GenericResponse>> Get(int id)
         {
             try
             {
@@ -137,7 +137,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpPost]
         [Authorize(Roles = "Administrador")]
-        public async Task<ActionResult> Post([FromForm]CreationNewsDto creationNewsDto)
+        public async Task<ActionResult<GenericResponse>> Post([FromForm]CreationNewsDto creationNewsDto)
         {
             try
             {
@@ -188,7 +188,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpPut]
         [Authorize(Roles = "Administrador")]
-        public async Task<ActionResult<ViewNewsDto>> Put([FromForm] CreationNewsDto news, int id)
+        public async Task<ActionResult<GenericResponse>> Put([FromForm] CreationNewsDto news, int id)
         {
             try
             {
@@ -232,7 +232,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id}")]
         [Authorize(Roles = "Administrador")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult<GenericResponse>> Delete(int id)
         {
             try
             {

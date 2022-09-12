@@ -74,15 +74,18 @@ namespace OngProject.Core.Business
             
             if (await Existeusuario(email))
             {
-                LoginDto response = new LoginDto();
-                Users user = new Users();   
+                LoginDto response = new LoginDto(); 
                 var users = await _unitOfWork.UserRepository.Find(u => u.Email == email);
                 var us = users.FirstOrDefault();
+                if(us == null)
+                {
+                    return null;
+                }
                 if (!VerificarPassword(us.Password, password)) return null;
                 var userlogin = _mapper.ConvertToUserLogin(us);
                 var token = await GetToken(userlogin);
-                response.Email = user.Email;
-                response.RoleId = user.RoleId;
+                response.Email = us.Email;
+                response.RoleId = us.RoleId;
                 response.Token = token;
                 
                 return response;

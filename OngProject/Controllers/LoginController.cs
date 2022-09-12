@@ -54,7 +54,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost]
-        public async Task<ActionResult<LoginDto>> Login(string email, string password)
+        public async Task<ActionResult<GenericResponse>> Login(string email, string password)
         {
             var response = await _loginService.Login(email, password);
             if (response is null)
@@ -112,7 +112,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("me")]
         [Authorize]
-        public async Task<ActionResult<UserDTO>> Get()
+        public async Task<ActionResult<GenericResponse>> Get()
         {
             var id = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "Id").Value);
             UserDTO usuario = new UserDTO();

@@ -50,31 +50,31 @@ namespace OngProject.Core.Business
             return categoriesDto;
         }
 
-        public async Task<CategoryDto> GetById(int? id)
+        public async Task<ViewCategoryDto> GetById(int? id)
         {
             var category = await _unitOfWork.CategoryRepository.GetById(id);
             if(category == null)
             {
                 return null;
             }
-            var categoryDto = _categoryMapper.ConverToDto(category);
+            var categoryDto = _categoryMapper.ConverToViewDto(category);
             return categoryDto;
             
         }
 
-        public async Task<CategoryDto> Insert(CreationCategoryDto categoryDto)
+        public async Task<ViewCategoryDto> Insert(CreationCategoryDto categoryDto)
         {
             var imgUrl = await _imageHelper.UploadImage(categoryDto.Image);
             var category = _categoryMapper.ConvertToCategory(categoryDto);
             category.Image = imgUrl.ToString();
             await _unitOfWork.CategoryRepository.Insert(category);
             _unitOfWork.Save();
-            var categoriaDto = _categoryMapper.ConverToDto(category);
+            var categoriaDto = _categoryMapper.ConverToViewDto(category);
 
             return categoriaDto;
         }
 
-        public async Task<CategoryDto> Update(int id,CreationCategoryDto crearCategoryDto)
+        public async Task<ViewCategoryDto> Update(int id,CreationCategoryDto crearCategoryDto)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace OngProject.Core.Business
             await _unitOfWork.CategoryRepository.Update(category);
             _unitOfWork.Save();
 
-            CategoryDto categoryDto = _categoryMapper.ConverToDto(category);
+            var categoryDto = _categoryMapper.ConverToViewDto(category);
 
                 return categoryDto;
             }

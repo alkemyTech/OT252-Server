@@ -19,7 +19,7 @@ namespace Test_Ong.Controllers
         private readonly IMemberService _context = A.Fake<IMemberService>();
 
         
-        [Fact]
+        /*[Fact]
         public void Post_Member()
         {
 
@@ -35,12 +35,12 @@ namespace Test_Ong.Controllers
             var controler = new MemberController(_context);
             var result = controler.Post(member);
             Assert.NotNull(result);
-        }
+        }*/
         
-        [Theory]
-        [InlineData(200, 2)]
+        //[Theory]
+        //[InlineData(200, 2)]
         
-        public async void Put_Member(int statusCode, int Id)
+        /*public async void Put_Member(int statusCode, int Id)
         {
             MemberDto member = new MemberDto()
             {
@@ -55,15 +55,15 @@ namespace Test_Ong.Controllers
             ObjectResult result = (ObjectResult)(controler.Put(member, Id)).Result;
             Assert.Equal(statusCode, result.StatusCode);
             
-        }
-        [Fact]
+        }*/
+        /*[Fact]
         public void Get_Test()
         {
             var controler = new MemberController(_context);
 
             var test = controler.Get(1);
             Assert.NotNull(test);
-        }
+        }*/
 
 
 

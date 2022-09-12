@@ -35,6 +35,7 @@ namespace OngProject.Core.Business
                     return false;
                 }
                 await _unitOfWork.ContactsRepository.Delete(contact);
+                _unitOfWork.Save();
                 return true;
             }
             catch (Exception ex)

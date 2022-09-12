@@ -42,18 +42,18 @@ namespace OngProject.Core.Business
 
         }
 
-        public async Task<IEnumerable<UserDTO>> GetAll()
+        public async Task<IEnumerable<ViewUserDto>> GetAll()
         {
             try
             {
 
                 var users = await _unitOfWork.UserRepository.GetAll();
 
-                List<UserDTO> usersDto = new();
+                List<ViewUserDto> usersDto = new();
 
                 foreach (Users user in users)
                 {
-                    usersDto.Add(_mapper.ConvertToDto(user));
+                    usersDto.Add(_mapper.ConvertToViewUser(user));
                 }
 
                 return usersDto;

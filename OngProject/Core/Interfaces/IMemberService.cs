@@ -16,8 +16,8 @@ namespace OngProject.Core.Interfaces
 
         IEnumerable<Member> Find(Expression<Func<Member, bool>> predicate);
 
-        ViewMemberDto Insert(MemberDto member);
+        Task<ViewMemberDto> Insert(CreationMemberDto member);
         Task<bool> Delete(int id);
-        Task<ViewMemberDto> putActionMember(MemberDto member, int id);
+        Task<ViewMemberDto> putActionMember(int id, CreationMemberDto member);
     }
 }

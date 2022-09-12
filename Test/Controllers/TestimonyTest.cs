@@ -30,14 +30,14 @@ namespace Test_Ong.Controllers
             Assert.NotNull(result);
         }
 
-        [Fact]
+        /*[Fact]
         public void Get_Testimony()
         {
             var controler = new TestimonialsController(_context);
 
             var test = controler.Get(1);
             Assert.NotNull(test);
-        }
+        }*/
 
 
         [Fact]

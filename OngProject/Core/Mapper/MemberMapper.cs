@@ -77,5 +77,27 @@ namespace OngProject.Core.Mapper
             
             return member;
         }
+
+        public Member ConvertToCreation(CreationMemberDto memberDto)
+        {
+            Member member = new Member();
+            member.Name = memberDto.Name;
+            member.FacebookUrl = memberDto.FacebookUrl;
+            member.InstragramUrl = memberDto.InstagramUrl;
+            member.LinkedinUrl = memberDto.LinkedinUrl;
+
+            return member;
+        }
+
+        public Member ConvertToMemberC(CreationMemberDto memberDto)
+        {
+            Member member = new Member();
+            member.Name = memberDto.Name;
+            member.FacebookUrl = memberDto.FacebookUrl;
+            member.InstragramUrl = memberDto.InstagramUrl;
+            member.LinkedinUrl = memberDto.LinkedinUrl;
+
+            return member;
+        }
     }
 }

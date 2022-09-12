@@ -45,5 +45,17 @@ namespace OngProject.Core.Mapper
             category.SoftDelete = false;
             return category;
         }
+
+        public ViewCategoryDto ConverToViewDto(Category category)
+        {
+            var categoryDto = new ViewCategoryDto()
+            {
+                Name = category.Name,
+                Description = category.Description,
+                Image = category.Image,
+            };
+
+            return categoryDto;
+        }
     }
 }

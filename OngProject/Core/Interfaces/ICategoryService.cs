@@ -11,12 +11,12 @@ namespace OngProject.Core.Interfaces
     {
         Task<IEnumerable<CategoryDto>> GetAll();
 
-        Task<CategoryDto> GetById(int? id);
+        Task<ViewCategoryDto> GetById(int? id);
 
         IEnumerable<Category> Find(Expression<Func<Category, bool>> predicate);
 
-        public Task<CategoryDto> Insert(CreationCategoryDto categoryDto);
-        Task<CategoryDto> Update(int id, CreationCategoryDto category);
+        public Task<ViewCategoryDto> Insert(CreationCategoryDto categoryDto);
+        Task<ViewCategoryDto> Update(int id, CreationCategoryDto category);
         Task<bool> Delete(int id);
         
 

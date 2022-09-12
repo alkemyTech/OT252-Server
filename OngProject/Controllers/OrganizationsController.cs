@@ -143,7 +143,7 @@ namespace OngProject.Controllers
         /// <response code="400">BadRequest. Devuelve el error ocurrido en caso de que la operación no se realice.</response>
         /// <response code="404">NotFound. Devuelve un mensaje de registro no esta registrado si el id de la organización no corresponde a un registro.</response>
         /// <response code="500">InternalServerError. Devuelve el error que impide que la operación se realice.</response>
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        /*[ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -177,7 +177,7 @@ namespace OngProject.Controllers
                 return BadRequest(_response);
             }
 
-        }
+        }*/
 
         /*
         [HttpDelete("{id}")]

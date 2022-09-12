@@ -153,7 +153,7 @@ namespace OngProject.Core.Business
             {
                 return null;
             }
-
+            slideDto.UrlImage = await _imageHelper.UploadToS3(slideDto.UrlImage, slideDto.Order.ToString());
             slide.ImageUrl=slideDto.UrlImage;
             slide.Text=slideDto.Text;
             slide.Order=slideDto.Order;

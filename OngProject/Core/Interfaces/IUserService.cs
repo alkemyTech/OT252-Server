@@ -11,7 +11,7 @@ namespace OngProject.Core.Interfaces
     public interface IUserService
     {
 
-        Task<IEnumerable<UserDTO>> GetAll();
+        Task<IEnumerable<ViewUserDto>> GetAll();
 
         Task<UserDTO> GetById(int? id);
 

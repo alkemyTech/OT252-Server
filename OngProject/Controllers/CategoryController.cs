@@ -92,7 +92,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [HttpGet("/categories")]
+        [HttpGet("/categories/{id}")]
         public async Task<ActionResult<GenericResponse>> Get(int id)
         {
             try
@@ -137,7 +137,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost]
         [Authorize(Roles = "Administrador")]
-        public async Task<ActionResult> Post([FromForm] CreationCategoryDto categorydto)
+        public async Task<ActionResult<GenericResponse>> Post([FromForm] CreationCategoryDto categorydto)
         {
             try
             {
@@ -182,7 +182,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPut("{id}")]
         [Authorize(Roles = "Administrador")]
-        public async Task<ActionResult<CategoryDto>> Put([FromForm] CreationCategoryDto category, int id)
+        public async Task<ActionResult<GenericResponse>> Put([FromForm] CreationCategoryDto category, int id)
         {
             try
             {
@@ -229,7 +229,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpDelete("{id}")]
         [Authorize(Roles = "Administrador")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult<GenericResponse>> Delete(int id)
         {
             try
             {
